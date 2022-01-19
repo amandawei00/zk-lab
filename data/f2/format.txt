@@ -1,0 +1,10 @@
+columns from left to right:
+1. x
+2. f2 (experimental error)
+3. f2 (statistical experimental error)
+4. f2 (systematic experimental error)
+5. total error
+
+
+sources:
+
