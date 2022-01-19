@@ -25,9 +25,9 @@ class Solve:
             6. bottom  -6. antibottom  
         """
 
-        self.f = [1, 2, 3, 4, 5, 6, -1, -2, -3, -4, -5, -6]  # CHECK VALUES (quark flavors, including charm with mass of 1.5 GeV)
+        self.f = [1, 2, 3, 4, 5, 6, -1, -2, -3, -4, -5, -6]  # CHECK(quark flavors, including charm w/ mass 1.5 GeV)
         self.mf = [0.002, 0.0045, 1.270, 0.101, 172, 5., 0.002, 0.0045, 1.270, 0.101, 172, 5.] # * np.full(1, np.power(3.e8,2)) quark masses in GeV
-        self.ef = [2/3, -1/3, 2/3, -1/3, 2/3, -1/3, -2/3, 1/3, -2/3, 1/3, -2/3, 1/3] * np.full(1, self.e)  # CHECK VALUES quark charges
+        self.ef = [2/3, -1/3, 2/3, -1/3, 2/3, -1/3, -2/3, 1/3, -2/3, 1/3, -2/3, 1/3] * np.full(1, self.e)
         self.tl = tl
 
         self.n = N()  # bk interpolated
@@ -47,17 +47,13 @@ class Solve:
         for i in range(len(self.f)):   # summing over all flavors
             eta2 = self.eta_squared(z, self.mf[i])
             eta = np.power(eta2, 0.5)
-            k0 = spec.kn(0, eta * r)  # modified Bessel function of the second kind, 0th order (MacDonald's Function)
+            k0 = spec.kn(0, eta * r)  # modified Bessel function of the second kind, 0th order (MacDonald's Func)
             k1 = spec.kn(1, eta * r)  # MacDonald's Function first order
 
             t1 = (np.power(z, 2) + np.power(1-z, 2)) * eta2 * np.power(k1, 2)
             t2 = np.power(self.mf[i], 2) * np.power(k0, 2)
 
             sum += np.power(self.ef[i], 2) * (t1 + t2)
-
-            # print("eta2 = " + str(eta2) + ", k0 = " + str(k0) + ", k1 = " + str(k1) + ", t1 = " + str(t1) + ", t2 = " + str(t2))
-
-        # print("psi_t for z = " + str(z) + ", r = " + str(r) + " is: " + str(coeff * sum))
         return coeff * sum
 
     # (longitudinal) wave function for splitting of photon to quark-antiquark dipole
