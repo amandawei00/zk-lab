@@ -1,0 +1,193 @@
+cimport cython
+from ctypes import c_int, c_double
+import numpy as np
+cimport numpy as cnp
+cimport libc.stdlib as lib
+from libc.stdlib cimport malloc, free
+from libc.string cimport memset
+from libc.math cimport exp, log, sqrt, cos, M_PI
+cnp.import_array()
+
+# load interpolation routines from spline_c.c
+cdef extern from "spline_c.c":
+    void spline(double *x, double *y, double *b, double *c, double *d, int n)
+    double ispline(double u, double *x, double *y, double *b, double *c, double *d, int n)
+
+# variables
+cdef int n = 399                   # number of r points to be evaluated at each evolution step in Y
+cdef double r1 = 3.e-6             # lower limit of r
+cdef double r2 = 60.e0             # upper limit of r
+
+cdef double xr1 = log(r1)          # convert lower r limit to logspace
+cdef double xr2 = log(r2)          # convert upper r limit to logspace
+
+cdef double hr = (xr2 - xr1) / n
+
+# parameters
+cdef int nc = 3                     # number of colors
+cdef int nf = 3                     # number of active flavors
+cdef double lamb = 0.241
+
+cdef double beta = (11 * nc - 2. * nf)/(12 * np.pi)
+cdef double afr = 0.7               # frozen coupling constant (default)
+cdef double rfr = (2./lamb) * np.exp(-0.5/(beta * afr))  # IR cutoff
+
+cdef double c, gamma, qsq2            # fitting parameters
+cdef double xr0, r0, n0
+
+# allocating memory space for arrays
+# xlr_, n_ describe the most current BK solution
+# coeff1, coeff2, coeff3 are arrays for interpolation coefficients
+cdef double *xlr_ = <double*>malloc(n * sizeof(double))
+cdef double *n_ = <double*>malloc(n * sizeof(double))
+cdef double *coeff1 = <double*>malloc(n * sizeof(double))
+cdef double *coeff2 = <double*>malloc(n * sizeof(double))
+cdef double *coeff3 = <double*>malloc(n * sizeof(double))
+
+cpdef void set_params(double c_, double gamma_, double qsq_, double lamb_, double afr_):
+    global c, gamma, qsq2, lamb, afr
+
+    c = c_
+    gamma = gamma_
+    qsq2 = qsq_
+    lamb = lamb_
+    afr = afr_
+
+# called to set coefficients at the beginning of each step of the evolution
+cpdef void set_vars(double x, double n0_, list xlr_arr, list n_arr):
+    global xr0, r0, n0, xlr_, n_, coeff1, coeff2, coeff3
+
+    xr0 = x
+    r0 = exp(x)
+    n0 = n0_
+
+    # clearing coefficient array
+    memset(coeff1, 0, n * sizeof(double))
+    memset(coeff2, 0, n * sizeof(double))
+    memset(coeff3, 0, n * sizeof(double))
+
+    # make arrays xlr_, n_ compatible with C
+    convert_to_c(xlr_arr, xlr_)
+    convert_to_c(n_arr, n_)
+
+    # fill coefficient array
+    spline(xlr_, n_, coeff1, coeff2, coeff3, n)
+
+
+cdef void convert_to_c(list l1, double *arr):
+    cdef int i
+    for i in range(len(l1)):
+        arr[i] = l1[i]
+
+
+cdef convert_to_python(double *ptr, int n):
+    cdef int i
+    lst = []
+    for i in range(n):
+        lst.append(ptr[i])
+    return lst
+
+
+cdef double nfunc(double qlr):
+    cdef double x = 0.0
+    if qlr < xr1:
+        x = n_[0] * exp(2 * qlr)/(r1 * r1)
+    elif qlr >= xr2:
+        x = 1.
+    else:
+        x = ispline(qlr, xlr_, n_, coeff1, coeff2, coeff3, n)
+
+    if x < 0.: return 0.0
+    if x > 1.: return 1.0
+
+    return x
+
+
+cdef double alphaS(double rsq):
+    cdef double log_
+
+    if sqrt(rsq) > rfr:
+        return afr
+    else:
+        log_ = log((4 * c * c)/(rsq * 0.241 * 0.241))
+        return 1/(beta * log_)
+
+
+cdef double find_r1(double r, double z, double thet):
+    cdef double r12 = (0.25 * r * r) + (z * z) - (r * z * cos(thet))
+    return sqrt(r12)
+
+
+cdef double find_r2(double r, double z, double thet):
+    cdef double r22 = (0.25 * r * r) + (z * z) + (r * z * cos(thet))
+    return sqrt(r22)
+
+
+# kernel
+cdef double k(double r, double r1_, double r2_):
+    cdef double rr, r12, r22
+    cdef double t1, t2, t3
+    cdef double prefac
+
+    if (r1_ < 1e-20) or (r2_ < 1e-20):
+        return 0
+    else:
+        rr = r * r
+        r12 = r1_ * r1_
+        r22 = r2_ * r2_
+
+        t1 = rr/(r12 * r22)
+        t2 = (1/r12) * (alphaS(r12)/alphaS(r22) - 1)
+        t3 = (1/r22) * (alphaS(r22)/alphaS(r12) - 1)
+
+        prefac = (nc * alphaS(rr))/(2 * M_PI * M_PI)
+        return prefac * (t1 + t2 + t3)
+
+
+cdef double f_kernel(int n, double *xx):  # xx = [theta, a]
+    cdef double z, r1_, r2_
+
+    z = exp(xx[1])
+    r1_ = find_r1(r0, z, xx[0])
+    r2_ = find_r2(r0, z, xx[0])
+
+    return 4 * z * z * k(r0, r1_, r2_)
+
+# kernel integrand
+cdef double f_ker(double theta, double a):
+    cdef double z, r1_, r2_
+    z = exp(a)
+    r1_ = find_r1(r0, z, theta)
+    r2_ = find_r2(r0, z, theta)
+    return 4 * z * z * k(r0, r1_, r2_)
+
+# split integrand
+cdef double f_split(int n, double *xx):
+    cdef double z, r1_, r2_, kk
+
+    z = exp(xx[1])
+    r1_ = find_r1(r0, z, xx[0])
+    r2_ = find_r2(r0, z, xx[0])
+
+    nr1 = nfunc(log(r1_))
+    nr2 = nfunc(log(r2_))
+
+    return 4 * z * z * k(r0, r1_, r2_) * (nr1 + nr2)
+
+# combined integrand
+cdef double f_combined(int n, double *xx):
+    cdef double z, r1_, r2_
+    cdef double xlr1, xlr2
+    cdef double nr1, nr2
+
+    z = exp(xx[1])
+    r1_ = find_r1(r0, z, xx[0])
+    r2_ = find_r2(r0, z, xx[0])
+
+    xlr1 = log(r1_)
+    xlr2 = log(r2_)
+
+    nr1 = nfunc(xlr1)
+    nr2 = nfunc(xlr2)
+
+    return 4 * z * z * k(r0, r1_, r2_) * (nr1 + nr2 - n0 - nr1 * nr2)
