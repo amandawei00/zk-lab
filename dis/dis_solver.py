@@ -10,7 +10,7 @@ from bk_interpolate_interp2d import N
 
 class Solve:
 
-    def __init__(self, tl):
+    def __init__(self):
         self.sig = 1.  # constant
         self.alpha = 1./137  # FIND VALUE (EM coupling)
         self.e = 1.60217e-19  # Coulomb
@@ -32,7 +32,6 @@ class Solve:
         self.f = [1, 2, 3, 4, 5, 6, -1, -2, -3, -4, -5, -6]  # CHECK VALUES (quark flavors, including charm with mass of 1.5 GeV)
         self.mf = [0.002, 0.0045, 1.270, 0.101, 172, 5., 0.002, 0.0045, 1.270, 0.101, 172, 5.] # * np.full(1, np.power(3.e8,2)) quark masses in GeV
         self.ef = [2/3, -1/3, 2/3, -1/3, 2/3, -1/3, -2/3, 1/3, -2/3, 1/3, -2/3, 1/3] # * np.full(1, self.e)  # CHECK VALUES quark charges
-        self.tl = tl
 
         self.n = N()  # bk interpolated
 
@@ -77,42 +76,57 @@ class Solve:
         return coeff * sum
         
     def eta_squared(self, z, m_f):
-        # print("z = " + str(z) + ", qsq2 = " + str(qsq2) + ", m_f = " + str(m_f))
         return z * (1 - z) * self.qsq2 + np.power(m_f, 2)
 
-    def inner_integral(self, z):
-        if self.tl == "T":
-            m = lambda r_: self.psi_t2(z, r_) * self.n.master(r_, self.y)
-        elif self.tl == "L":
-            m = lambda r_: self.psi_l2(z, r_) * self.n.master(r_, self.y)
+    def t_integral(self, z):
+        m = lambda r_: self.psi_t2(z, r_) * self.n.master(r_, self.y)
+        return intg.quad(m, 0.0, 1/self.qsq2, epsabs=1.e-5)[0]
 
-        u = intg.quad(m, 0.0, 1/self.qsq2, epsabs=1.e-5)[0]
-        return u
+    def l_integral(self, z):
+        m = lambda r_: self.psi_l2(z, r_) * self.n.master(r_, self.y)
+        return intg.quad(m, 0.0, 1/self.qsq2, epsabs=1.e-5)[0]
 
-    def rhs(self, x, qsq2):  # returns F_T, F_L
+    def t_xsection(self, x, qsq2):
         self.x = x
         self.qsq2 = qsq2
         self.r = 1/self.qsq2
         self.r0 = (1/self.q0) * np.power(self.x/self.x0, self.lamb/2)
-
         self.y = np.log(self.x0/self.x)
-        # self.y = 0.71 # for FL calculations
+        return 2 * np.pi * self.sig * intg.quad(self.t_integral, 0., 1., epsabs=1.e-5)[0]
+                
+    def l_xsection(self, x, qsq2):
+        self.x = x
+        self.qsq2 = qsq2
+        self.r = 1/self.qsq2
+        self.r0 = (1/self.q0) * np.power(self.x/self.x0, self.lamb/2)
+        self.y = np.log(self.x0/self.x)
+        # 2 * np.pi comes from angular independence of inner integral
+        return 2 * np.pi * self.sig * intg.quad(self.l_integral, 0., 1., epsabs=1.e-5)[0]
 
-        # s = np.power(318,2)
-        # self.y = qsq2/(s*x)
-
-        integral = intg.quad(self.inner_integral, 0, 1, epsabs=1.e-5)[0]
-        return 2 * np.pi * self.sig*integral  # 2*np.pi comes from theta component in the inner double integral. since there is no dependence on theta, multiply it out
+    def fl(self, x, qsq2):
+        prefac = qsq2/(4 * np.pi * np.pi * self.alpha)
+        return prefac * (self.t_xsection(x, qsq2) + self.l_xsection(x, qsq2))
+ 
+    def f2(self, x, qsq2):
+        prefac = qsq2/(4 * np.pi * np.pi * self.alpha)
+        return prefac * (self.t_xsection(x, qsq2) + self.l_xsection(x, qsq2))
 
 if __name__ == "__main__":
     alpha = 1/137. #?? HWERE DID HTIS COME FROM
     c = 2.568  # unit conversion factor
 
     # create new instance of solve class
-    st = Solve("T")
-    sl = Solve("L")
+    solver = Solve()
 
-    x = [2.09E-04, 2.37E-04, 2.68E-04, 3.28E-04, 5.00E-04, 8.00E-04, 1.30E-03, 2.00E-03, 3.20E-03, 5.00E-03, 8.00E-03, 2.00E-02]
+    q = 12  # GeV ^2
+    x = [0.000261, 0.000383, 0.000562, 0.000825, 0.00133, 0.00237, 0.00421, 0.0075, 0.0133]
+    s = np.power(296, 2)
+
+    f = [solver.f2(x[i], q) for i in range(len(x))]
+
+    for i in range(len(x)):
+        print("x = " + str(x[i]) + ", f2 = " + str(f[i]))
+    '''x = [2.09E-04, 2.37E-04, 2.68E-04, 3.28E-04, 5.00E-04, 8.00E-04, 1.30E-03, 2.00E-03, 3.20E-03, 5.00E-03, 8.00E-03, 2.00E-02]
     qsq2 = 18. # GeV^2
     s = np.power(318, 2)
 
@@ -120,14 +134,8 @@ if __name__ == "__main__":
         sig_t = st.rhs(x[i], qsq2)
         sig_l = sl.rhs(x[i], qsq2)
 
-        f2 = (qsq2/(4 * np.power(np.pi, 2) * alpha)) * (sig_t + sig_l)
-        # print("x = " + str(x[i]) + ", f2 = " + str(f2 * 2.568))
-
-        fl = (qsq2/(4 * np.power(np.pi, 2) * alpha)) * sig_l
-        # print("x = " + str(x[i]) + ", qsq2 = " + str(qsq2) + ", fl = " + str(fl))
-
         y = np.log(0.01/x[i])
         yp = 1 + np.power(1-y, 2)
 
         sig = f2 - (np.power(y, 2)/yp) * fl
-        print(str(sig))
+        print(str(sig))'''
