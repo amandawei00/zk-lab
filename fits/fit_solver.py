@@ -3,23 +3,24 @@ import pandas as pd
 import csv
 from iminuit import Minuit
 from iminuit.cost import LeastSquares
-# import BK
 
-from dis_solver import Solve as dis
+import sys
+sys.apth.append('../dis')
+sys.path.append('../bk')
+sys.path.append('../data')
+import bk_solver as bk
+import dis_solver as dis
+
 import warnings
 warnings.filterwarnings("ignore")
 
 # theory
 
 alpha = 1/137
-def f2(x_, qsq2_):
-    sig_t = dis.rhs(x_, qsq2_, "T")
-    sig_l = dis.rhs(x_, qsq2_, "L")
-
-    f2 = (qsq2_/(4 * np.pi * np.pi * alpha)) * (sig_t + sig_l)
-    return f2
 
 # data import
+def import_f2():
+
 data = pd.read_csv("f2_dat.csv.csv")
 data.columns = ['qsq2', 'x', 'f2', 'f2_staterr', 'f2_syserr', 'f2_experr']
 
@@ -28,8 +29,13 @@ x = np.array(data.x)
 f2_dat = np.array(data.f2)
 f2_err = np.array(data.f2_experr)
 
-# fit performance
-def chi_squared(qsq20, c, gamma):
+'''parameters:
+   1. qsq20: initial saturation scale
+   2. c    :
+   3. gamma: anomalous dimension thing
+   4. sigma: normalization factor
+'''
+def chi_squared(qsq20, c, gamma, sigma):
     # run BK for given parameters qsq2, c, and gamma
     res = 0
     for i in range(len(f2_dat)):
