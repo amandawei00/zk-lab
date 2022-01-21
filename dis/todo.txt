@@ -5,5 +5,4 @@ to do:
 	- see if you can move bk_interpolate to one folder destination so there aren't multiple copies of it
 	- check to see what xn does in the bk_solve/f77/bk.f does. Do this by checking your solution with data
 	- consolidate all data files from before here
-	- cythonize dis_solver.py
-	- 'de-classify' dis_solver.py 
+	- cythonize dis_solver.py 
