@@ -17,13 +17,30 @@ def parse_f2(filename):
     df.columns = ['x', 'f2', 'tot(+)', 'tot(-)', 'stat(+)', 'stat(-)']
     return strip(df, 'x', 'X')
 
-def make_df(name_list):
-    df_list = [parse_f2(i) for i in name_list]
+def parse_reducedx(filename):
+    df = pd.read_csv(filename, delimiter=',', comment='#', header=None)
+    df.columns = ['qsq2', 'x', 'sig', 'e1', 'e2', 'e3', 'e4', 'e5', 'e6', 'e7', 'e8', 'e9', 'e10', 'e11', 'e12', 'e13', 'e14', 'e15', 'e16', 'e17', 'e18', 'e19', 'e20'] 
+    return df
+
+def make_df(f, name_list):
+    df_list = [f(i) for i in name_list]
     return pd.concat(df_list, ignore_index=True)
 
-a = '../data/f2/f2_1.csv'
-b = '../data/f2/f2_2.csv'
-c = '../data/f2/f2_3.csv'
+# filters out entries with x > x_, the small-x limit
+def filter(df, x_=0.01):
+    df = df.drop(df[df.x > x_].index)
+    return df
 
-# make_df([a, b, c]).to_csv('f2.csv', sep='\t')
-        
+f2 = '../data/f2/'
+rx = '../data/reduced-x/'
+
+a = rx + 'reduced_x1.csv'
+b = rx + 'reduced_x2.csv'
+c = rx + 'reduced_x3.csv'
+d = rx + 'reduced_x4.csv'
+e = rx + 'reduced_x5.csv'
+
+# make_df(parse_f2, [a, b, c]).to_csv('f2.csv', sep='\t')
+df = make_df(parse_reducedx, [a, b, c, d, e])
+df = filter(df)
+df.to_csv('reduced_x.csv', sep='\t')

@@ -1,9 +1,9 @@
 #: table_doi: 10.17182/hepdata.68951.v1/t2
 #: name: Table 2
 #: description: HERA combined reduced cross sections $\sigma_{r,\rm NC}^{+}$ for NC $e^{+}p$ scattering at $\sqrt{s} = 300$ GeV;
-$\delta_{\rm stat}$, $\delta_{\rm uncor}$ and $\delta_{\rm cor}$ represent the statistical, uncorrelated systematic and correlated systematic uncertainties, respectively;
-$\delta_{\rm rel}$, $\delta_{\gamma p}$, $\delta_{\rm had}$ and $\delta_{1}$ to $\delta_{4}$ are the correlated sources of uncertainties arising from the combination procedure.
-The uncertainties are quoted in percent relative to $\sigma_{r,\rm NC}^{+}$.
+# $\delta_{\rm stat}$, $\delta_{\rm uncor}$ and $\delta_{\rm cor}$ represent the statistical, uncorrelated systematic and correlated systematic uncertainties, respectively;
+# $\delta_{\rm rel}$, $\delta_{\gamma p}$, $\delta_{\rm had}$ and $\delta_{1}$ to $\delta_{4}$ are the correlated sources of uncertainties arising from the combination procedure.
+# The uncertainties are quoted in percent relative to $\sigma_{r,\rm NC}^{+}$.
 
 #: data_file: Table2.yaml
 #: keyword reactions: E+ P --> E+ X
@@ -12,7 +12,7 @@ The uncertainties are quoted in percent relative to $\sigma_{r,\rm NC}^{+}$.
 #: keyword cmenergies: 300.0
 #: RE,E+ P --> E+ X
 #: SQRT(S) [GeV],300.0
-Q**2 [GEV**2],XB,"$\sigma_{r,\rm NC}^{+}$",stat +,stat -,"sys,uncor +","sys,uncor -","sys,cor +","sys,cor -","sys,rel +","sys,rel -","sys,$\gamma p$ +","sys,$\gamma p$ -","sys,had +","sys,had -","sys,1 +","sys,1 -","sys,2 +","sys,2 -","sys,3 +","sys,3 -","sys,4 +","sys,4 -"
+# Q**2 [GEV**2],XB,"$\sigma_{r,\rm NC}^{+}$",stat +,stat -,"sys,uncor +","sys,uncor -","sys,cor +","sys,cor -","sys,rel +","sys,rel -","sys,$\gamma p$ +","sys,$\gamma p$ -","sys,had +","sys,had -","sys,1 +","sys,1 -","sys,2 +","sys,2 -","sys,3 +","sys,3 -","sys,4 +","sys,4 -"
 0.045,6.21e-07,0.078,5.06,-5.06,1.5,-1.5,7.3,-7.3,3.16,-3.16,1.25,-1.25,-0.75,0.75,-7.46,7.46,0.0,-0.0,-0.02,0.02,0.02,-0.02
 0.065,8.97e-07,0.109,2.99,-2.99,1.5,-1.5,6.28,-6.28,3.03,-3.03,1.42,-1.42,-0.9,0.9,-7.4,7.4,0.0,-0.0,-0.02,0.02,0.02,-0.02
 0.065,1.02e-06,0.11,4.7,-4.7,1.5,-1.5,5.99,-5.99,3.78,-3.78,1.54,-1.54,-0.79,0.79,-4.23,4.23,-0.01,0.01,-0.02,0.02,0.01,-0.01

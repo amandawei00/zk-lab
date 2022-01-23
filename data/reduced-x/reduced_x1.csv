@@ -1,9 +1,9 @@
 #: table_doi: 10.17182/hepdata.68951.v1/t1
 #: name: Table 1
 #: description: HERA combined reduced cross sections $\sigma_{r,\rm NC}^{+}$ for NC $e^{+}p$ scattering at $\sqrt{s} = 318$ GeV;
-$\delta_{\rm stat}$, $\delta_{\rm uncor}$ and $\delta_{\rm cor}$ represent the statistical, uncorrelated systematic and correlated systematic uncertainties, respectively;
-$\delta_{\rm rel}$, $\delta_{\gamma p}$, $\delta_{\rm had}$ and $\delta_{1}$ to $\delta_{4}$ are the correlated sources of uncertainties arising from the combination procedure.
-The uncertainties are quoted in percent relative to $\sigma_{r,\rm NC}^{+}$.
+# $\delta_{\rm stat}$, $\delta_{\rm uncor}$ and $\delta_{\rm cor}$ represent the statistical, uncorrelated systematic and correlated systematic uncertainties, respectively;
+# $\delta_{\rm rel}$, $\delta_{\gamma p}$, $\delta_{\rm had}$ and $\delta_{1}$ to $\delta_{4}$ are the correlated sources of uncertainties arising from the combination procedure.
+# The uncertainties are quoted in percent relative to $\sigma_{r,\rm NC}^{+}$.
 
 #: data_file: Table1.yaml
 #: keyword reactions: E+ P --> E+ X
@@ -12,7 +12,8 @@ The uncertainties are quoted in percent relative to $\sigma_{r,\rm NC}^{+}$.
 #: keyword cmenergies: 318.0
 #: RE,E+ P --> E+ X
 #: SQRT(S) [GeV],318.0
-Q**2 [GEV**2],XB,"$\sigma_{r,\rm NC}^{+}$",stat +,stat -,"sys,uncor +","sys,uncor -","sys,cor +","sys,cor -","sys,rel +","sys,rel -","sys,$\gamma p$ +","sys,$\gamma p$ -","sys,had +","sys,had -","sys,1 +","sys,1 -","sys,2 +","sys,2 -","sys,3 +","sys,3 -","sys,4 +","sys,4 -"
+#: Q**2 [GEV**2]
+# qsq2,x,"$\sigma",stat +,stat -,"sys,uncor +","sys,uncor -","sys,cor +","sys,cor -","sys,rel +","sys,rel -","sys,$\gamma p$ +","sys,$\gamma p$ -","sys,had +","sys,had -","sys,1 +","sys,1 -","sys,2 +","sys,2 -","sys,3 +","sys,3 -","sys,4 +","sys,4 -"
 0.15,5.02e-06,0.185,3.79,-3.79,1.5,-1.5,3.62,-3.62,1.39,-1.39,0.35,-0.35,-0.21,0.21,-0.17,0.17,-0.01,0.01,0.0,-0.0,0.01,-0.01
 0.2,6.69e-06,0.227,1.65,-1.65,0.78,-0.78,1.7,-1.7,0.86,-0.86,0.57,-0.57,0.0,-0.0,0.0,-0.0,0.0,-0.0,0.0,-0.0,0.01,-0.01
 0.2,8.49e-06,0.223,1.61,-1.61,0.61,-0.61,2.19,-2.19,1.06,-1.06,0.55,-0.55,-0.26,0.26,-0.06,0.06,0.0,-0.0,0.0,-0.0,0.0,-0.0
