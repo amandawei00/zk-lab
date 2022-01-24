@@ -9,7 +9,9 @@
 9. make video for the fourier transform of N(r,y)
 10. compute distributions using rcBK with MV initial conditions
 11. in all cases, verify same behavior at large k_perp
-
+12. change c to c^2 to avoid extra operations
+13. make it possible to only edit variables in parameters.txt (user friendliness)
+14. nicer way to take laplacian?
 
 note:
 * efficient way to compute integral is to integrate over zeros of Besselfunction so we can avoid oscillatory behavior

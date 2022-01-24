@@ -49,12 +49,12 @@ beta = (11 * nc - 2. * nf)/(12 * np.pi)
 afr = 0.7     # frozen coupling constant (default)
 rfr = (2./lamb) * np.exp(-0.5/(beta * afr))  # IR cutoff
 
-c = np.sqrt(6.35)         # fitting parameter 1
-gamma = 1.135     # fitting parameter 2
-qs02 = 0.165      # fitting parameter 3
+c = np.sqrt(7.2)    # fitting parameter 1
+gamma = 1.          # fitting parameter 2
+qs02 = 0.060        # fitting parameter 3
 
 e = np.exp(1)
-ec = 1
+ec = 18.9
 
 # initial condition
 # @jit(float64(float64), nopython=True)
@@ -150,15 +150,15 @@ def master(c_, g_, q_, l_, afr_):
 
             # write current N(r,Y) to file-------------------------------------------
             for j in range(len(r_)):
-                print("r=" + str(r_[j]) + ", N(r)=" + str(n_[j]))
+                # print("r=" + str(r_[j]) + ", N(r)=" + str(n_[j]))
                 writer.writerow([y0, r_[j], n_[j]])
             #------------------------------------------------------------------------
 
 
 if __name__ == "__main__":
-    gamma_ = 1.135
-    c_ = np.sqrt(6.35)
-    q0_ = 0.165
+    gamma_ = 1.
+    c_ = np.sqrt(7.2)
+    q0_ = 0.060
     afr_ = 0.7
     lamb_ = 0.241
 

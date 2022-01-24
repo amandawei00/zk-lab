@@ -1,0 +1,16 @@
+ymin    = 0.0      
+ymax    = 10.0
+hy      = 0.1
+
+lamb    = 0.241
+afr     = 0.7        // frozen coupling constant
+ec      = 18.9
+
+initial conditions: MV
+gamma   = 1.         // fitting parameter 1
+c2      = 7.2        // fitting parameter 2
+qsq0    = 0.06       // fitting parameter 3, initial saturation scale
+sig0    = 16.36 * 2   // normalization factor
+
+nc      = 3          // number of colors
+nf      = 3          // number of active flavors
