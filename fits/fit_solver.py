@@ -1,8 +1,8 @@
 import numpy as np
 import pandas as pd
 import csv
-# from iminuit import Minuit
-# from iminuit.cost import LeastSquares
+from iminuit import Minuit
+from iminuit.cost import LeastSquares
 
 import sys
 sys.path.append('../dis')
