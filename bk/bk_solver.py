@@ -49,9 +49,9 @@ beta = (11 * nc - 2. * nf)/(12 * np.pi)
 afr = 0.7     # frozen coupling constant (default)
 rfr = (2./lamb) * np.exp(-0.5/(beta * afr))  # IR cutoff
 
-c = np.sqrt(6.35)         # fitting parameter 1 (default)
-gamma = 1.135     # fitting parameter 2 (default)
-qs02 = 0.165      # fitting parameter 3 (default)
+c = np.sqrt(6.35)         # fitting parameter 1
+gamma = 1.135     # fitting parameter 2
+qs02 = 0.165      # fitting parameter 3
 
 e = np.exp(1)
 ec = 1
