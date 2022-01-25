@@ -91,7 +91,7 @@ def f2(x, qsq2):
     return prefac * (t_xsection(x, qsq2) + l_xsection(x, qsq2))
 
 
-
+'''
 c = 2.568  # unit conversion factor
 q = 12  # GeV ^2
 x = [0.000261, 0.000383, 0.000562, 0.000825, 0.00133, 0.00237, 0.00421, 0.0075, 0.0133]
@@ -101,4 +101,4 @@ f = [f2(x[i], q) for i in range(len(x))]
 
 for i in range(len(x)):
     print("x = " + str(x[i]) + ", f2 = " + str(f[i]))
-
+'''
