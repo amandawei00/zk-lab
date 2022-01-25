@@ -2,6 +2,10 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib import animation
+import sys
+
+sys.path.append('../data')
+plt.rcParams['lines.linewidth'] = 0.75
 
 csfont = {'fontname':'Times New Roman'}
 
@@ -55,7 +59,7 @@ def plot_bk(df, rap):
 
 def get_data(df, rap):
 
-    sub_ = df.loc[(df['kuta'] == 4) & (df['y'] == rap)]
+    sub_ = df.loc[(df['y'] == rap)]
     vr = np.array(sub_[['vr']])
     vfr = np.array(sub_[['vfr']])
 
@@ -77,6 +81,9 @@ def make_animation(df):
     ax.set_xscale('log')
     line, = ax.plot([], [], lw=2)
 
+    ax.set_xlabel('r')
+    ax.set_ylabel('N(r, Y)')
+    
     def init():
         dat = get_data(df, 0.0)
         line.set_data(dat[0], dat[1])
@@ -87,23 +94,23 @@ def make_animation(df):
         line.set_data(dat[0], dat[1])
         return line,
 
-    anim = animation.FuncAnimation(fig, animate, frames=np.arange(0.0, 30.0, 0.3), init_func=init, interval=1)
+    anim = animation.FuncAnimation(fig, animate, frames=np.arange(0.0, 30.0, 0.3), init_func=init, blit=True, interval=0.5)
     plt.show()
 
 
 if __name__ == '__main__':
-    dat1 = 'results0-30.csv'
-    # dat2 = '../results/results1.csv'
-    dat2 = '../results.csv'
+    # dat1 = 'results0-30.csv'
+    dat2 = '../results/results1.csv'
+    # dat2 = '../results.csv'
 
-    df1 = pd.read_csv(dat1, sep='\t', header=None)
-    print(df1)
-    df1.columns = ['kuta', 'y', 'vr', 'vfr', 'prev']
-    df1['kuta'] = df1['kuta'].astype('int')
-    df1['y'] = (df1['y'].astype('float32')).round(decimals=1)
-    df1['vr'] = df1['vr'].astype('float64')
-    df1['vfr'] = df1['vfr'].astype('float64')
+
+#     df1 = pd.read_csv(dat1, sep='\t', header=None)
+#     df1.columns = ['kuta', 'y', 'vr', 'vfr', 'prev']
+#     df1['kuta'] = df1['kuta'].astype('int')
+#     df1['y'] = (df1['y'].astype('float32')).round(decimals=1)
+#     df1['vr'] = df1['vr'].astype('float64')
+#     df1['vfr'] = df1['vfr'].astype('float64')
 
     df2 = load_df(dat2)
 
-    ratios(df1, df2, [9.9])
+    make_animation(df2)
