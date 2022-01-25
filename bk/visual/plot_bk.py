@@ -44,7 +44,7 @@ def ratios(df1, df2, rap):
 # plots BK solution at specified rapdities
 def plot_bk(df, rap):
     for i in range(len(rap)):
-        sub_ = df.loc[(df['kuta'] == 4) & (df['y'] == rap[i])]
+        sub_ = df.loc[(df['y'] == rap[i])]
 
         vr = np.array(sub_[['vr']])
         vfr = np.array(sub_[['vfr']])
@@ -55,7 +55,7 @@ def plot_bk(df, rap):
     plt.ylabel("N(r,Y)")
     plt.xscale('log')
     plt.legend()
-    # plt.show()
+    plt.show()
 
 def get_data(df, rap):
 
@@ -99,18 +99,11 @@ def make_animation(df):
 
 
 if __name__ == '__main__':
-    # dat1 = 'results0-30.csv'
-    dat2 = '../results/results1.csv'
-    # dat2 = '../results.csv'
 
+    df1 = load_df('../results/results1.csv')
+    df2 = load_df('../results/results2.csv')
+    df3 = load_df('../results/results3.csv')
+    df4 = load_df('../results/results4v2.csv')
 
-#     df1 = pd.read_csv(dat1, sep='\t', header=None)
-#     df1.columns = ['kuta', 'y', 'vr', 'vfr', 'prev']
-#     df1['kuta'] = df1['kuta'].astype('int')
-#     df1['y'] = (df1['y'].astype('float32')).round(decimals=1)
-#     df1['vr'] = df1['vr'].astype('float64')
-#     df1['vfr'] = df1['vfr'].astype('float64')
-
-    df2 = load_df(dat2)
-
-    make_animation(df2)
+    rap = [0., 2., 4., 6., 9.]
+    plot_bk(df4, rap)

@@ -51,7 +51,7 @@ rfr = (2./lamb) * np.exp(-0.5/(beta * afr))  # IR cutoff
 
 c = np.sqrt(7.2)    # fitting parameter 1
 gamma = 1.          # fitting parameter 2
-qs02 = 0.060        # fitting parameter 3
+qs02 = 0.060 * 60       # fitting parameter 3
 
 e = np.exp(1)
 ec = 18.9
@@ -89,7 +89,7 @@ def evolve(xlr):
     return (1/6) * hy * (k1 + 2 * k2 + 2 * k3 + k4)
 
 # pass fitting variables q_, c_, g_ to set variables in master.py
-def master(c_, g_, q_, l_, afr_):
+def master(c_, g_, q_, l_, afr_, filename):
 
     global n_, qs02, c, gamma, afr, lamb
     # variables
@@ -102,7 +102,7 @@ def master(c_, g_, q_, l_, afr_):
     so.set_params(c, gamma, qs02, lamb, afr) 
 
     # opening file 'results.csv' to store data from this run
-    with open("results3.csv", "w") as csv_file:
+    with open("results4v2.csv", "w") as csv_file:
         writer = csv.writer(csv_file, delimiter="\t")
         writer.writerow(["y", "r", "N(r,Y)"])
 
@@ -158,12 +158,13 @@ def master(c_, g_, q_, l_, afr_):
 if __name__ == "__main__":
     gamma_ = 1.
     c_ = np.sqrt(7.2)
-    q0_ = 0.060
+    q0_ = 0.060 * 60
     afr_ = 0.7
     lamb_ = 0.241
 
     t1 = time.time()
-    master(c_, gamma_, q0_, lamb_, afr_)
+    master(c_, gamma_, q0_, lamb_, afr_, '')
     t2 = time.time()
     seconds_to_hours = (t2 - t1)/3600
     print("time taken: " + str(seconds_to_hours) + " hours")
+
