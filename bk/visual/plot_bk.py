@@ -44,7 +44,7 @@ def ratios(df1, df2, rap):
 # plots BK solution at specified rapdities
 def plot_bk(df, rap):
     for i in range(len(rap)):
-        sub_ = df.loc[(df['kuta'] == 4) & (df['y'] == rap[i])]
+        sub_ = df.loc[(df['y'] == rap[i])]
 
         vr = np.array(sub_[['vr']])
         vfr = np.array(sub_[['vfr']])
@@ -55,7 +55,7 @@ def plot_bk(df, rap):
     plt.ylabel("N(r,Y)")
     plt.xscale('log')
     plt.legend()
-    # plt.show()
+    plt.show()
 
 def get_data(df, rap):
 
@@ -101,7 +101,9 @@ def make_animation(df):
 if __name__ == '__main__':
     # dat1 = 'results0-30.csv'
     dat2 = '../results/results1.csv'
-    # dat2 = '../results.csv'
+    dat3 = '../results/results2.csv'
+    dat4 = '../results/results3.csv'
+    dat5 = '../results/results4.csv'
 
 
 #     df1 = pd.read_csv(dat1, sep='\t', header=None)
@@ -112,5 +114,9 @@ if __name__ == '__main__':
 #     df1['vfr'] = df1['vfr'].astype('float64')
 
     df2 = load_df(dat2)
-
-    make_animation(df2)
+    df3 = load_df(dat3)
+    df4 = load_df(dat4)
+    df5 = load_df(dat5)
+    
+    rap = [0., 2., 4., 6., 8.]
+    plot_bk(df2, rap)
