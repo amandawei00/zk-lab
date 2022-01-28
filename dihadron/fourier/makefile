@@ -5,10 +5,10 @@ LINUX_ON_PC = 1
 #LINUX_ON_PC = 0
 
 # Use Fortran calling conventions
-LINK_F = 1
+# LINK_F = 1
 
 # Use C calling conventions
-#LINK_F = 0
+LINK_F = 0
 
 #############################################################################
 
@@ -39,11 +39,11 @@ endif
 
 ############################################################################
 
-example_f: $(OBJECTS_F)
-	gfortran $(GCCFLAGS) -o example_f $(OBJECTS_F) $(LIBS_F)
+#example_f: $(OBJECTS_F)
+#	gfortran $(GCCFLAGS) -o example_f $(OBJECTS_F) $(LIBS_F)
 
-example_f.o: example.f
-	gfortran $(G77FLAGS) $(OPTFLAGS) -c -o example_f.o example.f
+#example_f.o: example.f
+#	gfortran $(G77FLAGS) $(OPTFLAGS) -c -o example_f.o example.f
 
 ############## for calling the library from C ############################# 
 
