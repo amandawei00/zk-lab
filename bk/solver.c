@@ -1721,7 +1721,7 @@ static double __pyx_v_6solver_lamb;
 static double __pyx_v_6solver_beta;
 static double __pyx_v_6solver_afr;
 static double __pyx_v_6solver_rfr;
-static double __pyx_v_6solver_c;
+static double __pyx_v_6solver_c2;
 static double __pyx_v_6solver_gamma;
 static double __pyx_v_6solver_qsq2;
 static double __pyx_v_6solver_xr0;
@@ -1808,7 +1808,7 @@ static PyObject *__pyx_tuple__2;
  * cdef double *coeff3 = <double*>malloc(n * sizeof(double))
  * 
  * cpdef void set_params(double c_, double gamma_, double qsq_, double lamb_, double afr_):             # <<<<<<<<<<<<<<
- *     global c, gamma, qsq2, lamb, afr
+ *     global c2, gamma, qsq2, lamb, afr
  * 
  */
 
@@ -1818,17 +1818,17 @@ static void __pyx_f_6solver_set_params(double __pyx_v_c_, double __pyx_v_gamma_,
   __Pyx_RefNannySetupContext("set_params", 0);
 
   /* "solver.pyx":50
- *     global c, gamma, qsq2, lamb, afr
+ *     global c2, gamma, qsq2, lamb, afr
  * 
- *     c = c_             # <<<<<<<<<<<<<<
+ *     c2 = c_             # <<<<<<<<<<<<<<
  *     gamma = gamma_
  *     qsq2 = qsq_
  */
-  __pyx_v_6solver_c = __pyx_v_c_;
+  __pyx_v_6solver_c2 = __pyx_v_c_;
 
   /* "solver.pyx":51
  * 
- *     c = c_
+ *     c2 = c_
  *     gamma = gamma_             # <<<<<<<<<<<<<<
  *     qsq2 = qsq_
  *     lamb = lamb_
@@ -1836,7 +1836,7 @@ static void __pyx_f_6solver_set_params(double __pyx_v_c_, double __pyx_v_gamma_,
   __pyx_v_6solver_gamma = __pyx_v_gamma_;
 
   /* "solver.pyx":52
- *     c = c_
+ *     c2 = c_
  *     gamma = gamma_
  *     qsq2 = qsq_             # <<<<<<<<<<<<<<
  *     lamb = lamb_
@@ -1866,7 +1866,7 @@ static void __pyx_f_6solver_set_params(double __pyx_v_c_, double __pyx_v_gamma_,
  * cdef double *coeff3 = <double*>malloc(n * sizeof(double))
  * 
  * cpdef void set_params(double c_, double gamma_, double qsq_, double lamb_, double afr_):             # <<<<<<<<<<<<<<
- *     global c, gamma, qsq2, lamb, afr
+ *     global c2, gamma, qsq2, lamb, afr
  * 
  */
 
@@ -2578,7 +2578,7 @@ static double __pyx_f_6solver_alphaS(double __pyx_v_rsq) {
  *     if sqrt(rsq) > rfr:
  *         return afr             # <<<<<<<<<<<<<<
  *     else:
- *         log_ = log((4 * c * c)/(rsq * 0.241 * 0.241))
+ *         log_ = log((4 * c2)/(rsq * 0.241 * 0.241))
  */
     __pyx_r = __pyx_v_6solver_afr;
     goto __pyx_L0;
@@ -2595,12 +2595,12 @@ static double __pyx_f_6solver_alphaS(double __pyx_v_rsq) {
   /* "solver.pyx":112
  *         return afr
  *     else:
- *         log_ = log((4 * c * c)/(rsq * 0.241 * 0.241))             # <<<<<<<<<<<<<<
+ *         log_ = log((4 * c2)/(rsq * 0.241 * 0.241))             # <<<<<<<<<<<<<<
  *         return 1/(beta * log_)
  * 
  */
   /*else*/ {
-    __pyx_t_2 = ((4.0 * __pyx_v_6solver_c) * __pyx_v_6solver_c);
+    __pyx_t_2 = (4.0 * __pyx_v_6solver_c2);
     __pyx_t_3 = ((__pyx_v_rsq * 0.241) * 0.241);
     if (unlikely(__pyx_t_3 == 0)) {
       PyErr_SetString(PyExc_ZeroDivisionError, "float division");
@@ -2610,7 +2610,7 @@ static double __pyx_f_6solver_alphaS(double __pyx_v_rsq) {
 
     /* "solver.pyx":113
  *     else:
- *         log_ = log((4 * c * c)/(rsq * 0.241 * 0.241))
+ *         log_ = log((4 * c2)/(rsq * 0.241 * 0.241))
  *         return 1/(beta * log_)             # <<<<<<<<<<<<<<
  * 
  * 
@@ -4525,7 +4525,7 @@ if (!__Pyx_RefNanny) {
   #endif
 
   /* "solver.pyx":2
- * cimport cython
+ * import cython
  * from ctypes import c_int, c_double             # <<<<<<<<<<<<<<
  * import numpy as np
  * cimport numpy as cnp
@@ -4552,7 +4552,7 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "solver.pyx":3
- * cimport cython
+ * import cython
  * from ctypes import c_int, c_double
  * import numpy as np             # <<<<<<<<<<<<<<
  * cimport numpy as cnp
@@ -4697,7 +4697,7 @@ if (!__Pyx_RefNanny) {
  * cdef double afr = 0.7               # frozen coupling constant (default)
  * cdef double rfr = (2./lamb) * np.exp(-0.5/(beta * afr))  # IR cutoff             # <<<<<<<<<<<<<<
  * 
- * cdef double c, gamma, qsq2            # fitting parameters
+ * cdef double c2, gamma, qsq2            # fitting parameters
  */
   if (unlikely(__pyx_v_6solver_lamb == 0)) {
     PyErr_SetString(PyExc_ZeroDivisionError, "float division");
@@ -4775,7 +4775,7 @@ if (!__Pyx_RefNanny) {
   __pyx_v_6solver_coeff3 = ((double *)malloc((__pyx_v_6solver_n * (sizeof(double)))));
 
   /* "solver.pyx":1
- * cimport cython             # <<<<<<<<<<<<<<
+ * import cython             # <<<<<<<<<<<<<<
  * from ctypes import c_int, c_double
  * import numpy as np
  */

@@ -49,20 +49,16 @@ beta = (11 * nc - 2. * nf)/(12 * np.pi)
 afr = 0.7     # frozen coupling constant (default)
 rfr = (2./lamb) * np.exp(-0.5/(beta * afr))  # IR cutoff
 
-c = np.sqrt(7.2)    # fitting parameter 1
-gamma = 1.          # fitting parameter 2
-qs02 = 0.060 * 60       # fitting parameter 3
-
+c2, gamma, qs02 = 0. , 0., 0.   # fitting parameters
 e = np.exp(1)
-ec = 18.9
+ec = 1.
 
 # initial condition
 # @jit(float64(float64), nopython=True)
 def mv(r):
     xlog = np.log(1/(lamb * r) + ec * e)
     xexp = np.power(qs02 * r * r, gamma) * xlog/4.0
-    out = 1 - np.exp(-xexp)
-    return out
+    return 1 - np.exp(-xexp)
 
 def evolve(xlr):
 
@@ -89,20 +85,20 @@ def evolve(xlr):
     return (1/6) * hy * (k1 + 2 * k2 + 2 * k3 + k4)
 
 # pass fitting variables q_, c_, g_ to set variables in master.py
-def master(c_, g_, q_, l_, afr_, filename):
+def master(q_, c_, g_, filename):
 
-    global n_, qs02, c, gamma, afr, lamb
+    xn = 60.
+
+    global n_, qs02, c2, gamma
     # variables
-    qs02 = q_
-    c = c_
+    qs02 = q_ * xn
+    c2 = c_
     gamma = g_
-    lamb = l_
-    afr = afr_
 
-    so.set_params(c, gamma, qs02, lamb, afr) 
+    so.set_params(c2, gamma, qs02, lamb, afr) 
 
     # opening file 'results.csv' to store data from this run
-    with open("results4v2.csv", "w") as csv_file:
+    with open(filename, 'w') as csv_file:
         writer = csv.writer(csv_file, delimiter="\t")
         writer.writerow(["y", "r", "N(r,Y)"])
 
@@ -114,12 +110,9 @@ def master(c_, g_, q_, l_, afr_, filename):
             y0 = y[i]
             print("y = " + str(y0))
 
-            # write current N(r,Y) to file-------------------------------------------
-            # for j in range(len(r_)):
-            #     print("r=" + str(r_[j]) + ", N(r)=" + str(n_[j]))
-            #     writer.writerow([y0, r_[j], n_[j]])
-            #------------------------------------------------------------------------
-
+            for j in range(len(r_)):
+                print('r = ' + str(r_[j]) + ', N(r,Y) = ' + str(n_[j]))
+                writer.writerow([y0, r_[j], n_[j]])
             # calculate correction and update N(r,Y) to next step in rapidity
 
             xk = []
@@ -137,10 +130,6 @@ def master(c_, g_, q_, l_, afr_, filename):
             nn = f_finite(xx)
             n_ = nn.tolist()
 
-            # plt.plot(r_, n_)
-            # plt.xscale('log')
-            # plt.show()
-
             # solutions should not be greater than one or less than zero
             for i in range(len(n_)):
                 if n_[i] < 0.:
@@ -148,23 +137,11 @@ def master(c_, g_, q_, l_, afr_, filename):
                 if n_[i] > 0.9999:
                     n_[i] = np.round(1.0, 2)
 
-            # write current N(r,Y) to file-------------------------------------------
-            for j in range(len(r_)):
-                # print("r=" + str(r_[j]) + ", N(r)=" + str(n_[j]))
-                writer.writerow([y0, r_[j], n_[j]])
-            #------------------------------------------------------------------------
-
-
 if __name__ == "__main__":
-    gamma_ = 1.
-    c_ = np.sqrt(7.2)
-    q0_ = 0.060 * 60
-    afr_ = 0.7
-    lamb_ = 0.241
-
+    # q, c, g, filename
     t1 = time.time()
-    master(c_, gamma_, q0_, lamb_, afr_, '')
+    master(0.1586, 7.05, 1.129, 'test.csv')
     t2 = time.time()
-    seconds_to_hours = (t2 - t1)/3600
-    print("time taken: " + str(seconds_to_hours) + " hours")
 
+    hours = (t2 - t1)/3600
+    print(str(hours) + ' hours')

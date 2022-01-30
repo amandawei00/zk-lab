@@ -22,7 +22,7 @@ class N:
 
 
         # read results.csv file from BK solution to pandas dataframe
-        self.df = pd.read_csv("../bk/results/results1.csv", sep="\t") 
+        self.df = pd.read_csv("../bk/results/results2.csv", sep="\t") 
         self.df.columns = ['y', 'vr', 'vfr']
 
         # converting dataframe element types

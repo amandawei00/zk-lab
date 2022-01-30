@@ -13,9 +13,8 @@ import dis_solver as dis
 
 import warnings
 warnings.filterwarnings("ignore")
-print("import done ")
-# theory
 
+# parameters
 alpha = 1/137
 
 # data import
@@ -29,7 +28,7 @@ for i in error_name:
     data['err(tot)'] += data[i] * data[i]
 data['err(tot)'] = data['err(tot)'].apply(np.sqrt)
 
-qsq2 = np.array(data.qsq2)
+qsq = np.array(data.qsq2)
 x = np.array(data.x)
 
 '''
@@ -40,14 +39,16 @@ parameters:
    4. sigma: normalization factor
 '''
 
-# constructing theory
-def fth(q, c, g, s):
-    
-def chi_squared(qsq20, c, gamma, sigma):
+def chi_squared(qsq0, c, gamma, sigma):
     # run BK for given parameters qsq2, c, sigma, and gamma
+    # load dataframe directly without writing to file?
+    # write to file so future runs can be avoided?
+    filename = 'test.csv'
+    bk.master(qsq0, c, gamma, filename)
+
     res = 0
     for i in range(len(data)):
-        theory = f2(x[i], qsq2[i])
+        theory = f2(x[i], qsq[i])
         exp = f2_dat[i]
         err = f2_err[i]
         res += (theory - exp) * (theory - exp) / (err * err)

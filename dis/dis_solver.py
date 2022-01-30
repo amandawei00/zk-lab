@@ -6,14 +6,16 @@ import csv
 from bk_interpolate_interp2d import N
 
 # Units in GeV
-sig = 1.  # constant
-alpha = 1./137  # FIND VALUE (EM coupling)
-e = 1.60217e-19  # Coulomb
-x0 = 0.01  # Bjorken-x, value of x at which evolution starts. (highest experimental value of x included in fit)
-q0 = 1.0  # GeV
+sig   = 1.         # constant
+alpha = 1./137   # FIND VALUE (EM coupling)
+e     = 1.60217e-19  # Coulomb
 
-lamb = 0.241  # lambda_QCD (GeV)
-root_sNN = 319 # for data from 1993, s = 4 * Ep * Ee
+x0    = 0.01
+qsq0  = 0.104 * 60 # GeV
+sig   = 1.
+
+lamb  = 0.241  # lambda_QCD (GeV)
+# sNN   = np.power(296, 2) # for data from 1993, s = 4 * Ep * Ee
 
 """ordering of flavors:
    1. up      -1. antiup
@@ -29,6 +31,11 @@ mf = [0.002, 0.0045, 1.270, 0.101, 172, 5., 0.002, 0.0045, 1.270, 0.101, 172, 5.
 ef = [2/3, -1/3, 2/3, -1/3, 2/3, -1/3, -2/3, 1/3, -2/3, 1/3, -2/3, 1/3] # * np.full(1, self.e)  # CHECK VALUES quark charges
 
 n = N()  # bk interpolated
+
+def set_param(q, s_):
+    global qsq0, sigma
+    qsq0 = q
+    sigma = s_
 
 # (transverse) wave function for splitting of photon to quark-antiquark dipole
 def psi_t2(z, r, *args):
@@ -72,33 +79,33 @@ def l_integral(z, *args): # *args = [qsq2, y]
 
 def t_xsection(x, qsq2):
     r = 1/qsq2
-    r0 = (1/q0) * np.power(x/x0, lamb/2)
+    r0 = (1/qsq0) * np.power(x/x0, lamb/2)
     y = np.log(x0/x)
     return 2 * np.pi * sig * intg.quad(t_integral, 0., 1., epsabs=1.e-5, args=(qsq2, y))[0]
                 
 def l_xsection(x, qsq2):
     r = 1/qsq2
-    r0 = (1/q0) * np.power(x/x0, lamb/2)  # where does q0 come from?
+    r0 = (1/qsq0) * np.power(x/x0, lamb/2)  # where does q0 come from?
     y = np.log(x0/x)  # where does y come from? //2 * np.pi comes from angular independence of inner integral
     return 2 * np.pi * sig * intg.quad(l_integral, 0., 1., epsabs=1.e-5, args=(qsq2, y))[0]
 
-def fl(self, x, qsq2):
+def fl(x, qsq2):
     prefac = qsq2/(4 * np.pi * np.pi * alpha)
-    return prefac * (t_xsection(x, qsq2) + l_xsection(x, qsq2))
+    return prefac * (l_xsection(x, qsq2) + l_xsection(x, qsq2))
  
 def f2(x, qsq2):
     prefac = qsq2/(4 * np.pi * np.pi * alpha)
     return prefac * (t_xsection(x, qsq2) + l_xsection(x, qsq2))
 
 
-'''
+
 c = 2.568  # unit conversion factor
 q = 12  # GeV ^2
 x = [0.000261, 0.000383, 0.000562, 0.000825, 0.00133, 0.00237, 0.00421, 0.0075, 0.0133]
-s = np.power(296, 2)
+# s = np.power(296, 2)
 
 f = [f2(x[i], q) for i in range(len(x))]
 
 for i in range(len(x)):
     print("x = " + str(x[i]) + ", f2 = " + str(f[i]))
-'''
+

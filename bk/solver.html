@@ -295,7 +295,7 @@ body.cython { font-family: courier; font-size: 12; }
     Click on a line that starts with a "<code>+</code>" to see the C code that Cython generated for it.
 </p>
 <p>Raw output: <a href="solver.c">solver.c</a></p>
-<div class="cython"><pre class="cython line score-8" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">001</span>: cimport cython</pre>
+<div class="cython"><pre class="cython line score-8" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">001</span>: import cython</pre>
 <pre class='cython code score-8 '>  __pyx_t_1 = <span class='pyx_c_api'>__Pyx_PyDict_NewPresized</span>(0);<span class='error_goto'> if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_1);
   if (<span class='py_c_api'>PyDict_SetItem</span>(__pyx_d, __pyx_n_s_test, __pyx_t_1) &lt; 0) <span class='error_goto'>__PYX_ERR(0, 1, __pyx_L1_error)</span>
@@ -419,7 +419,7 @@ body.cython { font-family: courier; font-size: 12; }
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_6solver_rfr = __pyx_t_4;
 </pre><pre class="cython line score-0">&#xA0;<span class="">034</span>: </pre>
-<pre class="cython line score-0">&#xA0;<span class="">035</span>: cdef double c, gamma, qsq2            # fitting parameters</pre>
+<pre class="cython line score-0">&#xA0;<span class="">035</span>: cdef double c2, gamma, qsq2            # fitting parameters</pre>
 <pre class="cython line score-0">&#xA0;<span class="">036</span>: cdef double xr0, r0, n0</pre>
 <pre class="cython line score-0">&#xA0;<span class="">037</span>: </pre>
 <pre class="cython line score-0">&#xA0;<span class="">038</span>: # allocating memory space for arrays</pre>
@@ -564,10 +564,10 @@ static PyObject *__pyx_pf_6solver_set_params(CYTHON_UNUSED PyObject *__pyx_self,
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
   return __pyx_r;
 }
-</pre><pre class="cython line score-0">&#xA0;<span class="">048</span>:     global c, gamma, qsq2, lamb, afr</pre>
+</pre><pre class="cython line score-0">&#xA0;<span class="">048</span>:     global c2, gamma, qsq2, lamb, afr</pre>
 <pre class="cython line score-0">&#xA0;<span class="">049</span>: </pre>
-<pre class="cython line score-0" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">050</span>:     c = c_</pre>
-<pre class='cython code score-0 '>  __pyx_v_6solver_c = __pyx_v_c_;
+<pre class="cython line score-0" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">050</span>:     c2 = c_</pre>
+<pre class='cython code score-0 '>  __pyx_v_6solver_c2 = __pyx_v_c_;
 </pre><pre class="cython line score-0" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">051</span>:     gamma = gamma_</pre>
 <pre class='cython code score-0 '>  __pyx_v_6solver_gamma = __pyx_v_gamma_;
 </pre><pre class="cython line score-0" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">052</span>:     qsq2 = qsq_</pre>
@@ -899,9 +899,9 @@ static PyObject *__pyx_pf_6solver_2set_vars(CYTHON_UNUSED PyObject *__pyx_self, 
 <pre class='cython code score-0 '>    __pyx_r = __pyx_v_6solver_afr;
     goto __pyx_L0;
 </pre><pre class="cython line score-0">&#xA0;<span class="">111</span>:     else:</pre>
-<pre class="cython line score-5" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">112</span>:         log_ = log((4 * c * c)/(rsq * 0.241 * 0.241))</pre>
+<pre class="cython line score-5" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">112</span>:         log_ = log((4 * c2)/(rsq * 0.241 * 0.241))</pre>
 <pre class='cython code score-5 '>  /*else*/ {
-    __pyx_t_2 = ((4.0 * __pyx_v_6solver_c) * __pyx_v_6solver_c);
+    __pyx_t_2 = (4.0 * __pyx_v_6solver_c2);
     __pyx_t_3 = ((__pyx_v_rsq * 0.241) * 0.241);
     if (unlikely(__pyx_t_3 == 0)) {
       <span class='py_c_api'>PyErr_SetString</span>(PyExc_ZeroDivisionError, "float division");

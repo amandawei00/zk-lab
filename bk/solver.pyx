@@ -1,4 +1,4 @@
-cimport cython
+import cython
 from ctypes import c_int, c_double
 import numpy as np
 cimport numpy as cnp
@@ -32,7 +32,7 @@ cdef double beta = (11 * nc - 2. * nf)/(12 * np.pi)
 cdef double afr = 0.7               # frozen coupling constant (default)
 cdef double rfr = (2./lamb) * np.exp(-0.5/(beta * afr))  # IR cutoff
 
-cdef double c, gamma, qsq2            # fitting parameters
+cdef double c2, gamma, qsq2            # fitting parameters
 cdef double xr0, r0, n0
 
 # allocating memory space for arrays
@@ -45,9 +45,9 @@ cdef double *coeff2 = <double*>malloc(n * sizeof(double))
 cdef double *coeff3 = <double*>malloc(n * sizeof(double))
 
 cpdef void set_params(double c_, double gamma_, double qsq_, double lamb_, double afr_):
-    global c, gamma, qsq2, lamb, afr
+    global c2, gamma, qsq2, lamb, afr
 
-    c = c_
+    c2 = c_
     gamma = gamma_
     qsq2 = qsq_
     lamb = lamb_
@@ -109,7 +109,7 @@ cdef double alphaS(double rsq):
     if sqrt(rsq) > rfr:
         return afr
     else:
-        log_ = log((4 * c * c)/(rsq * 0.241 * 0.241))
+        log_ = log((4 * c2)/(rsq * 0.241 * 0.241))
         return 1/(beta * log_)
 
 
