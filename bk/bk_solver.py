@@ -72,9 +72,9 @@ def evolve(xlr):
     fs = llc.from_cython(so, 'f_split', signature='double (int, double *)')
     fc = llc.from_cython(so, 'f_combined', signature='double (int, double *)')
 
-    Ker = dblquad(fk, xr1, xr2, 0.0, 0.5 * np.pi, epsabs=0.00, epsrel=0.05)[0]
-    Spl = dblquad(fs, xr1, xr2, 0.0, 0.5 * np.pi, epsabs=0.00, epsrel=0.05)[0]
-    Com = dblquad(fc, xr1, xr2, 0.0, 0.5 * np.pi, epsabs=0.00, epsrel=0.05)[0]
+    Ker = dblquad(fk, xr1, xr2, 0.0, 0.5 * np.pi, epsabs=0.00, epsrel=1.e-5)[0]
+    Spl = dblquad(fs, xr1, xr2, 0.0, 0.5 * np.pi, epsabs=0.00, epsrel=1.e-5)[0]
+    Com = dblquad(fc, xr1, xr2, 0.0, 0.5 * np.pi, epsabs=0.00, epsrel=1.e-5)[0]
     # print("xk = " + str(Com))
 
     k1 = Com
