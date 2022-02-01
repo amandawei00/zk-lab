@@ -99,16 +99,15 @@ def make_animation(df):
 
 
 if __name__ == '__main__':
-<<<<<<< HEAD
 
-    df1 = load_df('../results/results1.csv')
-    df2 = load_df('../results/results2.csv')
-    df3 = load_df('../results/results3.csv')
-    df4 = load_df('../results/results4v2.csv')
+    # df1 = load_df('../results/results1.csv')
+    # df2 = load_df('../results/results2.csv')
+    # df3 = load_df('../results/results3.csv')
+    df4 = load_df('../results/run5/test.csv')
 
     rap = [0., 2., 4., 6., 9.]
     plot_bk(df4, rap)
-=======
+
     # dat1 = 'results0-30.csv'
     dat2 = '../results/results1.csv'
     dat3 = '../results/results2.csv'
@@ -123,11 +122,11 @@ if __name__ == '__main__':
 #     df1['vr'] = df1['vr'].astype('float64')
 #     df1['vfr'] = df1['vfr'].astype('float64')
 
-    df2 = load_df(dat2)
-    df3 = load_df(dat3)
-    df4 = load_df(dat4)
-    df5 = load_df(dat5)
+    # df2 = load_df(dat2)
+    # df3 = load_df(dat3)
+    # df4 = load_df(dat4)
+    # df5 = load_df(dat5)
     
-    rap = [0., 2., 4., 6., 8.]
-    plot_bk(df2, rap)
->>>>>>> 312b100524cc4b7ff3fdf5d8ca3e44d41de2e8e2
+    # rap = [0., 2., 4., 6., 8.]
+    # plot_bk(df2, rap)
+

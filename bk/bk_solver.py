@@ -75,7 +75,6 @@ def evolve(xlr):
     Ker = dblquad(fk, xr1, xr2, 0.0, 0.5 * np.pi, epsabs=0.00, epsrel=1.e-5)[0]
     Spl = dblquad(fs, xr1, xr2, 0.0, 0.5 * np.pi, epsabs=0.00, epsrel=1.e-5)[0]
     Com = dblquad(fc, xr1, xr2, 0.0, 0.5 * np.pi, epsabs=0.00, epsrel=1.e-5)[0]
-    # print("xk = " + str(Com))
 
     k1 = Com
     k2 = k1 + (0.5 * hy * k1 * Ker) - (0.5 * hy * k1 * Spl) - (0.25 * hy * hy * k1 * k1 * Ker)
@@ -86,12 +85,10 @@ def evolve(xlr):
 
 # pass fitting variables q_, c_, g_ to set variables in master.py
 def master(q_, c_, g_, filename):
-
-    xn = 60.
-
     global n_, qs02, c2, gamma
+
     # variables
-    qs02 = q_ * xn
+    qs02 = q_
     c2 = c_
     gamma = g_
 
