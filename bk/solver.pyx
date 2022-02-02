@@ -16,7 +16,7 @@ cdef extern from "spline_c.c":
 # variables
 cdef int n = 399                   # number of r points to be evaluated at each evolution step in Y
 cdef double r1 = 3.e-6             # lower limit of r
-cdef double r2 = 60.e0             # upper limit of r
+cdef double r2 = 60.e0 * 4         # upper limit of r
 
 cdef double xr1 = log(r1)          # convert lower r limit to logspace
 cdef double xr2 = log(r2)          # convert upper r limit to logspace
@@ -28,9 +28,9 @@ cdef int nc = 3                     # number of colors
 cdef int nf = 3                     # number of active flavors
 cdef double lamb = 0.241
 
-cdef double beta = (11 * nc - 2. * nf)/(12 * np.pi)
+cdef double beta = (11 * nc - 2. * nf)/(12 * M_PI)
 cdef double afr = 0.7               # frozen coupling constant (default)
-cdef double rfr = (2./lamb) * np.exp(-0.5/(beta * afr))  # IR cutoff
+cdef double rfr = (2./lamb) * exp(-0.5/(beta * afr))  # IR cutoff
 
 cdef double c2, gamma, qsq2            # fitting parameters
 cdef double xr0, r0, n0
