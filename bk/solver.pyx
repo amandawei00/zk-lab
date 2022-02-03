@@ -1,4 +1,4 @@
-import cython
+cimport cython
 from ctypes import c_int, c_double
 import numpy as np
 cimport numpy as cnp
@@ -16,7 +16,7 @@ cdef extern from "spline_c.c":
 # variables
 cdef int n = 399                   # number of r points to be evaluated at each evolution step in Y
 cdef double r1 = 3.e-6             # lower limit of r
-cdef double r2 = 60.e0 * 4         # upper limit of r
+cdef double r2 = 60.e0             # upper limit of r
 
 cdef double xr1 = log(r1)          # convert lower r limit to logspace
 cdef double xr2 = log(r2)          # convert upper r limit to logspace
@@ -30,10 +30,9 @@ cdef double lamb = 0.241
 
 cdef double beta = (11 * nc - 2. * nf)/(12 * M_PI)
 cdef double afr = 0.7               # frozen coupling constant (default)
-cdef double rfr = (2./lamb) * exp(-0.5/(beta * afr))  # IR cutoff
 
 cdef double c2, gamma, qsq2            # fitting parameters
-cdef double xr0, r0, n0
+cdef double xr0, r0, n0, rfr2
 
 # allocating memory space for arrays
 # xlr_, n_ describe the most current BK solution
@@ -44,14 +43,15 @@ cdef double *coeff1 = <double*>malloc(n * sizeof(double))
 cdef double *coeff2 = <double*>malloc(n * sizeof(double))
 cdef double *coeff3 = <double*>malloc(n * sizeof(double))
 
-cpdef void set_params(double c_, double gamma_, double qsq_, double lamb_, double afr_):
-    global c2, gamma, qsq2, lamb, afr
+cpdef void set_params(double c_, double gamma_, double qsq_):
+    global c2, gamma, qsq2, rfr2
 
     c2 = c_
     gamma = gamma_
     qsq2 = qsq_
-    lamb = lamb_
-    afr = afr_
+
+    rfr2 = 4 * c2/(lamb * lamb * exp(1/(beta * afr)))
+    print('c2 = ' + str(c2) + ', g = ' + str(gamma) + ', qsq2 = ' + str(qsq2))
 
 # called to set coefficients at the beginning of each step of the evolution
 cpdef void set_vars(double x, double n0_, list xlr_arr, list n_arr):
@@ -104,15 +104,16 @@ cdef double nfunc(double qlr):
 
 
 cdef double alphaS(double rsq):
-    cdef double log_
+    cdef double xlog
+    # cte = exp(1./beta/afr)
+    # return 2 * pre/log(auxal * auxal/rsq/rsq + cte)
 
-    if sqrt(rsq) > rfr:
+    if rsq > rfr2:
         return afr
     else:
-        log_ = log((4 * c2)/(rsq * 0.241 * 0.241))
-        return 1/(beta * log_)
-
-
+        xlog = log((4 * c2)/(rsq * lamb * lamb))
+        return 1/(beta * xlog)
+       
 cdef double find_r1(double r, double z, double thet):
     cdef double r12 = (0.25 * r * r) + (z * z) - (r * z * cos(thet))
     return sqrt(r12)

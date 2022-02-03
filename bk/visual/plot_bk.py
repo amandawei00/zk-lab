@@ -67,6 +67,7 @@ def get_data(df, rap):
 
 def load_df(name):
     df = pd.read_csv(name, sep='\t')
+    # df = pd.read_csv(name, delim_whitespace=True)
     df.columns = ['y', 'vr', 'vfr']
 
     df['y'] = (df['y'].astype('float32')).round(decimals=1)
@@ -103,7 +104,7 @@ if __name__ == '__main__':
     # df1 = load_df('../results/results1.csv')
     # df2 = load_df('../results/results2.csv')
     # df3 = load_df('../results/results3.csv')
-    df4 = load_df('../results/run5/results_v4.csv')
+    df4 = load_df('../results/run5/results_v6.csv')
 
     rap = [0., 2., 4., 6., 9.]
     plot_bk(df4, rap)

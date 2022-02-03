@@ -23,7 +23,7 @@ warnings.filterwarnings('ignore')
 # variables
 n = 399  # number of r points to be evaluated at each evolution step in Y
 r1 = 3.e-6  # limits of r
-r2 = 60.e0 * 4
+r2 = 60.e0
 
 xr1 = np.log(r1)
 xr2 = np.log(r2)
@@ -72,9 +72,9 @@ def evolve(xlr):
     fs = llc.from_cython(so, 'f_split', signature='double (int, double *)')
     fc = llc.from_cython(so, 'f_combined', signature='double (int, double *)')
 
-    Ker = dblquad(fk, xr1, xr2, 0.0, 0.5 * np.pi, epsabs=0.00, epsrel=5.e-4)[0]
-    Spl = dblquad(fs, xr1, xr2, 0.0, 0.5 * np.pi, epsabs=0.00, epsrel=5.e-4)[0]
-    Com = dblquad(fc, xr1, xr2, 0.0, 0.5 * np.pi, epsabs=0.00, epsrel=5.e-4)[0]
+    Ker = dblquad(fk, xr1, xr2, 0.0, 0.5 * np.pi, epsabs=0.00, epsrel=0.05)[0]
+    Spl = dblquad(fs, xr1, xr2, 0.0, 0.5 * np.pi, epsabs=0.00, epsrel=0.05)[0]
+    Com = dblquad(fc, xr1, xr2, 0.0, 0.5 * np.pi, epsabs=0.00, epsrel=0.05)[0]
 
     k1 = Com
     k2 = k1 + (0.5 * hy * k1 * Ker) - (0.5 * hy * k1 * Spl) - (0.25 * hy * hy * k1 * k1 * Ker)
@@ -92,7 +92,7 @@ def master(q_, c_, g_, filename):
     c2 = c_
     gamma = g_
 
-    so.set_params(c2, gamma, qs02, lamb, afr) 
+    so.set_params(c2, gamma, qs02) 
 
     # opening file 'results.csv' to store data from this run
     with open(filename, 'w') as csv_file:
@@ -124,6 +124,10 @@ def master(q_, c_, g_, filename):
             nn = np.array(n_)
             idx_finite = np.isfinite(nn)
             f_finite = interpolate.interp1d(xx[idx_finite], nn[idx_finite])
+            # print(xx[idx_finite])
+            # print(nn[idx_finite])
+            # print(len(xx[idx_finite]))
+            # print(len(nn[idx_finite]))
             nn = f_finite(xx)
             n_ = nn.tolist()
 
