@@ -51,7 +51,7 @@ rfr = (2./lamb) * np.exp(-0.5/(beta * afr))  # IR cutoff
 
 c2, gamma, qs02 = 0. , 0., 0.   # fitting parameters
 e = np.exp(1)
-ec = 1.
+ec = 18.9
 
 # initial condition
 # @jit(float64(float64), nopython=True)
@@ -124,10 +124,6 @@ def master(q_, c_, g_, filename):
             nn = np.array(n_)
             idx_finite = np.isfinite(nn)
             f_finite = interpolate.interp1d(xx[idx_finite], nn[idx_finite])
-            # print(xx[idx_finite])
-            # print(nn[idx_finite])
-            # print(len(xx[idx_finite]))
-            # print(len(nn[idx_finite]))
             nn = f_finite(xx)
             n_ = nn.tolist()
 
@@ -139,9 +135,9 @@ def master(q_, c_, g_, filename):
                     n_[i] = np.round(1.0, 2)
 
 if __name__ == "__main__":
-    # q, c, g, filename
+    # qsq2, c^2, g, filename
     t1 = time.time()
-    master(0.1586, 7.05, 1.129, 'test.csv')
+    master(0.06, 7.2, 1., 'results.csv')
     t2 = time.time()
 
     hours = (t2 - t1)/3600
