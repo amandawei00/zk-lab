@@ -30,7 +30,8 @@ xr2 = np.log(r2)
 
 hr = (xr2 - xr1) / n
 
-hy = 0.1
+# hy = 0.1
+hy = 0.2
 ymax = 10.0
 y = np.arange(0.0, ymax, hy)
 
@@ -48,10 +49,10 @@ lamb = 0.241  # lambda QCD (default)
 beta = (11 * nc - 2. * nf)/(12 * np.pi)
 afr = 0.7     # frozen coupling constant (default)
 rfr = (2./lamb) * np.exp(-0.5/(beta * afr))  # IR cutoff
-
+2
 c2, gamma, qs02 = 0. , 0., 0.   # fitting parameters
 e = np.exp(1)
-ec = 18.9
+ec = 1
 
 # initial condition
 # @jit(float64(float64), nopython=True)
@@ -137,7 +138,7 @@ def master(q_, c_, g_, filename):
 if __name__ == "__main__":
     # qsq2, c^2, g, filename
     t1 = time.time()
-    master(0.06, 7.2, 1., 'results.csv')
+    master(0.165, 6.35, 1.135, 'results_hy-0.2.csv')
     t2 = time.time()
 
     hours = (t2 - t1)/3600
