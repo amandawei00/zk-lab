@@ -138,7 +138,7 @@ def master(q_, c_, g_, filename):
 if __name__ == "__main__":
     # qsq2, c^2, g, filename
     t1 = time.time()
-    master(0.165, 6.35, 1.135, 'results_hy-0.2.csv')
+    master(0.104, 14.5, 1., 'results_hy-0.2.csv')
     t2 = time.time()
 
     hours = (t2 - t1)/3600
