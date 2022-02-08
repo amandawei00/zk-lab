@@ -21,9 +21,9 @@ import warnings
 warnings.filterwarnings('ignore')
 
 # variables
-n = 399  # number of r points to be evaluated at each evolution step in Y
-r1 = 3.e-6  # limits of r
-r2 = 60.e0
+n = 400  # number of r points to be evaluated at each evolution step in Y
+r1 = 1.e-6  # limits of r
+r2 = 100.e0
 
 xr1 = np.log(r1)
 xr2 = np.log(r2)
@@ -49,13 +49,11 @@ lamb = 0.241  # lambda QCD (default)
 beta = (11 * nc - 2. * nf)/(12 * np.pi)
 afr = 0.7     # frozen coupling constant (default)
 rfr = (2./lamb) * np.exp(-0.5/(beta * afr))  # IR cutoff
-2
-c2, gamma, qs02 = 0. , 0., 0.   # fitting parameters
+
+c2, gamma, qs02, ec = 0. , 0., 0., 0.   # fitting parameters
 e = np.exp(1)
-ec = 1
 
 # initial condition
-# @jit(float64(float64), nopython=True)
 def mv(r):
     xlog = np.log(1/(lamb * r) + ec * e)
     xexp = np.power(qs02 * r * r, gamma) * xlog/4.0
@@ -85,19 +83,27 @@ def evolve(xlr):
     return (1/6) * hy * (k1 + 2 * k2 + 2 * k3 + k4)
 
 # pass fitting variables q_, c_, g_ to set variables in master.py
-def master(q_, c_, g_, filename):
-    global n_, qs02, c2, gamma
+def master(q_, c_, g_, ec_, filename):
+    global n_, qs02, c2, gamma, ec
 
     # variables
-    qs02 = q_
-    c2 = c_
+    qs02  = q_
+    c2    = c_
     gamma = g_
+    ec    = ec_
 
     so.set_params(c2, gamma, qs02) 
+
+    l = ['n   ', 'r1  ', 'r2  ', 'y   ', 'hy  ', 'ec  ', 'qs02 ', 'c2  ', 'g   ']
+    v = [n, r1, r2, ymax, hy, ec, qs02, c2, gamma]
 
     # opening file 'results.csv' to store data from this run
     with open(filename, 'w') as csv_file:
         writer = csv.writer(csv_file, delimiter="\t")
+
+        writer.writerow(l)
+        writer.writerow(v)
+
         writer.writerow(["y", "r", "N(r,Y)"])
 
         # initial condition----------------------------------------------------------
@@ -136,9 +142,9 @@ def master(q_, c_, g_, filename):
                     n_[i] = np.round(1.0, 2)
 
 if __name__ == "__main__":
-    # qsq2, c^2, g, filename
+    # qsq2, c^2, g,, ec, filename
     t1 = time.time()
-    master(0.104, 14.5, 1., 'results_hy-0.2.csv')
+    master(0.1586, 7.05, 1.129, 1., 'test.csv')
     t2 = time.time()
 
     hours = (t2 - t1)/3600
