@@ -1,8 +1,5 @@
 Files in this folder:
 
 to do:
-	- main.py and dis_solver.py both accomplish the same thing. Check which is the working one
 	- see if you can move bk_interpolate to one folder destination so there aren't multiple copies of it
-	- check to see what xn does in the bk_solve/f77/bk.f does. Do this by checking your solution with data
-	- consolidate all data files from before here
-	- cythonize dis_solver.py 
+	- consolidate all data files from before here 

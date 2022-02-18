@@ -6,16 +6,10 @@ import csv
 from bk_interpolate_interp2d import N
 
 # Units in GeV
-sig   = 1.         # constant
 alpha = 1./137   # FIND VALUE (EM coupling)
-e     = 1.60217e-19  # Coulomb
-
 x0    = 0.01
-qsq0  = 0.104 * 60 # GeV
 sig   = 1.
-
 lamb  = 0.241  # lambda_QCD (GeV)
-# sNN   = np.power(296, 2) # for data from 1993, s = 4 * Ep * Ee
 
 """ordering of flavors:
    1. up      -1. antiup
@@ -26,86 +20,93 @@ lamb  = 0.241  # lambda_QCD (GeV)
    6. bottom  -6. antibottom  
 """
 
-flavors = [1, 2, 3, 4, 5, 6, -1, -2, -3, -4, -5, -6]  # CHECK VALUES (quark flavors, including charm (1.5 GeV))
-mf = [0.002, 0.0045, 1.270, 0.101, 172, 5., 0.002, 0.0045, 1.270, 0.101, 172, 5.] # * np.full(1, np.power(3.e8,2)) quark masses in GeV
-ef = [2/3, -1/3, 2/3, -1/3, 2/3, -1/3, -2/3, 1/3, -2/3, 1/3, -2/3, 1/3] # * np.full(1, self.e)  # CHECK VALUES quark charges
+flavors = [1, 2, 3, 4, 5, 6, -1, -2, -3, -4, -5, -6]                                   # q flavors CHECK 
+mf      = [0.002, 0.0045, 1.270, 0.101, 172, 5., 0.002, 0.0045, 1.270, 0.101, 172, 5.] # q masses in GeV
+ef      = [2/3, -1/3, 2/3, -1/3, 2/3, -1/3, -2/3, 1/3, -2/3, 1/3, -2/3, 1/3]           # q charges
 
-n = N()  # bk interpolated
+n = N('../bk/results/bk_MVg1.csv')  # bk interpolated
 
 def set_param(q, s_):
-    global qsq0, sigma
-    qsq0 = q
-    sigma = s_
+    global qsq0, sig
+    qsq0  = q
+    sig = s_
 
 # (transverse) wave function for splitting of photon to quark-antiquark dipole
 def psi_t2(z, r, *args):
     coeff = (6 * alpha)/(4 * np.pi * np.pi)
-    sum = 0
+    sum   = 0
 
     for i in range(len(flavors)):   # summing over all flavors
         eta2 = eta_squared(z, mf[i], args[0])
-        eta = np.sqrt(eta2)
-        k02 = np.power(spec.kn(0, eta * r), 2) # modified Bessel function (2nd kind, 0th order)
-        k12 = np.power(spec.kn(1, eta * r), 2)  # MacDonald's Function first order
+        eta  = np.sqrt(eta2)
+        k02  = np.power(spec.kn(0, eta * r), 2) # modified Bessel function (2nd kind, 0th order)
+        k12  = np.power(spec.kn(1, eta * r), 2)  # MacDonald's Function first order
 
-        t1 = (np.power(z, 2) + np.power(1-z, 2)) * eta2 * k12
-        t2 = np.power(mf[i], 2) * k02
-        sum += np.power(ef[i], 2) * (t1 + t2)
+        t1   = (z * z + (1 - z) * (1 - z)) * eta2 * k12
+        t2   = mf[i] * mf[i] * k02
+        sum  += ef[i] * ef[i] * (t1 + t2)
     return coeff * sum
 
 # (longitudinal) wave function for splitting of photon to quark-antiquark dipole
 def psi_l2(z, r, *args): # args = [qsq2]
 
-    coeff = (6 * alpha) / (4 * np.power(np.pi, 2))
-    sum = 0
+    coeff = (6 * alpha) / (4 * np.pi * np.pi)
+    sum   = 0
 
     for i in range(len(flavors)):
         eta2 = eta_squared(z, mf[i], args[0])
-        eta = np.sqrt(eta2)
-        k02 = np.power(spec.kn(0, eta * r), 2)
-        sum += 4 * args[0] * np.power(z * (1 - z), 2) * k02 * np.power(ef[i], 2)
+        eta  = np.sqrt(eta2)
+        k02  = np.power(spec.kn(0, eta * r), 2)
+        sum  += 4 * args[0] * np.power(z * (1 - z), 2) * k02 * ef[i] * ef[i]
     return coeff * sum
         
 def eta_squared(z, m_f, qsq2):
-    return z * (1 - z) * qsq2 + np.power(m_f, 2)
+    return z * (1 - z) * qsq2 + m_f * m_f
 
 def t_integral(z, *args):
-    m = lambda r_: psi_t2(z, r_, args[0]) * n.master(r_, args[1])
-    return intg.quad(m, 0.0, 1/args[0], epsabs=1.e-5)[0]
+    m = lambda r_: r_ * psi_t2(z, r_, args[0]) * n.master(r_, args[1])
+    return intg.quad(m, 3.e-6, 60., epsabs=1.e-3)[0]
 
+# orignal integration bound: [3.e-6, 1/args[0]]
 def l_integral(z, *args): # *args = [qsq2, y]
-    m = lambda r_: psi_l2(z, r_, args[0]) * n.master(r_, args[1])
-    return intg.quad(m, 0.0, 1/args[0], epsabs=1.e-5)[0]
+    m = lambda r_: r_ * psi_l2(z, r_, args[0]) * n.master(r_, args[1])
+    return intg.quad(m, 3.e-6, 60., epsabs=1.e-3)[0]
 
 def t_xsection(x, qsq2):
-    r = 1/qsq2
-    r0 = (1/qsq0) * np.power(x/x0, lamb/2)
     y = np.log(x0/x)
-    return 2 * np.pi * sig * intg.quad(t_integral, 0., 1., epsabs=1.e-5, args=(qsq2, y))[0]
+    return 2 * np.pi * sig * intg.quad(t_integral, 0., 1., epsabs=1.e-3, args=(qsq2, y))[0]
                 
 def l_xsection(x, qsq2):
-    r = 1/qsq2
-    r0 = (1/qsq0) * np.power(x/x0, lamb/2)  # where does q0 come from?
-    y = np.log(x0/x)  # where does y come from? //2 * np.pi comes from angular independence of inner integral
-    return 2 * np.pi * sig * intg.quad(l_integral, 0., 1., epsabs=1.e-5, args=(qsq2, y))[0]
+    y  = np.log(x0/x)  # where does y come from? //2 * np.pi comes from angular independence of inner integral
+    return 2 * np.pi * sig * intg.quad(l_integral, 0., 1., epsabs=1.e-3, args=(qsq2, y))[0]
 
 def fl(x, qsq2):
     prefac = qsq2/(4 * np.pi * np.pi * alpha)
-    return prefac * (l_xsection(x, qsq2) + l_xsection(x, qsq2))
+    return prefac * l_xsection(x, qsq2)
  
 def f2(x, qsq2):
     prefac = qsq2/(4 * np.pi * np.pi * alpha)
     return prefac * (t_xsection(x, qsq2) + l_xsection(x, qsq2))
 
+# at low qsq (qsq << MZ^2, and Z exchange is negligible)
+def reduced_x(x, root_s, qsq2):
+    y = qsq2/(root_s * root_s * x)  # root_s is center of mass energy
+    d = 1 + (1 - y) * (1 - y)
+    return f2(x, qsq2) - (y * y/d) * fl(x, qsq2)
 
 
-c = 2.568  # unit conversion factor
-q = 12  # GeV ^2
-x = [0.000261, 0.000383, 0.000562, 0.000825, 0.00133, 0.00237, 0.00421, 0.0075, 0.0133]
-# s = np.power(296, 2)
+# c = 2.568  # unit conversion factor
+q = 200  # GeV ^2
+x = np.logspace(-5, -2, 25)
+sqrt_s = 319
 
-f = [f2(x[i], q) for i in range(len(x))]
+results = [reduced_x(x[i], sqrt_s, q) for i in range(len(x))]
 
 for i in range(len(x)):
-    print("x = " + str(x[i]) + ", f2 = " + str(f[i]))
+    print("x = " + str(x[i]) + ", sig = " + str(results[i]))
 
+with open('x_MVg1.csv', 'a') as f:
+    writer= csv.writer(f, delimiter='\t')
+    # writer.writerow(['# Combined HERA, 2010. Compare results to reduced_x-2010.csv'])
+    for i in range(len(x)):
+        writer.writerow([sqrt_s, q, x[i], results[i]])
