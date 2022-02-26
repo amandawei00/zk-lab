@@ -66,18 +66,18 @@ class N:
     def udg_f(self, x, k):
         y_ = np.log(self.x0 / x)
         integrand = lambda r_: (1 - self.master(r_, y_)) * self.bessel(k * r_, 0)  # * r_?
-        a = 2 * np.pi * intg.quad(integrand, self.r[0], self.r[len(self.r)-1], epsabs=1.e-4)[0]
+        a = 2 * np.pi * intg.quad(integrand, self.r[0], self.r[len(self.r)-1], epsabs=0.0, epsrel=0.05)[0]
         return a
 
     def udg_a(self, x, k):
         y_ = np.log(self.x0 / x)
         integrand = lambda r_: (1 - self.master_adj(r_, y_)) * self.bessel(k * r_, 0)
-        a = 2 * np.pi * intg.quad(integrand, self.r[0], self.r[len(self.r)-1], epsabs=1.e-4)[0]
+        a = 2 * np.pi * intg.quad(integrand, self.r[0], self.r[len(self.r)-1], epsabs=0.0, epsrel=0.05)[0]
         return a
 
     def bessel(self, x, alpha):
         f = lambda t: np.cos(alpha * t - x * np.sin(t))
-        return (1 / np.pi) * intg.quad(f, 0, np.pi, epsabs=1.e-3)[0]
+        return (1 / np.pi) * intg.quad(f, 0, np.pi, epsabs=0.0, epsrel=0.05)[0]
 
 # end of class
 

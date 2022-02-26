@@ -17,55 +17,40 @@ x0   = 0.01
 g    = 0.3
 
 # parameters
+A  = 197
 nc = 3
-s_ = 1
+cf = (nc * nc - 1)/(2 * nc)
+s  = 1
 
-# laplacians of initial conditions
-x, r = symbols('x r')
-gbw_ = 1 - sp.exp(-0.25 * qsq0 * (x0/x)**g * r * r)
-gbw_p1 = diff(gbw_, r)
-gbw_p2 = diff(gbw_p1, r)
-del_gbw = gbw_p2 + (1/r) * gbw_p1
-del_s = lambdify([x, r], del_gbw)
 
-'''x, r = symbols('x r')
-mv_  = 1 - sp.exp(-0.25 * qsq0 * (x0/x)**lamb * r * r * sp.log(1/(g * r) + sp.exp(1)))
-mv_p1 = diff(mv_, r)
-mv_p2 = diff(mv_p1, r)
-del_mv = mv_p2 - (1/r) * mv_p1
-del_s = lambdify([x,r], del_mv)'''
-
-gm  = -sp.log(gbw_)
-gm1 = diff(gm, r)
-gm2 = diff(gm1, r)
-del_gm = lambdify([x,r], gm2 + (1/r) * gm1)
-
-# useful functions
-def k(x, r_):
-    return del_gm(x, r_)/gm(x, r_)
-    
-def gm(x, r_):
-    return -np.log(s(x, r_))
-
-j0_zeros = special.jn_zeros(0, 100)
-print(j0_zeros)
+j0_zeros = special.jn_zeros(0, 1001)
 ################################################################## distributions
 # integrates oscillatory bessel function by summing over zeros of Bessel function
-def integrate(f, tol):
-    err  = 10.
-    sum_ = 0.
-    i    = 1
-    while err > tol:
-        err  = quad(f, j0_zeros[i], j0_zeros[i+1], epsabs=0.0, epsrel=1.e-8)[0]
-        sum_ += err
-        i    += 1
+def integrate(f, tol, *args):
+    k = args[0]
+    # err  = 10.
+    # i    = 0
+    sum_ = quad(f, 0, j0_zeros[0] * k, epsabs=0.0, epsrel=0.05, args=(k,))[0]
+    # while np.abs(err) > tol:
+    #     err  = quad(f, j0_zeros[i], j0_zeros[i+1], epsabs=0.0, epsrel=0.05, args=(args[0],))[0]
+    #     sum_ += err
+    #     i    += 1
+    for i in range(1000):
+        sum_ += quad(f, j0_zeros[i] * k, j0_zeros[i+1] * k, epsabs=0.0, epsrel=1.e-4, args=(k,))[0]
     return sum_
+
+def gq1_integrand(u, *args):
+    k = args[0]
+    a = u * u / (k * k)
+    jac = a / u
+    bes = special.j0(u)
+    lap = 0.5 * np.exp(-0.25 * a) * (2 - 0.5 * a)
+    return jac * bes * lap
 
 # a1
 def qg1(x, k_):
-    prefac = nc * s_/(2 * 2 *  np.pi * np.pi * np.pi)
-    f = lambda u: u * special.j0(k_ * u) * del_s(x, u) 
-    res = integrate(f, 1.e-10)
+    prefac = nc * s_/(4 * np.pi * np.pi * np.pi)
+    res = integrate(gq1_integrand, 1.e-50, k_)
     print('F(k  = ' + str(k_) + ') = ' + str(res))
     return res
 
@@ -81,11 +66,15 @@ def qg1(x, k_):
 # def gg6(x, k_):
 
 k = np.logspace(-2, 2, 50)
-f = [qg1(0.01, i) for i in k]
+f = [qg1(0.01, i)/5.009 for i in k]
 
 plt.xlim(1.e-2, 1.e2)
-plt.ylim(1.e-8, 1.e0)
+plt.ylim(1.e-6, 1.e0)
 plt.xscale('log')
 plt.yscale('log')
+
+plt.xlabel('k [GeV]')
+plt.ylabel('TMD/transverse nuclear area, [GeV^-2]')
+plt.title('qg(1)')
 plt.plot(k, f)
 plt.show()
