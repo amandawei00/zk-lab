@@ -25,3 +25,6 @@ Below, you'll find a brief description of each of the folders and what's inside.
 	- Scripts I wrote to do stuff I needed.
 
 Everything here I wrote myself, except the contents of the 'LHAPDF-6.4.0', 'bin', 'include', 'lib', 'lib64' and 'share' folders, which were installed from lhapdf.hepforge.org. However, I could not have done all this without the generous help, support and advice of Professor Kang, Jared Reiten, John Terry, Farid Salazar and Daniel Callos. 
+
+
+If you have tips or suggestions for improvement, please email me at amandawei00@gmail.com!
