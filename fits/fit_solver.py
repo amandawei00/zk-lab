@@ -3,14 +3,16 @@ import pandas as pd
 import csv
 from iminuit import Minuit
 from iminuit.cost import LeastSquares
+import time
 
 import sys
-sys.path.append('../dis')
-sys.path.append('../bk')
 sys.path.append('../data')
+
 import bk_solver as bk
 import dis_solver as dis
+from bk_interpolate import N
 
+print('packages loaded...')
 import warnings
 warnings.filterwarnings("ignore")
 
@@ -18,18 +20,15 @@ warnings.filterwarnings("ignore")
 alpha = 1/137
 
 # data import
-error_name = ['e1', 'e2', 'e3', 'e4', 'e5', 'e6', 'e7', 'e8', 'e9', 'e10', 'e11', 'e12', 'e13', 'e14', 'e15', 'e16', 'e17', 'e18', 'e19', 'e20']
-data = pd.read_csv("../data/reduced_x.csv", delimiter='\t')
-data.columns = ['index','qsq2', 'x', 'sig'] + error_name
-
-# total error calculation
-data['err(tot)'] = pd.DataFrame(np.zeros(len(data.index)))
-for i in error_name:
-    data['err(tot)'] += data[i] * data[i]
-data['err(tot)'] = data['err(tot)'].apply(np.sqrt)
+data = pd.read_csv("toydata.csv", delimiter=',', header=0, comment='#')
+data.columns = ['qsq2', 'x', 'f2', 'staterr', 'syserr', 'toterr']
 
 qsq = np.array(data.qsq2)
-x = np.array(data.x)
+x   = np.array(data.x)
+dat = np.array(data.f2)
+err = np.array(data.toterr)
+
+# theory
 
 '''
 parameters:
@@ -43,17 +42,24 @@ def chi_squared(qsq0, c, gamma, sigma):
     # run BK for given parameters qsq2, c, sigma, and gamma
     # load dataframe directly without writing to file?
     # write to file so future runs can be avoided?
-    filename = 'test.csv'
-    bk.master(qsq0, c, gamma, filename)
+
+    print('set parameters: qsq0 = ' + str(qsq0) + ', c = ' + str(c) + ', g = ' + str(gamma) + ', sig = ' + str(sigma))
+    bk_df = bk.master(qsq0, c, gamma, 1)
+
+    print('bk solution done...')
+    bk_f  = N(bk_df)
+    print('bk interpolation done... calculating residuals')
 
     res = 0
     for i in range(len(data)):
-        theory = f2(x[i], qsq[i])
-        exp = f2_dat[i]
-        err = f2_err[i]
-        res += (theory - exp) * (theory - exp) / (err * err)
+        theory = dis.f2(x[i], qsq[i], sigma, bk_f)
+        exp    = dat[i]
+        er1    = err[i]
+        res    += (theory - exp) * (theory - exp) / (er1 * er1)
     return res
-
+t1 = time.time()
 chi_squared.errordef = Minuit.LEAST_SQUARES
-m = Minuit(chi_squared, qsq20=0.4, c=1, gamma=1)
+m = Minuit(chi_squared, qsq0=0.1, c=1, gamma=1, sigma=36)
 m.simplex()
+t2 = time.time()
+print('total fit run time: ' + str((t2 - t1)/3600) + ' hours')

@@ -4605,32 +4605,32 @@ if (!__Pyx_RefNanny) {
   /* "solver.pyx":17
  * 
  * # variables
- * cdef int n = 400                   # number of r points to be evaluated at each evolution step in Y             # <<<<<<<<<<<<<<
- * cdef double r1 = 1.e-6             # lower limit of r
- * cdef double r2 = 100.e0             # upper limit of r
+ * cdef int n = 399                   # number of r points to be evaluated at each evolution step in Y             # <<<<<<<<<<<<<<
+ * cdef double r1 = 3.e-6             # lower limit of r
+ * cdef double r2 = 60.e0             # upper limit of r
  */
-  __pyx_v_6solver_n = 0x190;
+  __pyx_v_6solver_n = 0x18F;
 
   /* "solver.pyx":18
  * # variables
- * cdef int n = 400                   # number of r points to be evaluated at each evolution step in Y
- * cdef double r1 = 1.e-6             # lower limit of r             # <<<<<<<<<<<<<<
- * cdef double r2 = 100.e0             # upper limit of r
+ * cdef int n = 399                   # number of r points to be evaluated at each evolution step in Y
+ * cdef double r1 = 3.e-6             # lower limit of r             # <<<<<<<<<<<<<<
+ * cdef double r2 = 60.e0             # upper limit of r
  * 
  */
-  __pyx_v_6solver_r1 = 1.e-6;
+  __pyx_v_6solver_r1 = 3.e-6;
 
   /* "solver.pyx":19
- * cdef int n = 400                   # number of r points to be evaluated at each evolution step in Y
- * cdef double r1 = 1.e-6             # lower limit of r
- * cdef double r2 = 100.e0             # upper limit of r             # <<<<<<<<<<<<<<
+ * cdef int n = 399                   # number of r points to be evaluated at each evolution step in Y
+ * cdef double r1 = 3.e-6             # lower limit of r
+ * cdef double r2 = 60.e0             # upper limit of r             # <<<<<<<<<<<<<<
  * 
  * cdef double xr1 = log(r1)          # convert lower r limit to logspace
  */
-  __pyx_v_6solver_r2 = 100.e0;
+  __pyx_v_6solver_r2 = 60.e0;
 
   /* "solver.pyx":21
- * cdef double r2 = 100.e0             # upper limit of r
+ * cdef double r2 = 60.e0             # upper limit of r
  * 
  * cdef double xr1 = log(r1)          # convert lower r limit to logspace             # <<<<<<<<<<<<<<
  * cdef double xr2 = log(r2)          # convert upper r limit to logspace

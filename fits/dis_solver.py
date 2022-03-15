@@ -3,12 +3,10 @@ import matplotlib.pyplot as plt
 import scipy.integrate as intg
 import scipy.special as spec
 import csv
-from bk_interpolate import N
 
 # Units in GeV
 alpha = 1./137   # FIND VALUE (EM coupling)
 x0    = 0.01
-sig   = 1.
 lamb  = 0.241  # lambda_QCD (GeV)
 
 """ordering of flavors:
@@ -24,8 +22,7 @@ flavors = [1, 2, 3, 4, 5, 6, -1, -2, -3, -4, -5, -6]  # q flavors CHECK
 mf      = [0.002, 0.0045, 1.270, 0.101, 172, 5., 0.002, 0.0045, 1.270, 0.101, 172, 5.] # q masses in GeV
 ef      = [2/3, -1/3, 2/3, -1/3, 2/3, -1/3, -2/3, 1/3, -2/3, 1/3, -2/3, 1/3] # q charge
 
-n = N('../bk/results/bk_MVe1.csv')  # bk interpolated
-
+n       = None
 def set_param(q, s_):
     global qsq0, sig
     qsq0  = q
@@ -72,48 +69,30 @@ def l_integral(z, *args): # *args = [qsq2, y]
     m = lambda r_: r_ * psi_l2(z, r_, args[0]) * n.master(r_, args[1])
     return intg.quad(m, 3.e-6, 60., epsabs=1.e-3)[0]
 
-def t_xsection(x, qsq2):
+def t_xsection(x, qsq2, sig):
     y = np.log(x0/x)
-    return 2 * np.pi * sig * intg.quad(t_integral, 0., 1., epsabs=1.e-3, args=(qsq2, y))[0]
+    return sig * 2 * np.pi * intg.quad(t_integral, 0., 1., epsabs=1.e-3, args=(qsq2, y))[0]
                 
-def l_xsection(x, qsq2):
+def l_xsection(x, qsq2, sig):
     y  = np.log(x0/x)  # where does y come from? //2 * np.pi comes from angular independence of inner integral
-    return 2 * np.pi * sig * intg.quad(l_integral, 0., 1., epsabs=1.e-3, args=(qsq2, y))[0]
+    return sig * 2 * np.pi * intg.quad(l_integral, 0., 1., epsabs=1.e-3, args=(qsq2, y))[0]
 
-def fl(x, qsq2):
+def fl(x, qsq2, n_, sig):
+    global n
+    n = n_
     prefac = qsq2/(4 * np.pi * np.pi * alpha)
-    return prefac * l_xsection(x, qsq2)
+    return prefac * l_xsection(x, qsq2, sig)
  
-def f2(x, qsq2):
+def f2(x, qsq2, sig, n_):
+    global n
+    n = n_
     prefac = qsq2/(4 * np.pi * np.pi * alpha)
-    return prefac * (t_xsection(x, qsq2) + l_xsection(x, qsq2))
+    return prefac * (t_xsection(x, qsq2, sig) + l_xsection(x, qsq2, sig))
 
 # at low qsq (qsq << MZ^2, and Z exchange is negligible)
-def reduced_x(x, qsq2, root_s):
+def reduced_x(x, qsq2, root_s, n_):
+    global n
+    n = n_
     y = qsq2/(root_s * root_s * x)  # root_s is center of mass energy
     d = 1 + (1 - y) * (1 - y)
-
-    a = f2(x, qsq2)
-    b = (y * y/d) * fl(x, qsq2)
-    c = a - b
-    return [a, b, c]
-
-
-# c = 2.568  # unit conversion factor
-q = 27  # GeV ^2
-x = np.logspace(-5, -2, 25)
-sqrt_s = 319
-
-results = [reduced_x(x[i], q, sqrt_s) for i in range(len(x))]
-f2_res  = [results[i][0] for i in range(len(results))]
-fl_res  = [results[i][1] for i in range(len(results))]
-redx    = [results[i][2] for i in range(len(results))]
-
-for i in range(len(x)):
-    print("x = " + str(x[i]) + ", sig = " + str(results[i]))
-
-with open('x_MVe1.csv', 'a') as f:
-    writer= csv.writer(f, delimiter='\t')
-    # writer.writerow(['# Combined HERA, 2010. Compare results to reduced_x-2010.csv'])
-    for i in range(len(x)):
-        writer.writerow([sqrt_s, q, x[i], f2_res[i], fl_res[i], redx[i]])
+    return f2(x, qsq2, n, sig) - (y * y/d) * fl(x, qsq2, n, sig)

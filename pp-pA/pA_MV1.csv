@@ -1,6 +1,7 @@
 # charged hadron production
 # initial saturation scale: 0.4 GeV^2 (for gold nucleus)
 # beginning of small-x evolution: 0.01
+# ran without extra r_ in bk_interpolate_interp2d
 s	y	pt	dN
 200.0	3.2	1.0	0.9243619245951968
 200.0	3.2	1.25	0.5040199517717744

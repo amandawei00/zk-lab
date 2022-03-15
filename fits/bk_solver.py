@@ -1,9 +1,8 @@
 import numpy as np
-import csv
+import pandas as pd
 from multiprocessing import Pool
-# import matplotlib.pyplot as plt
-
 import time
+
 import numba
 from numba import jit
 from numba import cfunc, carray
@@ -30,9 +29,8 @@ xr2 = np.log(r2)
 
 hr = (xr2 - xr1) / n
 
-# hy = 0.1
-hy = 0.2
-ymax = 10.0
+hy = 0.1
+ymax = 8.0
 y = np.arange(0.0, ymax, hy)
 
 # Arrays for N and r in N(r), evaluated at some rapidity Y (including next step N(r,Y) in the evolution
@@ -83,7 +81,7 @@ def evolve(xlr):
     return (1/6) * hy * (k1 + 2 * k2 + 2 * k3 + k4)
 
 # pass fitting variables q_, c_, g_ to set variables in master.py
-def master(q_, c_, g_, ec_, filename):
+def master(q_, c_, g_, ec_):
     global n_, qs02, c2, gamma, ec
 
     # variables
@@ -94,58 +92,43 @@ def master(q_, c_, g_, ec_, filename):
 
     so.set_params(c2, gamma, qs02) 
 
-    l = ['n   ', 'r1  ', 'r2  ', 'y   ', 'hy  ', 'ec  ', 'qs02 ', 'c2  ', 'g   ']
-    v = [n, r1, r2, ymax, hy, ec, qs02, c2, gamma]
-
-    # opening file 'results.csv' to store data from this run
-    with open(filename, 'w') as csv_file:
-        writer = csv.writer(csv_file, delimiter="\t")
-
-        writer.writerow(l)
-        writer.writerow(v)
-
-        writer.writerow(["y", "r", "N(r,Y)"])
-
-        # initial condition----------------------------------------------------------
-        n_ = [mv(r_[i]) for i in range(len(r_))]
-        #----------------------------------------------------------------------------
-        # begin evolution
-        for i in range(len(y)):
-            y0 = y[i]
-            print("y = " + str(y0))
-
-            for j in range(len(r_)):
-                print('r = ' + str(r_[j]) + ', N(r,Y) = ' + str(n_[j]))
-                writer.writerow([y0, r_[j], n_[j]])
-            # calculate correction and update N(r,Y) to next step in rapidity
-
-            xk = []
-            with Pool(processes=4) as pool:
-                xk = pool.map(evolve, xlr_, chunksize=100)
-
-            # xk = [evolve(xlr_[i], n_) for i in range(len(xlr_))]
-            n_ = [n_[j] + xk[j] for j in range(len(n_))]
-
-            # remove nan values from solution
-            xx = np.array(xlr_)
-            nn = np.array(n_)
-            idx_finite = np.isfinite(nn)
-            f_finite = interpolate.interp1d(xx[idx_finite], nn[idx_finite])
-            nn = f_finite(xx)
-            n_ = nn.tolist()
-
-            # solutions should not be greater than one or less than zero
-            for i in range(len(n_)):
-                if n_[i] < 0.:
-                    n_[i] = np.round(0.0, 2)
-                if n_[i] > 0.9999:
-                    n_[i] = np.round(1.0, 2)
-
-'''if __name__ == "__main__":
-    # qsq2, c^2, g,, ec, filename
+    bk_arr = []
     t1 = time.time()
-    master(0.1586, 7.05, 1.129, 1., 'test.csv')
-    t2 = time.time()
+    # initial condition----------------------------------------------------------
+    n_ = [mv(r_[i]) for i in range(len(r_))]
+    #----------------------------------------------------------------------------
+    # begin evolution
+    for i in range(len(y)):
+        y0 = y[i]
+        # print("y = " + str(y0))
 
-    hours = (t2 - t1)/3600
-    print(str(hours) + ' hours')'''
+        for j in range(len(r_)):
+            # print('r = ' + str(r_[j]) + ', N(r,Y) = ' + str(n_[j]))
+            bk_arr.append([y0, r_[j], n_[j]])
+        # calculate correction and update N(r,Y) to next step in rapidity
+
+        xk = []
+        with Pool(processes=50) as pool:
+            xk = pool.map(evolve, xlr_, chunksize=8)
+
+        n_ = [n_[j] + xk[j] for j in range(len(n_))]
+
+        # remove nan values from solution
+        xx = np.array(xlr_)
+        nn = np.array(n_)
+        idx_finite = np.isfinite(nn)
+        f_finite = interpolate.interp1d(xx[idx_finite], nn[idx_finite])
+        nn = f_finite(xx)
+        n_ = nn.tolist()
+
+        # solutions should not be greater than one or less than zero
+        for i in range(len(n_)):
+            if n_[i] < 0.:
+                n_[i] = np.round(0.0, 2)
+            if n_[i] > 0.9999:
+                n_[i] = np.round(1.0, 2)
+
+    t2 = time.time()
+    print('bk run time: ' + str((t2 - t1)/3600) + ' hours')
+    return pd.DataFrame(bk_arr, columns=['y', 'r', 'N(r,Y)'])
+

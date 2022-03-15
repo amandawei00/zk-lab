@@ -12,7 +12,7 @@ import csv
 
 sys.path.append("python_scripts")
 import lhapdf as pdf
-from bk_interpolate_interp2d import N
+from bk_interpolate import N
 
 # - IH FOR HADRON TYPE, IC FOR HADRON CHARGE SHOULD BE MODIFIABLE AND INITIATED UPON CONSTRUCTION
 
@@ -22,7 +22,7 @@ class Master():
         # self.p = pdf.mkPDF("CT10/0")
 
         self.n = N('../bk/results/bk_MV1.csv')
-        self.ff = pdf.mkPDF("DSS07HA",0)
+        self.ff = pdf.mkPDF("DSS07PI",0)
 
         self.qsq2 = qsq # saturation scale
         self.sNN_root = s_NN_root # collision energy per nucleon [GeV]
@@ -121,7 +121,7 @@ if __name__=="__main__":
     p_t = np.arange(a, b, dp_t)  # tranverse momenta values
     cs = np.zeros(len(p_t))
 
-    with open('pA_MV1.csv', 'a') as tfile: # write temporary output file
+    with open('pp_MV1.csv', 'a') as tfile: # write temporary output file
         writer = csv.writer(tfile, delimiter='\t')
         for i in range(len(p_t)):
             cs[i] = s.rhs(p_t[i])
