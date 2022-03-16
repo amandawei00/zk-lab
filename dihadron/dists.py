@@ -1,72 +1,102 @@
-from sympy import symbols, diff, lambdify
-import sympy as sp
 import numpy as np
-from scipy import special
 from scipy.integrate import quad
 import matplotlib.pyplot as plt
+from scipy import special
+from integrator import osc_intg
+
 import sys
-
 sys.path.append('./initials/')
-from gbw import s as s
-# from mv import s as s
 
-# variables
-lamb = 0.241
-qsq0 = 1.0   # GeV^2
-x0   = 0.01
-g    = 0.3
+# init
+initial = 'mv'
+x0      = 0.01
+g       = 0.3 
+
+if initial is 'mv':
+    import mv as pig
+    qsq0 = 0.6
+elif initial is 'gbw':
+    import gbw as pig
+    qsq0 = 1.
+
+def qsq(x):
+    return qsq0 * np.power(x0/x, g)
+
+q2 = qsq(x0)
 
 # parameters
 A  = 197
 nc = 3
 cf = (nc * nc - 1)/(2 * nc)
-s  = 1
+s_ = 1
 
-
-j0_zeros = special.jn_zeros(0, 1001)
-################################################################## distributions
-# integrates oscillatory bessel function by summing over zeros of Bessel function
-def integrate(f, tol, *args):
-    k = args[0]
-    # err  = 10.
-    # i    = 0
-    sum_ = quad(f, 0, j0_zeros[0] * k, epsabs=0.0, epsrel=0.05, args=(k,))[0]
-    # while np.abs(err) > tol:
-    #     err  = quad(f, j0_zeros[i], j0_zeros[i+1], epsabs=0.0, epsrel=0.05, args=(args[0],))[0]
-    #     sum_ += err
-    #     i    += 1
-    for i in range(1000):
-        sum_ += quad(f, j0_zeros[i] * k, j0_zeros[i+1] * k, epsabs=0.0, epsrel=1.e-4, args=(k,))[0]
-    return sum_
-
-def gq1_integrand(u, *args):
-    k = args[0]
-    a = u * u / (k * k)
-    jac = a / u
+# args = [x, k]
+def gq1(u, *args):
+    x   = args[0]
+    k   = args[1]
+    pre = nc * s_/(4 * np.pi * np.pi * np.pi)
+    jac = u / (k * k)
     bes = special.j0(u)
-    lap = 0.5 * np.exp(-0.25 * a) * (2 - 0.5 * a)
-    return jac * bes * lap
+    return pre * jac * bes * pig.lap(x, u/k)
 
-# a1
-def qg1(x, k_):
-    prefac = nc * s_/(4 * np.pi * np.pi * np.pi)
-    res = integrate(gq1_integrand, 1.e-50, k_)
+def qg2(u, *args):
+    x   = args[0]
+    k   = args[1]
+    pre = cf * s_/(4 * np.pi * np.pi * np.pi)
+
+    jac = u / (k * k)
+    bes = special.j0(u)
+    mid = pig.kap(x, u/k) * (1 - np.power(pig.s(x, u/k), nc/cf))
+    return pre * jac * bes * mid * pig.s(x, u/k)
+
+def gg1(u, *args):
+    x   = args[0]
+    k   = args[1]
+    pre = nc * s_/(4 * np.pi * np.pi * np.pi)
+    jac = u / (k * k)
+
+    bes = special.j0(u)
+    return pre * jac * bes * pig.s(x, u/k) * pig.lap(x, u/k)
+
+def adj(u, *args):
+    x   = args[0]
+    k   = args[1]
+    pre = cf * s_/(4 * np.pi * np.pi * np.pi)
+    jac = u / (k * k)
+
+    bes = special.j0(u)
+    mid = pig.lap2(x, u/k, nc/cf)
+    return pre * jac * bes * mid
+
+def ww(u, *args):
+    x   = args[0]
+    k   = args[1]
+    pre = cf * s_/(4 * np.pi * np.pi * np.pi)
+    jac = u / (k * k)
+
+    bes = special.j0(u)
+    mid = pig.kap(x, u/k) * (1 - np.power(pig.s(x, u/k), nc/cf))
+    return pre * jac * bes * mid
+
+def gg6(u, *args):
+    x   = args[0]
+    k   = args[1]
+    pre = cf * s_/(4 * np.pi * np.pi * np.pi)
+    jac = u / (k * k)
+
+    bes = special.j0(u)
+    mid = pig.kap(x, u/k) * (1 - np.power(pig.s(x, u/k), nc/cf))
+    end = np.power(pig.s(x, u/k), nc/cf)
+
+    return pre * jac * bes * mid * end    
+
+def dist(f, x, k_):
+    res = osc_intg(f, 1000, x, k_)
     print('F(k  = ' + str(k_) + ') = ' + str(res))
     return res
 
-# a2
-# def qg2(x, k_):
-# a3
-# def gg1(x, k_):
-# a4
-# def adj(x, k_):
-# a5
-# def ww(x, k_):
-# a6
-# def gg6(x, k_):
-
 k = np.logspace(-2, 2, 50)
-f = [qg1(0.01, i)/5.009 for i in k]
+f = [dist(qg2, 0.01, i) for i in k] # /5.009
 
 plt.xlim(1.e-2, 1.e2)
 plt.ylim(1.e-6, 1.e0)
