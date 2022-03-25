@@ -1,8 +1,0 @@
-hadron type: pi0	
-rapidity (y): 3.3
-saturation scale (qsq2): 0.2
-collision energy per nucleon (GeV): 200
-K factor: 1.0
-transverse momentum (lower bound): 3.5
-transverse momentum (upper bound): 5
-number of points evaluated: 3

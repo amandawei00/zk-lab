@@ -38,6 +38,7 @@ def dgam(x, r):
     return 0.5 * q2 * r
 
 def d2gam(x, r):
+    q2 = qsq(x)
     return 0.5 * q2
 
 def lap1(x, r):

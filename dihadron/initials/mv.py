@@ -48,16 +48,21 @@ def gam(x, r):
 def dgam(x, r):
     q2 = qsq(x)
     beta = np.exp(1) + 1/(lamb * r)
+    db = -1/(lamb * r * r)
 
-    return 0.5 * q2 * r * np.log(beta) - 0.25 * q2/beta
+    t1 = 0.50 * q2 * r * np.log(beta)
+    t2 = 0.25 * q2 * r * r * (1/beta) * db
+    return t1 + t2
 
 def d2gam(x, r):
     q2 = qsq(x)
     beta = np.exp(1) + 1/(lamb * r)
+    db = -1/(lamb * r * r)
+    d2b = 2/(lamb * r * r * r)
 
-    t1 = -0.5 * q2 * np.log(beta)
-    t2 = -0.5 * q2/(lamb * r * beta)
-    t3 = -0.25 * q2/(beta * beta * lamb * r * r)
+    t1 = 0.5 * q2 * np.log(beta)
+    t2 = q2 * r * (1/beta) * db
+    t3 = 0.25 * q2 * r * r * ((1/beta) * d2b - (1/(beta * beta)) * db)
 
     return t1 + t2 + t3
 

@@ -17,11 +17,11 @@ from bk_interpolate import N
 # - IH FOR HADRON TYPE, IC FOR HADRON CHARGE SHOULD BE MODIFIABLE AND INITIATED UPON CONSTRUCTION
 
 class Master():
-    def __init__(self, h, y, qsq, s_NN_root, K):
+    def __init__(self, h, y, qsq, s_NN_root, K, initials):
         self.p = pdf.mkPDF("CT10",0)
         # self.p = pdf.mkPDF("CT10/0")
 
-        self.n = N('../bk/results/bk_MV1.csv')
+        self.n = N(initials)
         self.ff = pdf.mkPDF("DSS07PI",0)
 
         self.qsq2 = qsq # saturation scale
@@ -93,35 +93,42 @@ class Master():
         
 if __name__=="__main__":
 
-    param = []
+    params = []
     """ order of parameters in parameters.txt:
-    1. hadron type
-    2. y
-    3. qsq2
-    4. s_NN
-    5. K
-    6. p_t (lower bound)
-    7. p_t (upper bound)
-    8. number of points evaluated """
+    1.  hadron type
+    2.  y
+    3.  qsq2
+    4.  s_NN
+    5.  K
+    6.  p_t (lower bound)
+    7.  p_t (upper bound)
+    8.  number of points evaluated 
+    9.  filename initial conditions
+    10. file to write results to"""
 
-    with open("parameters.txt", "r") as infile:  # opening parameters file to read in input
-        reader = csv.reader(infile)	
-        for r in reader:  
-            raw = r[0].split()
-            print(raw)
-            param.append(raw[len(raw)-1])  # reading in values
+    with open('params.csv', 'r') as infile:  # opening parameters file to read in input
+        reader  = csv.reader(infile, delimiter='\t')	
+        header  = next(reader)
+        params  = next(reader)
 
-    s = Master(param[0], float(param[1]), float(param[2]), float(param[3]), float(param[4]))  # creating instance of class
+    h    = params[0]
+    y    = float(params[1])
+    qsq2 = float(params[2])
+    snn  = float(params[3])
+    k    = float(params[4])
+    a    = float(params[5])
+    b    = float(params[6])
+    n    = int(params[7])
+    init = params[8]
+    res  = params[9]
 
-    a = float(param[5])
-    b = float(param[6])
-    n = int(param[7])
+    s = Master(h, y, qsq2, snn, k, init)  # creating instance of class
     dp_t = (b - a)/n
 
     p_t = np.arange(a, b, dp_t)  # tranverse momenta values
     cs = np.zeros(len(p_t))
 
-    with open('pp_MV1.csv', 'a') as tfile: # write temporary output file
+    with open(res, 'a') as tfile: # write temporary output file
         writer = csv.writer(tfile, delimiter='\t')
         for i in range(len(p_t)):
             cs[i] = s.rhs(p_t[i])

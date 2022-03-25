@@ -30,9 +30,8 @@ xr2 = np.log(r2)
 
 hr = (xr2 - xr1) / n
 
-# hy = 0.1
-hy = 0.2
-ymax = 10.0
+hy = 0.1
+ymax = 0.2
 y = np.arange(0.0, ymax, hy)
 
 # Arrays for N and r in N(r), evaluated at some rapidity Y (including next step N(r,Y) in the evolution
@@ -83,12 +82,12 @@ def evolve(xlr):
     return (1/6) * hy * (k1 + 2 * k2 + 2 * k3 + k4)
 
 # pass fitting variables q_, c_, g_ to set variables in master.py
-def master(q_, c_, g_, ec_, filename):
+def master(filename, q_, c2_, g_, ec_):
     global n_, qs02, c2, gamma, ec
 
     # variables
     qs02  = q_
-    c2    = c_
+    c2    = c2_
     gamma = g_
     ec    = ec_
 
@@ -141,11 +140,18 @@ def master(q_, c_, g_, ec_, filename):
                 if n_[i] > 0.9999:
                     n_[i] = np.round(1.0, 2)
 
-'''if __name__ == "__main__":
+if __name__ == "__main__":
     # qsq2, c^2, g,, ec, filename
-    t1 = time.time()
-    master(0.1586, 7.05, 1.129, 1., 'test.csv')
+    t1     = time.time()
+    params = []
+
+    with open('params.csv', 'r') as foo:
+        reader = csv.reader(foo, delimiter='\t')
+        header = next(reader)
+        params = next(reader)
+
+    master(params[0], float(params[1]), float(params[2]), float(params[3]), float(params[4]))
     t2 = time.time()
 
     hours = (t2 - t1)/3600
-    print(str(hours) + ' hours')'''
+    print(str(hours) + ' hours')
