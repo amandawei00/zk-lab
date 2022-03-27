@@ -5,7 +5,7 @@ import scipy.interpolate as interp
 import scipy.integrate as intg
 import time
 import cmath
-
+import matplotlib.pyplot as plt
 
 class N:
 
@@ -36,7 +36,7 @@ class N:
         self.z = [self.df.loc[(self.df['y'] == yy) & ((self.df['vr'] < (rr + tol)) & (self.df['vr'] > (rr - tol)))][['vfr']].iloc[0]['vfr'] for rr in self.r for yy in self.y]
         self.f = interp.interp2d(self.r, self.y, self.z, kind='cubic')
 
-    # finds location of val in grid in the sense that if val is between two elements in grid, find_index will return the index of the lower element
+    # if val is between two elements in grid, find_index returns index of lower element
     def find_index(self, val, grid):
         index = 0
 
@@ -54,7 +54,7 @@ class N:
 
         return index
 
-    # given any r, Y within bounds of self.r and self.y, master returns interpolated value of N(r,Y)
+    # returns interpolated value of N(r,Y)
     def master(self, r, y):
         n = self.f(r, y)
         return n
@@ -64,13 +64,13 @@ class N:
 
     def udg_f(self, x, k):
         y_ = np.log(self.x0 / x)
-        integrand = lambda r_: (1 - self.master(r_, y_)) * self.bessel(k * r_, 0) * r_  # check jacobian
+        integrand = lambda r_: (1 - self.master(r_, y_)) * self.bessel(k * r_, 0) * r_  
         a = 2 * np.pi * intg.quad(integrand, self.r[0], self.r[len(self.r)-1], epsabs=0.0, epsrel=0.05)[0]
         return a
 
     def udg_a(self, x, k):
         y_ = np.log(self.x0 / x)
-        integrand = lambda r_: (1 - self.master_adj(r_, y_)) * self.bessel(k * r_, 0) * r_ # check jacobian
+        integrand = lambda r_: (1 - self.master_adj(r_, y_)) * self.bessel(k * r_, 0) * r_ 
         a = 2 * np.pi * intg.quad(integrand, self.r[0], self.r[len(self.r)-1], epsabs=0.0, epsrel=0.05)[0]
         return a
 
@@ -80,8 +80,4 @@ class N:
 
 # end of class
 
-
-# if __name__ == "__main__":
-#     n = N()
-#     print("starting test")
-#     print(n.udg_a(0.001161195799828, 2.0959615528))
+if __name__ == '__main__':

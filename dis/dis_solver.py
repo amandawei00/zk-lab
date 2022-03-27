@@ -112,7 +112,7 @@ redx    = [results[i][2] for i in range(len(results))]
 for i in range(len(x)):
     print("x = " + str(x[i]) + ", sig = " + str(results[i]))
 
-with open('x_MVe1.csv', 'a') as f:
+with open('test.csv', 'a') as f:
     writer= csv.writer(f, delimiter='\t')
     # writer.writerow(['# Combined HERA, 2010. Compare results to reduced_x-2010.csv'])
     for i in range(len(x)):

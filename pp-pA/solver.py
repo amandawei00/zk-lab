@@ -128,6 +128,8 @@ if __name__=="__main__":
     p_t = np.arange(a, b, dp_t)  # tranverse momenta values
     cs = np.zeros(len(p_t))
 
+    # if res exists:
+    # else: 
     with open(res, 'a') as tfile: # write temporary output file
         writer = csv.writer(tfile, delimiter='\t')
         for i in range(len(p_t)):
