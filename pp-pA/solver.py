@@ -12,7 +12,7 @@ import csv
 
 sys.path.append("python_scripts")
 import lhapdf as pdf
-from bk_interpolate import N
+from bk_interpolate2 import N
 
 # - IH FOR HADRON TYPE, IC FOR HADRON CHARGE SHOULD BE MODIFIABLE AND INITIATED UPON CONSTRUCTION
 
@@ -53,7 +53,6 @@ class Master():
         bkf = self.n.udg_f(x2, q/z)
         ff_hq = self.ff.xfxQ2(self.f, z, q2)/z
 
-        # return (1/z) * pdf_qp * bkf * ff_hq
         return (1/(z * z)) * pdf_qp * bkf * ff_hq
 ###################################################################################################################################
     def integrand1(self, z):
@@ -69,7 +68,6 @@ class Master():
         bka = self.n.udg_a(x2, q/z)
         ff_hg = self.ff.xfxQ2(self.f, z, q2)/z
 
-        # return (1/z) * pdf_gp * bka * ff_hg
         return (1/(z * z)) * pdf_gp * bka * ff_hg
 
 ################################################################################################################################
@@ -91,7 +89,7 @@ class Master():
         return turkey
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         
-if __name__=="__main__":
+if __name__=='__main__':
 
     params = []
     """ order of parameters in parameters.txt:
@@ -134,6 +132,6 @@ if __name__=="__main__":
         writer = csv.writer(tfile, delimiter='\t')
         for i in range(len(p_t)):
             cs[i] = s.rhs(p_t[i])
-            writer.writerow([float(param[3]), float(param[1]), p_t[i], cs[i]])
+            writer.writerow([float(params[3]), float(params[1]), p_t[i], cs[i]])
 
 # end of program

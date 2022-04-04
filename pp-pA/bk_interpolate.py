@@ -79,5 +79,3 @@ class N:
         return (1 / np.pi) * intg.quad(f, 0, np.pi, epsabs=0.0, epsrel=0.05)[0]
 
 # end of class
-
-if __name__ == '__main__':

@@ -108,8 +108,8 @@ def master(q_, c_, g_, ec_):
         # calculate correction and update N(r,Y) to next step in rapidity
 
         xk = []
-        with Pool(processes=50) as pool:
-            xk = pool.map(evolve, xlr_, chunksize=8)
+        with Pool(processes=80) as pool:
+            xk = pool.map(evolve, xlr_, chunksize=5)
 
         n_ = [n_[j] + xk[j] for j in range(len(n_))]
 

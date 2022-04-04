@@ -32,15 +32,26 @@ class N:
         self.r = np.concatenate(np.array(self.df.loc[self.df['y'] == 0.][['vr']]))  # r values for N interp
         self.y = np.unique(np.array(self.df[['y']]))
 
-        self.z    = [self.df.loc[(self.df['y'] == yy) & ((self.df['vr'] < (rr + tol)) & (self.df['vr'] > (rr - tol)))][['vfr']].iloc[0]['vfr'] for rr in self.r for yy in self.y]
-        self.n    = interp2d(self.r,    self.y,    self.z,   kind='cubic')
+        self.z      = [self.df.loc[(self.df['y'] == yy) & ((self.df['vr'] < (rr + tol)) & (self.df['vr'] > (rr - tol)))][['vfr']].iloc[0]['vfr'] for rr in self.r for yy in self.y]
+        self.n      = interp2d(self.r,    self.y,    self.z,   kind='cubic')
 
-        self.zft  = fft(self.z)
-        self.zftr = fftfreq(len(self.r))
+        self.k      = np.linspace(2, 9, 200)
+        t1 = time.time()
+        self.zft_f  = [self.udgf(kk, yy) for kk in self.k for yy in self.y]
+        print('udg_f grid calculated, took ' + str((time.time()-t1)/60) + ' minutes')
+        t2 = time.time()
+        self.zft_a  = [self.udga(kk, yy) for kk in self.k for yy in self.y] 
+        print('udg_a grid calculated, took ' + str((time.time()-t2)/60) + ' minutes')
 
-        self.zft  = fftshift(self.zft)
-        self.zftr = fftshift(self.zftr)
-        self.nft  = interp2d(self.zftr, self.y, self.zft, kind='cubic')
+        self.uf  = interp2d(self.k, self.y, self.zft_f, kind='cubic')
+        self.ua  = interp2d(self.k, self.y, self.zft_a, kind='cubic')
+        
+        # self.zft  = fft(self.z)
+        # self.zftr = fftfreq(len(self.r))
+
+        # self.zft  = fftshift(self.zft)
+        # self.zftr = fftshift(self.zftr)
+        # self.nft  = interp2d(self.zftr, self.y, self.zft, kind='cubic')
 
     # if val is between two elements in grid, find_index returns index of lower element
     def find_index(self, val, grid):
@@ -61,22 +72,31 @@ class N:
         return index
 
     # returns interpolated value of N(r,Y)
-    def master(self, r, y):
-        return self.n(r, y)
-
-    def master_adj(self, r, y):
+    def n_adj(self, r, y):
         return 2 * self.n(r, y) - np.power(self.n(r, y), 2)
+
+    def udgf(self, k, y):
+        integrand = lambda r_: (1 - self.n(r_, y)) * self.bessel(k * r_, 0) * r_
+        return 2 * np.pi * quad(integrand, self.r[0], self.r[len(self.r)-1], epsabs=0.0, epsrel=0.05)[0]
+
+    def udga(self, k, y):
+        y_ = np.log(self.x0 / x)
+        integrand = lambda r_: (1 - self.n_adj(r_, y_)) * self.bessel(k * r_, 0) * r_
+        return 2 * np.pi * quad(integrand, self.r[0], self.r[len(self.r)-1], epsabs=0.0, epsrel=0.05)[0]
 
     def udg_f(self, x, k):
         y_ = np.log(self.x0 / x)
-        return self.nft(k, y)
+        return self.uf(k, y_)
 
     def udg_a(self, x, k):
         y_ = np.log(self.x0 / x)
-        return self.nft(k, y)
+        return self.ua(k, y_)
 
+    def bessel(self, x, alpha):
+        f = lambda t: np.cos(alpha * t - x * np.sin(t))
+        return (1 / np.pi) * quad(f, 0., np.pi, epsabs=0.0, epsrel=0.05)[0]
 # end of class
 
-if __name__ == '__main__':
-    n = N('../bk/results/bk_MV1.csv')
+# if __name__ == '__main__':
+#     n = N('../bk/results/bk_MV1.csv')
     
