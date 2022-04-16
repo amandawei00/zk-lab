@@ -15,10 +15,10 @@ initial = 'mv'
 x0      = 0.01
 g       = 0.3
 
-if initial is 'mv':
+if initial == 'mv':
     import mv as pig
     qsq0 = 0.6
-elif initial is 'gbw':
+elif initial == 'gbw':
     import gbw as pig
     qsq0 = 1.
 
@@ -39,7 +39,6 @@ r_      = np.exp(xlr_)
 
 klr_    = [1/xlr_[i] for i in range(len(xlr_))]
 k_      = [1/r_[i] for i in range(len(r_))]
-print(k_)
 
 # parameters
 A  = 197
@@ -56,7 +55,7 @@ def h(f, g, c0):
     g_ = fht(g, dln=hr, mu=0)
 
     # convolve f and g
-    c  = convolve(f_, g_)
+    c  = convolve(f_, g_, mode='same')
     return -(1/(2 * np.pi)) * interp1d(k_, c)
 
 def qg1_f(x, r):
@@ -95,7 +94,7 @@ def dist(f, x, k_):
     res = osc_intg(f, 1000, x, k_)
     print('F(k  = ' + str(k_) + ') = ' + str(res))
     return res
-'''
+
 k = np.logspace(-2, 2, 100)
 qg1_ = [dist(qg1, 0.01, i) for i in k]
 qg2_ = [dist(qg2, 0.01, i) for i in k]
@@ -121,4 +120,4 @@ plt.plot(k, gg6_, 'green', linestyle='--', linewidth=lw, label='gg(6)')
 plt.plot(k, ww_, 'cyan', linestyle='-', linewidth=lw, label='WW')
 plt.legend()
 plt.show()
-'''
+

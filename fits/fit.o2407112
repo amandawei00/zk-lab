@@ -1,0 +1,379 @@
+packages loaded...
+set parameters: qsq0 = 0.1, c = 1.0, g = 1.0, sig = 36.0
+c2 = 1.0, g = 1.0, qsq2 = 0.1
+bk run time: 0.12341881811618804 hours
+bk solution done...
+bk interpolation done... calculating residuals
+set parameters: qsq0 = 0.101, c = 1.0, g = 1.0, sig = 36.0
+c2 = 1.0, g = 1.0, qsq2 = 0.101
+bk run time: 0.12519632226890987 hours
+bk solution done...
+bk interpolation done... calculating residuals
+set parameters: qsq0 = 0.1, c = 1.01, g = 1.0, sig = 36.0
+c2 = 1.01, g = 1.0, qsq2 = 0.1
+bk run time: 0.12675086041291556 hours
+bk solution done...
+bk interpolation done... calculating residuals
+set parameters: qsq0 = 0.1, c = 1.0, g = 1.01, sig = 36.0
+c2 = 1.0, g = 1.01, qsq2 = 0.1
+bk run time: 0.126573675804668 hours
+bk solution done...
+bk interpolation done... calculating residuals
+set parameters: qsq0 = 0.1, c = 1.0, g = 1.0, sig = 36.36
+c2 = 1.0, g = 1.0, qsq2 = 0.1
+bk run time: 0.1256673906246821 hours
+bk solution done...
+bk interpolation done... calculating residuals
+set parameters: qsq0 = 0.1005, c = 1.005, g = 1.005, sig = 35.64
+c2 = 1.005, g = 1.005, qsq2 = 0.1005
+bk run time: 0.1264499980873532 hours
+bk solution done...
+bk interpolation done... calculating residuals
+set parameters: qsq0 = 0.09925000000000003, c = 1.0074999999999998, g = 1.0074999999999998, sig = 35.81999999999999
+c2 = 1.0074999999999998, g = 1.0074999999999998, qsq2 = 0.09925000000000003
+bk run time: 0.12580357286665175 hours
+bk solution done...
+bk interpolation done... calculating residuals
+set parameters: qsq0 = 0.09837500000000005, c = 1.0112499999999998, g = 1.0112499999999998, sig = 35.72999999999999
+c2 = 1.0112499999999998, g = 1.0112499999999998, qsq2 = 0.09837500000000005
+bk run time: 0.12756963140434688 hours
+bk solution done...
+bk interpolation done... calculating residuals
+set parameters: qsq0 = 0.09400000000000008, c = 1.0299999999999994, g = 1.0299999999999994, sig = 35.27999999999997
+c2 = 1.0299999999999994, g = 1.0299999999999994, qsq2 = 0.09400000000000008
+bk run time: 0.12454982029067145 hours
+bk solution done...
+bk interpolation done... calculating residuals
+set parameters: qsq0 = 0.09725000000000003, c = 1.0224999999999995, g = 1.0224999999999995, sig = 35.45999999999998
+c2 = 1.0224999999999995, g = 1.0224999999999995, qsq2 = 0.09725000000000003
+bk run time: 0.12754008405738407 hours
+bk solution done...
+bk interpolation done... calculating residuals
+set parameters: qsq0 = 0.09587500000000007, c = 1.0187499999999996, g = 1.0337499999999995, sig = 35.18999999999997
+c2 = 1.0187499999999996, g = 1.0337499999999995, qsq2 = 0.09587500000000007
+bk run time: 0.127692594660653 hours
+bk solution done...
+bk interpolation done... calculating residuals
+set parameters: qsq0 = 0.09306250000000008, c = 1.0306249999999992, g = 1.0431249999999994, sig = 35.32499999999996
+c2 = 1.0306249999999992, g = 1.0431249999999994, qsq2 = 0.09306250000000008
+bk run time: 0.12741388314300114 hours
+bk solution done...
+bk interpolation done... calculating residuals
+set parameters: qsq0 = 0.08934375000000011, c = 1.043437499999999, g = 1.0621874999999992, sig = 35.16749999999994
+c2 = 1.043437499999999, g = 1.0621874999999992, qsq2 = 0.08934375000000011
+bk run time: 0.12218067725499471 hours
+bk solution done...
+bk interpolation done... calculating residuals
+set parameters: qsq0 = 0.08823437500000014, c = 1.0573437499999985, g = 1.0642187499999987, sig = 34.54874999999993
+c2 = 1.0573437499999985, g = 1.0642187499999987, qsq2 = 0.08823437500000014
+bk run time: 0.12240672714180416 hours
+bk solution done...
+bk interpolation done... calculating residuals
+set parameters: qsq0 = 0.08235156250000021, c = 1.0860156249999977, g = 1.091328124999998, sig = 33.82312499999989
+c2 = 1.0860156249999977, g = 1.091328124999998, qsq2 = 0.08235156250000021
+bk run time: 0.11930969244903988 hours
+bk solution done...
+bk interpolation done... calculating residuals
+set parameters: qsq0 = 0.08647656250000019, c = 1.0522656249999986, g = 1.0725781249999988, sig = 34.63312499999992
+c2 = 1.0522656249999986, g = 1.0725781249999988, qsq2 = 0.08647656250000019
+bk run time: 0.12068379157119327 hours
+bk solution done...
+bk interpolation done... calculating residuals
+set parameters: qsq0 = 0.08315234375000019, c = 1.072773437499998, g = 1.0807421874999985, sig = 34.62468749999991
+c2 = 1.072773437499998, g = 1.0807421874999985, qsq2 = 0.08315234375000019
+bk run time: 0.11889926307731205 hours
+bk solution done...
+bk interpolation done... calculating residuals
+set parameters: qsq0 = 0.07960351562500023, c = 1.0829101562499974, g = 1.1098632812499982, sig = 34.20703124999987
+c2 = 1.0829101562499974, g = 1.1098632812499982, qsq2 = 0.07960351562500023
+bk run time: 0.11719227777587043 hours
+bk solution done...
+bk interpolation done... calculating residuals
+set parameters: qsq0 = 0.09040087890625012, c = 1.043227539062499, g = 1.049965820312499, sig = 35.01175781249995
+c2 = 1.043227539062499, g = 1.049965820312499, qsq2 = 0.09040087890625012
+bk run time: 0.12289957344532013 hours
+bk solution done...
+bk interpolation done... calculating residuals
+set parameters: qsq0 = 0.0940754394531251, c = 1.0253637695312496, g = 1.0437329101562494, sig = 35.05587890624996
+c2 = 1.0253637695312496, g = 1.0437329101562494, qsq2 = 0.0940754394531251
+bk run time: 0.12759466873274908 hours
+bk solution done...
+bk interpolation done... calculating residuals
+set parameters: qsq0 = 0.08588311767578141, c = 1.060921020507811, g = 1.0714898681640612, sig = 34.73248535156242
+c2 = 1.060921020507811, g = 1.0714898681640612, qsq2 = 0.08588311767578141
+bk run time: 0.12048091391722361 hours
+bk solution done...
+bk interpolation done... calculating residuals
+set parameters: qsq0 = 0.08456802368164079, c = 1.0637564086914044, g = 1.0852713012695299, sig = 34.52917236328115
+c2 = 1.0637564086914044, g = 1.0852713012695299, qsq2 = 0.08456802368164079
+bk run time: 0.12068494147724576 hours
+bk solution done...
+bk interpolation done... calculating residuals
+set parameters: qsq0 = 0.0889426651000978, c = 1.0483597564697253, g = 1.0587921905517568, sig = 34.891111450195254
+c2 = 1.0483597564697253, g = 1.0587921905517568, qsq2 = 0.0889426651000978
+bk run time: 0.12190886822011736 hours
+bk solution done...
+bk interpolation done... calculating residuals
+set parameters: qsq0 = 0.0906155586242677, c = 1.0397822952270497, g = 1.0573984146118156, sig = 34.88775787353511
+c2 = 1.0397822952270497, g = 1.0573984146118156, qsq2 = 0.0906155586242677
+bk run time: 0.12159628298547533 hours
+bk solution done...
+bk interpolation done... calculating residuals
+set parameters: qsq0 = 0.0920916118621827, c = 1.0421960258483876, g = 1.0487203025817862, sig = 35.11443466186519
+c2 = 1.0421960258483876, g = 1.0487203025817862, qsq2 = 0.0920916118621827
+bk run time: 0.12317914717727237 hours
+bk solution done...
+bk interpolation done... calculating residuals
+set parameters: qsq0 = 0.08788032484054581, c = 1.0497482252120958, g = 1.0666136693954456, sig = 34.75345241546624
+c2 = 1.0497482252120958, g = 1.0666136693954456, qsq2 = 0.08788032484054581
+bk run time: 0.12158714791138966 hours
+bk solution done...
+bk interpolation done... calculating residuals
+set parameters: qsq0 = 0.08658499884605422, c = 1.0596623206138593, g = 1.0685076403617844, sig = 34.79264905929557
+c2 = 1.0596623206138593, g = 1.0685076403617844, qsq2 = 0.08658499884605422
+bk run time: 0.12200889382097456 hours
+bk solution done...
+bk interpolation done... calculating residuals
+set parameters: qsq0 = 0.08647743189334886, c = 1.0641195261478404, g = 1.0668786251544933, sig = 34.32548146247856
+c2 = 1.0641195261478404, g = 1.0668786251544933, qsq2 = 0.08647743189334886
+bk run time: 0.12034340255790286 hours
+bk solution done...
+bk interpolation done... calculating residuals
+set parameters: qsq0 = 0.08862717047333729, c = 1.0486080065369592, g = 1.0633602812886227, sig = 34.95699536561959
+c2 = 1.0486080065369592, g = 1.0633602812886227, qsq2 = 0.08862717047333729
+bk run time: 0.12233519302474127 hours
+bk solution done...
+bk interpolation done... calculating residuals
+set parameters: qsq0 = 0.0902572688609363, c = 1.04236754849553, g = 1.0579848052561274, sig = 34.782505556344944
+c2 = 1.04236754849553, g = 1.0579848052561274, qsq2 = 0.0902572688609363
+bk run time: 0.12279030230310228 hours
+bk solution done...
+bk interpolation done... calculating residuals
+set parameters: qsq0 = 0.08750306634977474, c = 1.0553386275842769, g = 1.06587693158537, sig = 34.790113183557914
+c2 = 1.0553386275842769, g = 1.06587693158537, qsq2 = 0.08750306634977474
+bk run time: 0.11999557978577084 hours
+bk solution done...
+bk interpolation done... calculating residuals
+set parameters: qsq0 = 0.08717980323173119, c = 1.05715954819694, g = 1.071242625582962, sig = 34.63354403212658
+c2 = 1.05715954819694, g = 1.071242625582962, qsq2 = 0.08717980323173119
+bk run time: 0.12138989594247607 hours
+bk solution done...
+bk interpolation done... calculating residuals
+set parameters: qsq0 = 0.08850194963300614, c = 1.050559704401529, g = 1.061904799309558, sig = 34.826719595678085
+c2 = 1.050559704401529, g = 1.061904799309558, qsq2 = 0.08850194963300614
+bk run time: 0.12160098241435156 hours
+bk solution done...
+bk interpolation done... calculating residuals
+set parameters: qsq0 = 0.08855295588751336, c = 1.056176819049286, g = 1.0610667116963293, sig = 34.80783665696153
+c2 = 1.056176819049286, g = 1.0610667116963293, qsq2 = 0.08855295588751336
+bk run time: 0.12136617998282115 hours
+bk solution done...
+bk interpolation done... calculating residuals
+set parameters: qsq0 = 0.0877690029618099, c = 1.061101443980586, g = 1.063173315007005, sig = 34.52971435247913
+c2 = 1.061101443980586, g = 1.063173315007005, qsq2 = 0.0877690029618099
+bk run time: 0.11970630248387655 hours
+bk solution done...
+bk interpolation done... calculating residuals
+set parameters: qsq0 = 0.0873399192060462, c = 1.0673481627023993, g = 1.0630798318661963, sig = 34.3160738459089
+c2 = 1.0673481627023993, g = 1.0630798318661963, qsq2 = 0.0873399192060462
+bk run time: 0.120645688507292 hours
+bk solution done...
+bk interpolation done... calculating residuals
+set parameters: qsq0 = 0.08902607539139003, c = 1.0572522311314225, g = 1.0593048564210754, sig = 34.56639711900143
+c2 = 1.0572522311314225, g = 1.0593048564210754, qsq2 = 0.08902607539139003
+bk run time: 0.12236541575855679 hours
+bk solution done...
+bk interpolation done... calculating residuals
+set parameters: qsq0 = 0.08978757991219767, c = 1.0582090329049954, g = 1.0560188188389281, sig = 34.45453908672319
+c2 = 1.0582090329049954, g = 1.0560188188389281, qsq2 = 0.08978757991219767
+bk run time: 0.12233711394998763 hours
+bk solution done...
+bk interpolation done... calculating residuals
+set parameters: qsq0 = 0.0886700072477544, c = 1.065855818565904, g = 1.0603339984615727, sig = 34.34370045240381
+c2 = 1.065855818565904, g = 1.0603339984615727, qsq2 = 0.0886700072477544
+bk run time: 0.1214838828643163 hours
+bk solution done...
+bk interpolation done... calculating residuals
+set parameters: qsq0 = 0.08875403605512852, c = 1.0735038756480915, g = 1.05954859803758, sig = 34.10219088076667
+c2 = 1.0735038756480915, g = 1.05954859803758, qsq2 = 0.08875403605512852
+bk run time: 0.1214289159907235 hours
+bk solution done...
+bk interpolation done... calculating residuals
+set parameters: qsq0 = 0.08891098505318568, c = 1.087788915905639, g = 1.0580816272037508, sig = 33.65109932687977
+c2 = 1.087788915905639, g = 1.0580816272037508, qsq2 = 0.08891098505318568
+bk run time: 0.12166456394725375 hours
+bk solution done...
+bk interpolation done... calculating residuals
+set parameters: qsq0 = 0.08879801557608333, c = 1.0760447523463235, g = 1.059679543828512, sig = 33.78421472607948
+c2 = 1.0760447523463235, g = 1.059679543828512, qsq2 = 0.08879801557608333
+bk run time: 0.1217719241645601 hours
+bk solution done...
+bk interpolation done... calculating residuals
+set parameters: qsq0 = 0.08939841675163815, c = 1.0842283225687734, g = 1.0542579024390994, sig = 33.66103374608086
+c2 = 1.0842283225687734, g = 1.0542579024390994, qsq2 = 0.08939841675163815
+bk run time: 0.12025449640221066 hours
+bk solution done...
+bk interpolation done... calculating residuals
+set parameters: qsq0 = 0.08998043762745715, c = 1.097670608853161, g = 1.0492774786586498, sig = 33.21717561912133
+c2 = 1.097670608853161, g = 1.0492774786586498, qsq2 = 0.08998043762745715
+bk run time: 0.12083255509535472 hours
+bk solution done...
+bk interpolation done... calculating residuals
+set parameters: qsq0 = 0.09289054200655211, c = 1.1648820402750983, g = 1.0243753597564016, sig = 30.99788498432366
+c2 = 1.1648820402750983, g = 1.0243753597564016, qsq2 = 0.09289054200655211
+bk run time: 0.12124517957369486 hours
+bk solution done...
+bk interpolation done... calculating residuals
+set parameters: qsq0 = 0.0924245583121995, c = 1.132360926735442, g = 1.0359043598067912, sig = 31.914154709523913
+c2 = 1.132360926735442, g = 1.0359043598067912, qsq2 = 0.0924245583121995
+bk run time: 0.12192597852812873 hours
+bk solution done...
+bk interpolation done... calculating residuals
+set parameters: qsq0 = 0.09172447056181264, c = 1.1723292847262559, g = 1.0330016264587996, sig = 30.719137786680236
+c2 = 1.1723292847262559, g = 1.0330016264587996, qsq2 = 0.09172447056181264
+bk run time: 0.1211294796731737 hours
+bk solution done...
+bk interpolation done... calculating residuals
+set parameters: qsq0 = 0.09417726239079163, c = 1.2026358314748942, g = 1.0160019427843596, sig = 29.85692367762431
+c2 = 1.2026358314748942, g = 1.0160019427843596, qsq2 = 0.09417726239079163
+bk run time: 0.12116750392648909 hours
+bk solution done...
+bk interpolation done... calculating residuals
+set parameters: qsq0 = 0.09686688579814579, c = 1.2659313710391795, g = 0.9941631422622834, sig = 27.89327815339672
+c2 = 1.2659313710391795, g = 0.9941631422622834, qsq2 = 0.09686688579814579
+bk run time: 0.12328698270850712 hours
+bk solution done...
+bk interpolation done... calculating residuals
+set parameters: qsq0 = 0.09804224328616934, c = 1.279962895482349, g = 0.9856406169383871, sig = 27.111128490082493
+c2 = 1.279962895482349, g = 0.9856406169383871, qsq2 = 0.09804224328616934
+bk run time: 0.12137857072883182 hours
+bk solution done...
+bk interpolation done... calculating residuals
+set parameters: qsq0 = 0.09838764413972075, c = 1.2492393320397785, g = 0.9870401129231321, sig = 28.23908538198316
+c2 = 1.2492393320397785, g = 0.9870401129231321, qsq2 = 0.09838764413972075
+bk run time: 0.12095722238222759 hours
+bk solution done...
+bk interpolation done... calculating residuals
+set parameters: qsq0 = 0.09339026395628966, c = 1.1915567965546365, g = 1.0215112480748827, sig = 30.099124685505966
+c2 = 1.1915567965546365, g = 1.0215112480748827, qsq2 = 0.09339026395628966
+bk run time: 0.12091714693440331 hours
+bk solution done...
+bk interpolation done... calculating residuals
+set parameters: qsq0 = 0.09817040921137896, c = 1.3188056249401896, g = 0.9769408237091863, sig = 26.13655344713051
+c2 = 1.3188056249401896, g = 0.9769408237091863, qsq2 = 0.09817040921137896
+bk run time: 0.12044312119483948 hours
+bk solution done...
+bk interpolation done... calculating residuals
+set parameters: qsq0 = 0.0967339464865841, c = 1.2721944503890028, g = 0.9916817077335875, sig = 27.58095376272886
+c2 = 1.2721944503890028, g = 0.9916817077335875, qsq2 = 0.0967339464865841
+bk run time: 0.12122103777196672 hours
+bk solution done...
+bk interpolation done... calculating residuals
+set parameters: qsq0 = 0.09962612775704233, c = 1.3399407164574857, g = 0.9721229977481689, sig = 25.344357561533357
+c2 = 1.3399407164574857, g = 0.9721229977481689, qsq2 = 0.09962612775704233
+bk run time: 0.12022257500224644 hours
+bk solution done...
+bk interpolation done... calculating residuals
+set parameters: qsq0 = 0.09457443844417467, c = 1.2086467093206952, g = 1.0113122692543435, sig = 29.584503128626086
+c2 = 1.2086467093206952, g = 1.0113122692543435, qsq2 = 0.09457443844417467
+bk run time: 0.12089535375436147 hours
+bk solution done...
+bk interpolation done... calculating residuals
+set parameters: qsq0 = 0.09971849305124728, c = 1.3218109165609768, g = 0.9698876200194182, sig = 25.98580708191111
+c2 = 1.3218109165609768, g = 0.9698876200194182, qsq2 = 0.09971849305124728
+bk run time: 0.12019795517126719 hours
+bk solution done...
+bk interpolation done... calculating residuals
+set parameters: qsq0 = 0.09497232123002906, c = 1.2241203265562217, g = 1.0086053410610165, sig = 29.07079528460725
+c2 = 1.2241203265562217, g = 1.0086053410610165, qsq2 = 0.09497232123002906
+bk run time: 0.12076513270537058 hours
+bk solution done...
+bk interpolation done... calculating residuals
+set parameters: qsq0 = 0.09353155269329749, c = 1.2054835331702005, g = 1.0172406132172287, sig = 29.953636674596964
+c2 = 1.2054835331702005, g = 1.0172406132172287, qsq2 = 0.09353155269329749
+bk run time: 0.12091115454832713 hours
+bk solution done...
+bk interpolation done... calculating residuals
+set parameters: qsq0 = 0.09691457063795138, c = 1.2613430549043119, g = 0.9935406160080975, sig = 27.82175553621111
+c2 = 1.2613430549043119, g = 0.9935406160080975, qsq2 = 0.09691457063795138
+bk run time: 0.12183373418119219 hours
+bk solution done...
+bk interpolation done... calculating residuals
+set parameters: qsq0 = 0.09493016156856637, c = 1.2078262805212012, g = 1.012128976559283, sig = 29.604212288691727
+c2 = 1.2078262805212012, g = 1.012128976559283, qsq2 = 0.09493016156856637
+bk run time: 0.1199498901102278 hours
+bk solution done...
+bk interpolation done... calculating residuals
+set parameters: qsq0 = 0.09726753117317165, c = 1.270963807189762, g = 0.9929067686909967, sig = 27.610517502827324
+c2 = 1.270963807189762, g = 0.9929067686909967, qsq2 = 0.09726753117317165
+bk run time: 0.12142333699597253 hours
+bk solution done...
+bk interpolation done... calculating residuals
+set parameters: qsq0 = 0.09808049285108258, c = 1.3033529993235362, g = 0.9824789574519142, sig = 26.59396094982948
+c2 = 1.3033529993235362, g = 0.9824789574519142, qsq2 = 0.09808049285108258
+bk run time: 0.12176500823762682 hours
+bk solution done...
+bk interpolation done... calculating residuals
+set parameters: qsq0 = 0.09571774438919542, c = 1.2317079602217849, g = 1.0047164717824408, sig = 28.851649453976165
+c2 = 1.2317079602217849, g = 1.0047164717824408, qsq2 = 0.09571774438919542
+bk run time: 0.12256074984868368 hours
+bk solution done...
+bk interpolation done... calculating residuals
+set parameters: qsq0 = 0.09841104476920305, c = 1.2908527701212975, g = 0.9840581583108927, sig = 27.01780503859841
+c2 = 1.2908527701212975, g = 0.9840581583108927, qsq2 = 0.09841104476920305
+bk run time: 0.12103749692440033 hours
+bk solution done...
+bk interpolation done... calculating residuals
+set parameters: qsq0 = 0.09583200211482257, c = 1.2408034374474908, g = 1.0024685453734856, sig = 28.55754772310504
+c2 = 1.2408034374474908, g = 1.0024685453734856, qsq2 = 0.09583200211482257
+bk run time: 0.12153017024199168 hours
+bk solution done...
+bk interpolation done... calculating residuals
+set parameters: qsq0 = 0.09539807029688592, c = 1.2289291046166213, g = 1.004537619022157, sig = 28.95159793051719
+c2 = 1.2289291046166213, g = 1.004537619022157, qsq2 = 0.09539807029688592
+bk run time: 0.1219951609770457 hours
+bk solution done...
+bk interpolation done... calculating residuals
+set parameters: qsq0 = 0.09499278066157348, c = 1.2223428817582263, g = 1.0094022732120862, sig = 29.305281094286446
+c2 = 1.2223428817582263, g = 1.0094022732120862, qsq2 = 0.09499278066157348
+bk run time: 0.12105911996629504 hours
+bk solution done...
+bk interpolation done... calculating residuals
+set parameters: qsq0 = 0.09547322815566794, c = 1.2320929250447477, g = 1.005436858911089, sig = 28.934399704767614
+c2 = 1.2320929250447477, g = 1.005436858911089, qsq2 = 0.09547322815566794
+bk run time: 0.12144427067703671 hours
+bk solution done...
+bk interpolation done... calculating residuals
+set parameters: qsq0 = 0.09434363668014012, c = 1.2008353426261427, g = 1.014416605282303, sig = 29.75431925278628
+c2 = 1.2008353426261427, g = 1.014416605282303, qsq2 = 0.09434363668014012
+bk run time: 0.1220215587483512 hours
+bk solution done...
+bk interpolation done... calculating residuals
+set parameters: qsq0 = 0.09623607351864437, c = 1.2496573639359203, g = 0.9992265080172883, sig = 28.35853842824411
+c2 = 1.2496573639359203, g = 0.9992265080172883, qsq2 = 0.09623607351864437
+bk run time: 0.12123069829410976 hours
+bk solution done...
+bk interpolation done... calculating residuals
+set parameters: qsq0 = 0.09623145379227925, c = 1.2482017387083502, g = 1.0013865730199947, sig = 28.399469724529272
+c2 = 1.2482017387083502, g = 1.0013865730199947, qsq2 = 0.09623145379227925
+bk run time: 0.12160147223207686 hours
+bk solution done...
+bk interpolation done... calculating residuals
+set parameters: qsq0 = 0.09664814553997592, c = 1.2578380557542146, g = 0.9998110500189135, sig = 28.123405621535312
+c2 = 1.2578380557542146, g = 0.9998110500189135, qsq2 = 0.09664814553997592
+bk run time: 0.1211977286471261 hours
+bk solution done...
+bk interpolation done... calculating residuals
+set parameters: qsq0 = 0.09653540875180289, c = 1.2530923251120254, g = 0.9984621901855157, sig = 28.149202960159677
+c2 = 1.2530923251120254, g = 0.9984621901855157, qsq2 = 0.09653540875180289
+bk run time: 0.12146923899650573 hours
+bk solution done...
+bk interpolation done... calculating residuals
+set parameters: qsq0 = 0.0961801701129805, c = 1.2456648469945202, g = 1.0009479357513098, sig = 28.439715141727305
+c2 = 1.2456648469945202, g = 1.0009479357513098, qsq2 = 0.0961801701129805
+bk run time: 0.12104957494470808 hours
+bk solution done...
+bk interpolation done... calculating residuals
+total fit run time: 11.100300558739239 hours
+<ValueView qsq0=0.0961801701129805 c=1.2456648469945202 gamma=1.0009479357513098 sigma=28.439715141727305>
+<ErrorView qsq0=0.0036156773295039513 c=0.09456075973877454 gamma=0.027656169470592146 sigma=3.1061887725943294>

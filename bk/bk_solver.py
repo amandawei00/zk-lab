@@ -31,7 +31,7 @@ xr2 = np.log(r2)
 hr = (xr2 - xr1) / n
 
 hy = 0.1
-ymax = 0.2
+ymax = 10.0
 y = np.arange(0.0, ymax, hy)
 
 # Arrays for N and r in N(r), evaluated at some rapidity Y (including next step N(r,Y) in the evolution
@@ -49,8 +49,9 @@ beta = (11 * nc - 2. * nf)/(12 * np.pi)
 afr = 0.7     # frozen coupling constant (default)
 rfr = (2./lamb) * np.exp(-0.5/(beta * afr))  # IR cutoff
 
-c2, gamma, qs02, ec = 0. , 0., 0., 0.   # fitting parameters
-e = np.exp(1)
+c2, gamma, qs02 = 0. , 0., 0.   # fitting parameters
+ec = 1.
+e  = np.exp(1)
 
 # initial condition
 def mv(r):
@@ -119,8 +120,8 @@ def master(filename, q_, c2_, g_, ec_):
             # calculate correction and update N(r,Y) to next step in rapidity
 
             xk = []
-            with Pool(processes=4) as pool:
-                xk = pool.map(evolve, xlr_, chunksize=100)
+            with Pool(processes=5) as pool:
+                xk = pool.map(evolve, xlr_, chunksize=80)
 
             # xk = [evolve(xlr_[i], n_) for i in range(len(xlr_))]
             n_ = [n_[j] + xk[j] for j in range(len(n_))]
@@ -141,7 +142,7 @@ def master(filename, q_, c2_, g_, ec_):
                     n_[i] = np.round(1.0, 2)
 
 if __name__ == "__main__":
-    # qsq2, c^2, g,, ec, filename
+    # qsq2, c^2, g, ec, filename
     t1     = time.time()
     params = []
 

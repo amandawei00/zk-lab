@@ -48,8 +48,9 @@ beta = (11 * nc - 2. * nf)/(12 * np.pi)
 afr = 0.7     # frozen coupling constant (default)
 rfr = (2./lamb) * np.exp(-0.5/(beta * afr))  # IR cutoff
 
-c2, gamma, qs02, ec = 0. , 0., 0., 0.   # fitting parameters
-e = np.exp(1)
+c2, gamma, qs02 = 0. , 0., 0.   # fitting parameters
+ec = 1.
+e  = np.exp(1)
 
 # initial condition
 def mv(r):

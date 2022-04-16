@@ -1,5 +1,9 @@
 Hello, welcome! Here you'll find the sum of all the work I've done with Professor Zhongob Kang in his nuclear physics lab. My research primarily involves producing numerical solutions to evolution equations, structure functions, and differential cross sections and analyzing the results to study properties of the color glass condensate.
 Below, you'll find a brief description of each of the folders and what's inside. Check the README in each of the folders for more information!
+
+Software versions:
+1. Python: 3.9.6
+
 1. bk
 	- Solution to Balitsky-Kovchegov solution (main file: bk_solver.py)
 	- results: contains results of various parameters and run-time parameters in 'directory.csv'.

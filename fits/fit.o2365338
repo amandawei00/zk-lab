@@ -1,8 +1,0 @@
-packages loaded...
-set parameters: qsq0 = 0.1, c = 1.0, g = 1.0, sig = 36.0
-c2 = 1.0, g = 1.0, qsq2 = 0.1
-bk run time: 0.12361796816190083 hours
-bk solution done...
-bk interpolation done... calculating residuals
-set parameters: qsq0 = 0.101, c = 1.0, g = 1.0, sig = 36.0
-c2 = 1.0, g = 1.0, qsq2 = 0.101
