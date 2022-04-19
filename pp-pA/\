@@ -5,8 +5,7 @@ import numpy as np
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 from scipy.special import gamma
-from scipy.fft import fft, fftfreq, fftshift
-from scipy.interpolate import interp1d
+from scipy.fft import fft, fftfreq
 import matplotlib.pyplot as plt
 from bk_interpolate import N
 
@@ -66,14 +65,10 @@ def fft1(rho):
     return np.exp((1 + m) * rho) * f(np.exp(rho), y)
 
 def phi():
-    p     = [fft1(k) for k in np.linspace(-100,100,2000)]
+    p     = [fft1(k) for k in np.linspace(-100,100,1000)]
     pfft  = fft(p)
-    pfftx = fftfreq(2000)
-
-    pfft  = fftshift(pfft)
-    pfftx = fftshift(pfftx)
-    plt.plot(pfft)
-    plt.xlim(
+    pfftx = fftfreq(1000)
+    plt.plot(pfftx, pfft)
     plt.show()
     return interp1d(pfftx, pfft)
 
