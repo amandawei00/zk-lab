@@ -24,7 +24,7 @@ flavors = [1, 2, 3, 4, 5, 6, -1, -2, -3, -4, -5, -6]  # q flavors CHECK
 mf      = [0.002, 0.0045, 1.270, 0.101, 172, 5., 0.002, 0.0045, 1.270, 0.101, 172, 5.] # q masses in GeV
 ef      = [2/3, -1/3, 2/3, -1/3, 2/3, -1/3, -2/3, 1/3, -2/3, 1/3, -2/3, 1/3] # q charge
 
-n = N('../bk/results/bk_MVe1.csv')  # bk interpolated
+n = N('../bk/results/fit1.csv')  # bk interpolated
 
 def set_param(q, s_):
     global qsq0, sig
@@ -100,20 +100,20 @@ def reduced_x(x, qsq2, root_s):
 
 
 # c = 2.568  # unit conversion factor
-q = 27  # GeV ^2
+q = 120  # GeV ^2
 x = np.logspace(-5, -2, 25)
-sqrt_s = 319
+sqrt_s = 296
 
-results = [reduced_x(x[i], q, sqrt_s) for i in range(len(x))]
-f2_res  = [results[i][0] for i in range(len(results))]
-fl_res  = [results[i][1] for i in range(len(results))]
-redx    = [results[i][2] for i in range(len(results))]
+f2_res = [f2(x[i], q) for i in range(len(x))]
+# f2_res  = [results[i][0] for i in range(len(results))]
+# fl_res  = [results[i][1] for i in range(len(results))]
+# redx    = [results[i][2] for i in range(len(results))]
 
 for i in range(len(x)):
-    print("x = " + str(x[i]) + ", sig = " + str(results[i]))
+    print("x = " + str(x[i]) + ", sig = " + str(f2_res[i]))
 
-with open('test.csv', 'a') as f:
+with open('fit1_results.csv', 'a') as f:
     writer= csv.writer(f, delimiter='\t')
-    # writer.writerow(['# Combined HERA, 2010. Compare results to reduced_x-2010.csv'])
+    # writer.writerow(['# comparison of f2 results from bk solution with parameters from fit1.'])
     for i in range(len(x)):
-        writer.writerow([sqrt_s, q, x[i], f2_res[i], fl_res[i], redx[i]])
+        writer.writerow([sqrt_s, q, x[i], f2_res[i]])

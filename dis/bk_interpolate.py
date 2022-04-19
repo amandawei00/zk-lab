@@ -21,7 +21,7 @@ class N:
 
 
         # read results.csv file from BK solution to pandas dataframe
-        self.df = pd.read_csv(filename, sep="\t") 
+        self.df = pd.read_csv(filename, sep="\t", comment='#') 
         self.df.columns = ['y', 'vr', 'vfr']
 
         # converting dataframe element types

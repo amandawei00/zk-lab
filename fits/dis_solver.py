@@ -77,7 +77,7 @@ def l_xsection(x, qsq2, sig):
     y  = np.log(x0/x)  # where does y come from? //2 * np.pi comes from angular independence of inner integral
     return sig * 2 * np.pi * intg.quad(l_integral, 0., 1., epsabs=1.e-3, args=(qsq2, y))[0]
 
-def fl(x, qsq2, n_, sig):
+def fl(x, qsq2, sig, n_):
     global n
     n = n_
     prefac = qsq2/(4 * np.pi * np.pi * alpha)
@@ -90,9 +90,9 @@ def f2(x, qsq2, sig, n_):
     return prefac * (t_xsection(x, qsq2, sig) + l_xsection(x, qsq2, sig))
 
 # at low qsq (qsq << MZ^2, and Z exchange is negligible)
-def reduced_x(x, qsq2, root_s, n_):
+def reduced_x(x, qsq2, root_s, sig, n_):
     global n
     n = n_
     y = qsq2/(root_s * root_s * x)  # root_s is center of mass energy
     d = 1 + (1 - y) * (1 - y)
-    return f2(x, qsq2, n, sig) - (y * y/d) * fl(x, qsq2, n, sig)
+    return f2(x, qsq2, sig, n) - (y * y/d) * fl(x, qsq2, sig, n)

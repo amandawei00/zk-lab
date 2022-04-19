@@ -1,3 +1,4 @@
+# tests various implementations of fourier transform of 1 - N(r,Y)
 import sys
 import numpy as np
 import matplotlib.pyplot as plt
@@ -8,7 +9,8 @@ sys.path.append('python_scripts')
 from bk_interpolate import N
 import lhapdf as pdf
 
-n1  = N('../bk/results/bk_MV1.csv')
+# direct, straightforward implementation
+'''n1  = N('../bk/results/bk_MV1.csv')
 n2 = N('../bk/results/bk_MVe1.csv')
 n3 = N('../bk/results/bk_MVg1.csv')
 
@@ -41,4 +43,7 @@ plt.plot(k_range, udgf2, '--', color='blue', label='MVe initial conditions')
 plt.plot(k_range, udgf3, ':', color='magenta', label='MVg initial conditions')
 plt.legend()
 plt.show()
+'''
 
+
+# implementation with Hankel Transforms

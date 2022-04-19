@@ -2,4 +2,5 @@ Files in this folder:
 
 to do:
 	- see if you can move bk_interpolate to one folder destination so there aren't multiple copies of it
-	- consolidate all data files from before here 
+	- consolidate all data files from before here
+	- write dis_solver.py so you input array of qsq2 values and dis_solver automatically runs all of them at once  
