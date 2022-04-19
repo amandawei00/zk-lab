@@ -1,23 +1,24 @@
 # tests various implementations of fourier transform of 1 - N(r,Y)
 import sys
-import numpy as np
-import matplotlib.pyplot as plt
-import matplotlib as mpl
 import time
-
-sys.path.append('python_scripts')
+import numpy as np
+import matplotlib as mpl
+import matplotlib.pyplot as plt
+from scipy.special import gamma
 from bk_interpolate import N
-import lhapdf as pdf
+
+sys.path.append('python-scripts')
+y = 0
+x = 0.01
+i = 1j
 
 # direct, straightforward implementation
-'''n1  = N('../bk/results/bk_MV1.csv')
+'''
+n1  = N('../bk/results/bk_MV1.csv')
 n2 = N('../bk/results/bk_MVe1.csv')
 n3 = N('../bk/results/bk_MVg1.csv')
 
 print('data loaded...')
-y = 0
-x = 0.01
-
 k_range = np.logspace(-1, 1, 100)
 
 # fundamental representation
@@ -47,3 +48,19 @@ plt.show()
 
 
 # implementation with Hankel Transforms
+bk = N('../bk/results/bk_MV1.csv')
+n  = 0
+m  = 0
+
+def f(r, y):
+    return n.master(r, y)
+
+def q(t):
+    frac = gamma(0.5 * (n - m - i * t + 1))/gamma(0.5 * (n + m + i * t + 1))
+    return (1/2/np.pi) * np.power(2, -m - i * t) * frac
+
+def phi(t, n, m):
+
+def g(t, m):
+
+
