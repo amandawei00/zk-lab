@@ -5,6 +5,7 @@ import numpy as np
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 from scipy.special import gamma
+from scipy.fft import fft, fftfreq
 from bk_interpolate import N
 
 sys.path.append('python-scripts')
@@ -60,7 +61,9 @@ def q(t):
     return (1/2/np.pi) * np.power(2, -m - i * t) * frac
 
 def phi(t, n, m):
+    return 0
 
 def g(t, m):
+    return 0
 
 
