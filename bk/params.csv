@@ -1,2 +1,2 @@
-filename	qsq0	c^2	gamma	ec
-fit1.csv	0.0961	1.245	1.001	1.
+qsq0	c^2	gamma	ec	filename
+0.0961	1.245	1.001	1.	test.csv

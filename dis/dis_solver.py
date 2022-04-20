@@ -1,14 +1,18 @@
+import sys
 import numpy as np
 import matplotlib.pyplot as plt
-import scipy.integrate as intg
+from scipy.integrate import quad
 import scipy.special as spec
 import csv
+
+from os.path import exists
+
+sys.path.append('../bk/')
 from bk_interpolate import N
 
 # Units in GeV
 alpha = 1./137   # FIND VALUE (EM coupling)
 x0    = 0.01
-sig   = 1.
 lamb  = 0.241  # lambda_QCD (GeV)
 
 """ordering of flavors:
@@ -24,12 +28,12 @@ flavors = [1, 2, 3, 4, 5, 6, -1, -2, -3, -4, -5, -6]  # q flavors CHECK
 mf      = [0.002, 0.0045, 1.270, 0.101, 172, 5., 0.002, 0.0045, 1.270, 0.101, 172, 5.] # q masses in GeV
 ef      = [2/3, -1/3, 2/3, -1/3, 2/3, -1/3, -2/3, 1/3, -2/3, 1/3, -2/3, 1/3] # q charge
 
-n = N('../bk/results/fit1.csv')  # bk interpolated
+bk = None  # bk interpolated object
 
-def set_param(q, s_):
-    global qsq0, sig
-    qsq0  = q
-    sig = s_
+# n_ is interpolated object
+def set_n(bk_):
+    global bk
+    bk = bk_
 
 # (transverse) wave function for splitting of photon to quark-antiquark dipole
 def psi_t2(z, r, *args):
@@ -64,56 +68,84 @@ def eta_squared(z, m_f, qsq2):
     return z * (1 - z) * qsq2 + m_f * m_f
 
 def t_integral(z, *args):
-    m = lambda r_: r_ * psi_t2(z, r_, args[0]) * n.master(r_, args[1])
-    return intg.quad(m, 3.e-6, 60., epsabs=1.e-3)[0]
+    m = lambda r_: r_ * psi_t2(z, r_, args[0]) * bk.n(r_, args[1])
+    return quad(m, 3.e-6, 60., epsabs=1.e-3, epsrel=0.0)[0]
 
 # orignal integration bound: [3.e-6, 1/args[0]]
 def l_integral(z, *args): # *args = [qsq2, y]
-    m = lambda r_: r_ * psi_l2(z, r_, args[0]) * n.master(r_, args[1])
-    return intg.quad(m, 3.e-6, 60., epsabs=1.e-3)[0]
+    m = lambda r_: r_ * psi_l2(z, r_, args[0]) * bk.n(r_, args[1])
+    return quad(m, 3.e-6, 60., epsabs=1.e-3, epsrel=0.0)[0]
 
-def t_xsection(x, qsq2):
+def t_xsection(x, qsq2, sigma):
     y = np.log(x0/x)
-    return 2 * np.pi * sig * intg.quad(t_integral, 0., 1., epsabs=1.e-3, args=(qsq2, y))[0]
+    return 2 * np.pi * sigma * quad(t_integral, 0., 1., epsabs=1.e-3, epsrel=0.0,  args=(qsq2, y))[0]
                 
-def l_xsection(x, qsq2):
-    y  = np.log(x0/x)  # where does y come from? //2 * np.pi comes from angular independence of inner integral
-    return 2 * np.pi * sig * intg.quad(l_integral, 0., 1., epsabs=1.e-3, args=(qsq2, y))[0]
+def l_xsection(x, qsq2, sigma):
+    y  = np.log(x0/x)  # 2 * np.pi comes from angular independence of inner integral
+    return 2 * np.pi * sigma * quad(l_integral, 0., 1., epsabs=1.e-3, epsrel=0.0,  args=(qsq2, y))[0]
 
-def fl(x, qsq2):
+def fl(x, qsq2, sigma):
     prefac = qsq2/(4 * np.pi * np.pi * alpha)
-    return prefac * l_xsection(x, qsq2)
+    return prefac * l_xsection(x, qsq2, sigma)
  
-def f2(x, qsq2):
+def f2(x, qsq2, sigma):
     prefac = qsq2/(4 * np.pi * np.pi * alpha)
-    return prefac * (t_xsection(x, qsq2) + l_xsection(x, qsq2))
+    return prefac * (t_xsection(x, qsq2, sigma) + l_xsection(x, qsq2, sigma))
 
 # at low qsq (qsq << MZ^2, and Z exchange is negligible)
-def reduced_x(x, qsq2, root_s):
+def reduced_x(x, qsq2, root_s, sigma):
     y = qsq2/(root_s * root_s * x)  # root_s is center of mass energy
     d = 1 + (1 - y) * (1 - y)
 
-    a = f2(x, qsq2)
-    b = (y * y/d) * fl(x, qsq2)
+    a = f2(x, qsq2, sigma)
+    b = (y * y/d) * fl(x, qsq2, sigma)
     c = a - b
     return [a, b, c]
 
+# saturation scale, small-x values (array type), CM energy sqrt(sNN), interpolated object bk,  observable
+# c = 2.58 unit conversion factor?
+def test(q_, x_, cme_, n_, obs, filename, description=''):
+    set_n(n_)
 
-# c = 2.568  # unit conversion factor
-q = 120  # GeV ^2
-x = np.logspace(-5, -2, 25)
-sqrt_s = 296
+    q      = q_  # GeV ^2
+    x      = x_
+    sqrt_s = cme_
 
-f2_res = [f2(x[i], q) for i in range(len(x))]
-# f2_res  = [results[i][0] for i in range(len(results))]
-# fl_res  = [results[i][1] for i in range(len(results))]
-# redx    = [results[i][2] for i in range(len(results))]
+    f_exist = exists(filename)
+    if not f_exist:
+        with open(filename, 'w') as f:
+            writer = csv.writer(f, delimiter='\t')
+            writer.writerow([description])
+            writer.writerow(['q2', 'x', 'f2', 'fl', 'redx'])
 
-for i in range(len(x)):
-    print("x = " + str(x[i]) + ", sig = " + str(f2_res[i]))
+    with open(filename, 'a') as f:
+        writer = csv.writer(f, delimiter='\t')
 
-with open('fit1_results.csv', 'a') as f:
-    writer= csv.writer(f, delimiter='\t')
-    # writer.writerow(['# comparison of f2 results from bk solution with parameters from fit1.'])
-    for i in range(len(x)):
-        writer.writerow([sqrt_s, q, x[i], f2_res[i]])
+        if obs == 'f2':
+            f2_res = [f2(x[i], q) for i in range(len(x))]
+            for i in range(len(x)):
+                writer.writerow([q, x[i], f2_res[i], '-', '-'])
+
+        elif obs == 'fl':
+            fl_res = [fl(x[i], q) for i in range(len(x))]
+            for i in range(len(x)):
+                writer.writerow([q, x[i], '-', fl_res[i], '-'])
+
+        elif obs == 'redx':
+            results = [reduced_x(x[i], q, sqrt_s) for i in range(len(x))]
+            f2_res  = [results[i][0] for i in range(len(results))]
+            fl_res  = [results[i][1] for i in range(len(results))]
+            redx    = [results[i][2] for i in range(len(results))]
+            for i in range(len(x)):
+                writer.writerow([q, x[i], f2_res[i], fl_res[i], redx[i]])
+                print("x = " + str(x[i]) + ", redx = " + str(redx[i]))
+
+    with open(filename, 'a') as f:
+        writer= csv.writer(f, delimiter='\t')
+        if obs == 'f2':
+        
+        for i in range(len(x)):
+            writer.writerow([sqrt_s, q, x[i], f2_res[i]])
+
+bk = N('../bk/results/fit1.csv') 
+test(120, np.logspace(-5, -2, 25), 296, bk, 'redx', 'test.csv')

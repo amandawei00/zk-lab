@@ -6,7 +6,9 @@ from iminuit.cost import LeastSquares
 import time
 
 import sys
-sys.path.append('../data')
+sys.path.append('../data/')
+sys.path.append('../bk/')
+sys.path.append('../dis/')
 
 import bk_solver as bk
 import dis_solver as dis
@@ -57,7 +59,8 @@ def chi_squared(qsq0, c, gamma, sigma):
     bk_df = bk.master(qsq0, c, gamma, 1)
 
     print('bk solution done...')
-    bk_f  = N(bk_df)
+    bk_f  = N(bk_df) # why interpolate now? interpolation happens in dis
+    # set n for dis, pp-pA
     print('bk interpolation done... calculating residuals')
 
     res = 0

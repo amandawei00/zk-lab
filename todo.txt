@@ -1,7 +1,6 @@
-1. download lhapdf again
-2. cythonize pp-pA solver
+1. use HT to make pp-pA faster
 3. clean up all code
-4. run fit code with DIS data
+4. edit DIS code to be accurate
 5. run BK code with three parameter configurations from lappi paper
 6. make videos for three parameter configurations from lappi paper
 7. compute distributions from Farid's notes with GBW model
@@ -9,9 +8,9 @@
 9. make video for the fourier transform of N(r,y)
 10. compute distributions using rcBK with MV initial conditions
 11. in all cases, verify same behavior at large k_perp
-12. change c to c^2 to avoid extra operations
 13. make it possible to only edit variables in parameters.txt (user friendliness)
 14. nicer way to take laplacian?
+15. rm bk_interpolate in pp-pA
 
 note:
 * efficient way to compute integral is to integrate over zeros of Besselfunction so we can avoid oscillatory behavior

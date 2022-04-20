@@ -1,8 +1,7 @@
 import numpy as np
 import csv
+import pandas as pd
 from multiprocessing import Pool
-# import matplotlib.pyplot as plt
-
 import time
 import numba
 from numba import jit
@@ -31,7 +30,7 @@ xr2 = np.log(r2)
 hr = (xr2 - xr1) / n
 
 hy = 0.1
-ymax = 10.0
+ymax = 0.2
 y = np.arange(0.0, ymax, hy)
 
 # Arrays for N and r in N(r), evaluated at some rapidity Y (including next step N(r,Y) in the evolution
@@ -83,7 +82,7 @@ def evolve(xlr):
     return (1/6) * hy * (k1 + 2 * k2 + 2 * k3 + k4)
 
 # pass fitting variables q_, c_, g_ to set variables in master.py
-def master(filename, q_, c2_, g_, ec_):
+def master(q_, c2_, g_, ec_, filename=''):
     global n_, qs02, c2, gamma, ec
 
     # variables
@@ -96,63 +95,66 @@ def master(filename, q_, c2_, g_, ec_):
 
     l = ['n   ', 'r1  ', 'r2  ', 'y   ', 'hy  ', 'ec  ', 'qs02 ', 'c2  ', 'g   ']
     v = [n, r1, r2, ymax, hy, ec, qs02, c2, gamma]
+    bk_arr = []
+    t1 = time.time()
 
-    # opening file 'results.csv' to store data from this run
-    with open(filename, 'w') as csv_file:
-        writer = csv.writer(csv_file, delimiter="\t")
+    # initial condition----------------------------------------------------------
+    n_ = [mv(r_[i]) for i in range(len(r_))]
+    #----------------------------------------------------------------------------
+    # begin evolution
+    for i in range(len(y)):
+        y0 = y[i]
+        print("y = " + str(y0))
 
-        writer.writerow(l)
-        writer.writerow(v)
+        for j in range(len(r_)):
+            print('r = ' + str(r_[j]) + ', N(r,Y) = ' + str(n_[j]))
+            bk_arr.append([y0, r_[j], n_[j]])
 
-        writer.writerow(["y", "r", "N(r,Y)"])
+        # calculate correction and update N(r,Y) to next step in rapidity
 
-        # initial condition----------------------------------------------------------
-        n_ = [mv(r_[i]) for i in range(len(r_))]
-        #----------------------------------------------------------------------------
-        # begin evolution
-        for i in range(len(y)):
-            y0 = y[i]
-            print("y = " + str(y0))
+        xk = []
+        with Pool(processes=80) as pool:
+            xk = pool.map(evolve, xlr_, chunksize=5)
 
-            for j in range(len(r_)):
-                print('r = ' + str(r_[j]) + ', N(r,Y) = ' + str(n_[j]))
-                writer.writerow([y0, r_[j], n_[j]])
-            # calculate correction and update N(r,Y) to next step in rapidity
+        n_ = [n_[j] + xk[j] for j in range(len(n_))]
 
-            xk = []
-            with Pool(processes=5) as pool:
-                xk = pool.map(evolve, xlr_, chunksize=80)
+        # remove nan values from solution
+        xx = np.array(xlr_)
+        nn = np.array(n_)
+        idx_finite = np.isfinite(nn)
+        f_finite = interpolate.interp1d(xx[idx_finite], nn[idx_finite])
+        nn = f_finite(xx)
+        n_ = nn.tolist()
 
-            # xk = [evolve(xlr_[i], n_) for i in range(len(xlr_))]
-            n_ = [n_[j] + xk[j] for j in range(len(n_))]
+        # solutions should not be greater than one or less than zero
+        for j in range(len(n_)):
+            if n_[j] < 0.:
+                n_[j] = np.round(0.0, 2)
+            if n_[j] > 0.9999:
+                n_[j] = np.round(1.0, 2)
 
-            # remove nan values from solution
-            xx = np.array(xlr_)
-            nn = np.array(n_)
-            idx_finite = np.isfinite(nn)
-            f_finite = interpolate.interp1d(xx[idx_finite], nn[idx_finite])
-            nn = f_finite(xx)
-            n_ = nn.tolist()
+    t2 = time.time()
+    print('bk run time: ' + str((t2 - t1)/3600) + ' hours')
 
-            # solutions should not be greater than one or less than zero
-            for i in range(len(n_)):
-                if n_[i] < 0.:
-                    n_[i] = np.round(0.0, 2)
-                if n_[i] > 0.9999:
-                    n_[i] = np.round(1.0, 2)
+    if filename != '':
+        with open(filename, 'w') as csvfile:
+            writer = csv.writer(csvfile, delimiter='\t')
+            writer.writerow(l)
+            writer.writerow(v)
+            print(len(bk_arr))
+            for j in range(len(bk_arr)):
+                writer.writerow(bk_arr[j])
+
+    return pd.DataFrame(bk_arr, columns=['y', 'r', 'N(r,Y)'])
 
 if __name__ == "__main__":
     # qsq2, c^2, g, ec, filename
-    t1     = time.time()
-    params = []
+    p = []
 
     with open('params.csv', 'r') as foo:
         reader = csv.reader(foo, delimiter='\t')
         header = next(reader)
-        params = next(reader)
+        p      = next(reader)
 
-    master(params[0], float(params[1]), float(params[2]), float(params[3]), float(params[4]))
-    t2 = time.time()
-
-    hours = (t2 - t1)/3600
-    print(str(hours) + ' hours')
+    bk = master(float(p[0]), float(p[1]), float(p[2]), float(p[3]), p[4])
+    print(bk)
