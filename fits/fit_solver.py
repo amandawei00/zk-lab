@@ -65,7 +65,7 @@ def chi_squared(qsq0, c, gamma, sigma):
 
     res = 0
     for i in range(len(data)):
-        theory = dis.reduced_x(x[i], qsq[i], sNN[i], sigma)
+        theory = dis.reduced_x(x[i], qsq[i], sNN[i], sigma)[2]
         exp    = dat[i]
         er1    = err[i]
         res    += (theory - exp) * (theory - exp) / (er1 * er1)

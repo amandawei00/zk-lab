@@ -1,6 +1,0 @@
-Traceback (most recent call last):
-  File "fit_solver.py", line 76, in <module>
-    m.simplex()
-  File "/u/home/a/amandawe/.local/lib/python3.6/site-packages/iminuit/minuit.py", line 742, in simplex
-    fm = simplex(ncall, self._tolerance)
-RuntimeError: Unable to cast Python instance to C++ type (compile in debug mode for details)

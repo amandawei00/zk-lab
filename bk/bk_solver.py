@@ -104,10 +104,10 @@ def master(q_, c2_, g_, ec_, filename=''):
     # begin evolution
     for i in range(len(y)):
         y0 = y[i]
-        print("y = " + str(y0))
+        # print("y = " + str(y0))
 
         for j in range(len(r_)):
-            print('r = ' + str(r_[j]) + ', N(r,Y) = ' + str(n_[j]))
+            # print('r = ' + str(r_[j]) + ', N(r,Y) = ' + str(n_[j]))
             bk_arr.append([y0, r_[j], n_[j]])
 
         # calculate correction and update N(r,Y) to next step in rapidity
