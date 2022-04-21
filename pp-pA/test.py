@@ -5,7 +5,7 @@ import numpy as np
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 from scipy.special import gamma
-from scipy.fft import fft, fftfreq, fftshift
+from scipy.fft import fft, ifft, fftfreq, fftshift
 from scipy.interpolate import interp1d
 import matplotlib.pyplot as plt
 
@@ -79,7 +79,20 @@ phi = interp1d(pfftx, pfft)
 def f2(t):
     return q(t) * phi(t)
 print(pfftx)
-g    = [f2(k) for k in np.linspace(-0.49, 0.49, num)]
+g_    = [f2(k) for k in np.linspace(-0.49, 0.49, num)]
+gifft = ifft(g_, n=num)
+gifftx = np.arange(0, num, 1) # n/Fs, 1/Fs, Fs: sampling freq, 2x max freq in signal
 
-plt.plot(np.linspace(-100,100,num), g)
-plt.show()
+# gifft = fftshift(gifft)
+# gifftx = fftshift(gifftx)
+print(gifftx)
+gg = interp1d(gifftx, gifft)
+def g(k):
+    kap = np.log(k)
+    return 2 * np.pi * np.exp((m - 1) * kap) * gg(kap) 
+
+k_range = np.logspace(-1, 1, 100)
+foo     = [g(k_range[i]) for i in range(len(k_range))]
+
+plt.plot(k_range, foo)
+plt.show() 

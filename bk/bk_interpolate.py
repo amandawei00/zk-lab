@@ -40,6 +40,9 @@ class N:
         self.n = interp.interp2d(self.r, self.y, self.z, kind='cubic')
 
     # finds location of val in grid in the sense that if val is between two elements in grid, find_index will return the index of the lower element
+    def get_n():
+        return self.n
+
     def find_index(self, val, grid):
         index = 0
 

@@ -72,8 +72,11 @@ def chi_squared(qsq0, c, gamma, sigma):
     return res
 t1 = time.time()
 chi_squared.errordef = Minuit.LEAST_SQUARES
+print('making instance of Minuit class')
 m = Minuit(chi_squared, qsq0=0.1, c=1, gamma=1, sigma=36)
+print('calling simplex method')
 m.simplex()
+print('simplex method complete')
 t2 = time.time()
 print('total fit run time: ' + str((t2 - t1)/3600) + ' hours')
 print(m.values)  # prints fitted values
