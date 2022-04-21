@@ -18,15 +18,19 @@ lamb  = 0.241  # lambda_QCD (GeV)
 """ordering of flavors:
    1. up      -1. antiup
    2. down    -2. antidown
-   3. charm   -3. anticharm
-   4. strange -4. antistrange
+   3. strange -3. strange
+   4. charm   -4. anticharm
    5. top     -5. antitop
    6. bottom  -6. antibottom  
 """
 
-flavors = [1, 2, 3, 4, 5, 6, -1, -2, -3, -4, -5, -6]  # q flavors CHECK 
-mf      = [0.002, 0.0045, 1.270, 0.101, 172, 5., 0.002, 0.0045, 1.270, 0.101, 172, 5.] # q masses in GeV
-ef      = [2/3, -1/3, 2/3, -1/3, 2/3, -1/3, -2/3, 1/3, -2/3, 1/3, -2/3, 1/3] # q charge
+light = [1, 2, 3, -1, -2, -3]  # q flavors CHECK 
+ml    = [0.002, 0.0045, 1.270, 0.002, 0.0045, 1.270] # q masses in GeV
+el    = [2/3, -1/3, -1/3, -2/3, 1/3, 1/3] # q charge
+
+heavy = [4, 5, 6, -4, -5, -6]
+mh    = [1.270, 172., 5., 1.270, 172., 5.]
+eh    = [2/3, 2/3, -1/3, -2/3, -2/3, 1/3]
 
 bk = None  # bk interpolated object
 
@@ -40,15 +44,15 @@ def psi_t2(z, r, *args):
     coeff = (6 * alpha)/(4 * np.pi * np.pi)
     sum   = 0
 
-    for i in range(len(flavors)):   # summing over all flavors
-        eta2 = eta_squared(z, mf[i], args[0])
+    for i in range(len(light)):   # summing over all flavors
+        eta2 = eta_squared(z, ml[i], args[0])
         eta  = np.sqrt(eta2)
         k02  = np.power(spec.kn(0, eta * r), 2) # modified Bessel function (2nd kind, 0th order)
         k12  = np.power(spec.kn(1, eta * r), 2)  # MacDonald's Function first order
 
         t1   = (z * z + (1 - z) * (1 - z)) * eta2 * k12
-        t2   = mf[i] * mf[i] * k02
-        sum  += ef[i] * ef[i] * (t1 + t2)
+        t2   = ml[i] * ml[i] * k02
+        sum  += el[i] * el[i] * (t1 + t2)
     return coeff * sum
 
 # (longitudinal) wave function for splitting of photon to quark-antiquark dipole
@@ -57,11 +61,11 @@ def psi_l2(z, r, *args): # args = [qsq2]
     coeff = (6 * alpha) / (4 * np.pi * np.pi)
     sum   = 0
 
-    for i in range(len(flavors)):
-        eta2 = eta_squared(z, mf[i], args[0])
+    for i in range(len(light)):
+        eta2 = eta_squared(z, ml[i], args[0])
         eta  = np.sqrt(eta2)
         k02  = np.power(spec.kn(0, eta * r), 2)
-        sum  += 4 * args[0] * np.power(z * (1 - z), 2) * k02 * ef[i] * ef[i]
+        sum  += 4 * args[0] * np.power(z * (1 - z), 2) * k02 * el[i] * el[i]
     return coeff * sum
         
 def eta_squared(z, m_f, qsq2):
@@ -77,7 +81,7 @@ def l_integral(z, *args): # *args = [qsq2, y]
     return quad(m, 3.e-6, 60., epsabs=1.e-3, epsrel=0.0)[0]
 
 def t_xsection(x, qsq2, sigma):
-    y = np.log(x0/x)
+    y   = np.log(x0/x)
     return 2 * np.pi * sigma * quad(t_integral, 0., 1., epsabs=1.e-3, epsrel=0.0,  args=(qsq2, y))[0]
                 
 def l_xsection(x, qsq2, sigma):
@@ -104,7 +108,7 @@ def reduced_x(x, qsq2, root_s, sigma):
 
 # saturation scale, small-x values (array type), CM energy sqrt(sNN), interpolated object bk,  observable
 # c = 2.58 unit conversion factor?
-def test(q_, x_, cme_, n_, obs, filename, description=''):
+def test(q_, x_, cme_, sigma, n_, obs, filename, description=''):
     set_n(n_)
 
     q      = q_  # GeV ^2
@@ -132,7 +136,7 @@ def test(q_, x_, cme_, n_, obs, filename, description=''):
                 writer.writerow([q, x[i], '-', fl_res[i], '-'])
 
         elif obs == 'redx':
-            results = [reduced_x(x[i], q, sqrt_s) for i in range(len(x))]
+            results = [reduced_x(x[i], q, sqrt_s, sigma) for i in range(len(x))]
             f2_res  = [results[i][0] for i in range(len(results))]
             fl_res  = [results[i][1] for i in range(len(results))]
             redx    = [results[i][2] for i in range(len(results))]
@@ -140,12 +144,5 @@ def test(q_, x_, cme_, n_, obs, filename, description=''):
                 writer.writerow([q, x[i], f2_res[i], fl_res[i], redx[i]])
                 print("x = " + str(x[i]) + ", redx = " + str(redx[i]))
 
-    with open(filename, 'a') as f:
-        writer= csv.writer(f, delimiter='\t')
-        if obs == 'f2':
-        
-        for i in range(len(x)):
-            writer.writerow([sqrt_s, q, x[i], f2_res[i]])
-
-bk = N('../bk/results/fit1.csv') 
-test(120, np.logspace(-5, -2, 25), 296, bk, 'redx', 'test.csv')
+bk = N('../bk/results/bk_MV1.csv') 
+test(45.0, np.logspace(-6, -2, 25), 318.0, 28, bk, 'redx', 'test.csv')

@@ -31,12 +31,11 @@ dat = np.array(data.f2)
 err = np.array(data.toterr)'''
 
 # reduced-x
-data = pd.read_csv('../data/reduced_x-2010.csv', delimiter='\t', header=0, comment='#')
+data = pd.read_csv('../data/fitdata_dis.csv', delimiter='\t', header=0, index_col=0, comment='#')
 
-sNN = np.array(data.s)
+sNN = np.array(data.cme)
 qsq = np.array(data.qsq2)
 x   = np.array(data.x)
-y   = np.array(data.y)
 dat = np.array(data.sig)
 err = np.array(data.err)
 
@@ -61,11 +60,12 @@ def chi_squared(qsq0, c, gamma, sigma):
     print('bk solution done...')
     bk_f  = N(bk_df) # why interpolate now? interpolation happens in dis
     # set n for dis, pp-pA
+    dis.set_n(bk_f)
     print('bk interpolation done... calculating residuals')
 
     res = 0
     for i in range(len(data)):
-        theory = dis.reduced_x(x[i], qsq[i], sNN[i], sigma, bk_f)
+        theory = dis.reduced_x(x[i], qsq[i], sNN[i], sigma)
         exp    = dat[i]
         er1    = err[i]
         res    += (theory - exp) * (theory - exp) / (er1 * er1)
@@ -78,4 +78,5 @@ t2 = time.time()
 print('total fit run time: ' + str((t2 - t1)/3600) + ' hours')
 print(m.values)  # prints fitted values
 print(m.errors)  # prints errors
-print(m.fval/(len(dat) - len(m.values))) # prints goodness of fit (reduced_chi2)
+# print(m.fval/(len(dat) - len(m.values))) # prints goodness of fit (reduced_chi2)
+print(repr(m.fmin))

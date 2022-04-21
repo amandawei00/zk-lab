@@ -8,9 +8,11 @@ from scipy.special import gamma
 from scipy.fft import fft, fftfreq, fftshift
 from scipy.interpolate import interp1d
 import matplotlib.pyplot as plt
-from bk_interpolate import N
 
 sys.path.append('python-scripts')
+sys.path.append('../bk/')
+from bk_interpolate import N
+
 y = 0
 x = 0.01
 i = 1j
@@ -54,30 +56,30 @@ plt.show()
 bk = N('../bk/results/bk_MV1.csv')
 n  = 0
 m  = 0
+num = 2000
 
-def f(r, y):
-    return 1 - bk.master(r, y)
+def f1(r, y):
+    return 1 - bk.n(r, y)
 
 def q(t):
     frac = gamma(0.5 * (n - m - i * t + 1))/gamma(0.5 * (n + m + i * t + 1))
     return (1/2/np.pi) * np.power(2, -m - i * t) * frac
 
 def fft1(rho):
-    return np.exp((1 + m) * rho) * f(np.exp(rho), y)
+    return (1/2/np.pi) * np.exp((1 + m) * rho) * f1(np.exp(rho), y)
 
-def phi():
-    p     = [fft1(k) for k in np.linspace(-100,100,2000)]
-    pfft  = fft(p)
-    pfftx = fftfreq(2000)
+p     = [fft1(k) for k in np.linspace(-100,100,num)]
+pfft  = fft(p, n=num)
+pfftx = fftfreq(num)
 
-    pfft  = fftshift(pfft)
-    pfftx = fftshift(pfftx)
-    plt.plot(pfft)
-    plt.xlim(
-    plt.show()
-    return interp1d(pfftx, pfft)
+pfft  = fftshift(pfft)
+pfftx = fftshift(pfftx)
+phi = interp1d(pfftx, pfft)
 
-def g(t, m):
-    return 0
+def f2(t):
+    return q(t) * phi(t)
+print(pfftx)
+g    = [f2(k) for k in np.linspace(-0.49, 0.49, num)]
 
-phi()
+plt.plot(np.linspace(-100,100,num), g)
+plt.show()

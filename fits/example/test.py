@@ -47,4 +47,5 @@ m = Minuit(chi_squared,Nn = 0.,pT2= 0.)
 m.simplex()
 print(m.values)  # prints fit results
 print(m.errors)  # prints errors
-print(m.fval/(len(midpoints) - len(m.values)))  # prints reduced chi2 (goodness of fit)
+# print(m.fval/(len(midpoints) - len(m.values)))  # prints reduced chi2 (goodness of fit)
+print(repr(m.fmin))

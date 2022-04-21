@@ -30,7 +30,7 @@ xr2 = np.log(r2)
 hr = (xr2 - xr1) / n
 
 hy = 0.1
-ymax = 0.2
+ymax = 10.0
 y = np.arange(0.0, ymax, hy)
 
 # Arrays for N and r in N(r), evaluated at some rapidity Y (including next step N(r,Y) in the evolution
@@ -113,8 +113,8 @@ def master(q_, c2_, g_, ec_, filename=''):
         # calculate correction and update N(r,Y) to next step in rapidity
 
         xk = []
-        with Pool(processes=80) as pool:
-            xk = pool.map(evolve, xlr_, chunksize=5)
+        with Pool(processes=5) as pool:
+            xk = pool.map(evolve, xlr_, chunksize=80)
 
         n_ = [n_[j] + xk[j] for j in range(len(n_))]
 
@@ -147,7 +147,7 @@ def master(q_, c2_, g_, ec_, filename=''):
 
     return pd.DataFrame(bk_arr, columns=['y', 'r', 'N(r,Y)'])
 
-if __name__ == "__main__":
+'''if __name__ == "__main__":
     # qsq2, c^2, g, ec, filename
     p = []
 
@@ -157,4 +157,4 @@ if __name__ == "__main__":
         p      = next(reader)
 
     bk = master(float(p[0]), float(p[1]), float(p[2]), float(p[3]), p[4])
-    print(bk)
+    print(bk)'''
