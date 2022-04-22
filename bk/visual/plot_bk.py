@@ -104,9 +104,9 @@ if __name__ == '__main__':
     # df1 = load_df('../results/results1.csv')
     # df2 = load_df('../results/results2.csv')
     # df3 = load_df('../results/results3.csv')
-    df4 = load_df('../results/run5/results1.csv')
+    df4 = load_df('../results/bk_MV1.csv')
 
-    rap = [0., 2., 4., 6., 9.]
+    rap = [0., 2., 5., 9.]
     plot_bk(df4, rap)
 
     # dat1 = 'results0-30.csv'

@@ -1,0 +1,91 @@
+packages loaded...
+fitting 5 parameters (qsq0, gamma, c, ec, sig) with no fixed parameters
+making instance of Minuit class
+calling simplex method
+set parameters: qsq0 = 0.1, c = 10.0, sig = 36.0
+c2 = 10.0, g = 1.0, qsq2 = 0.1
+bk run time: 0.6683557944165336 hours
+bk solution done...
+bk interpolation done... calculating residuals
+set parameters: qsq0 = 0.101, c = 10.0, sig = 36.0
+c2 = 10.0, g = 1.0, qsq2 = 0.101
+bk run time: 0.6658533998330434 hours
+bk solution done...
+bk interpolation done... calculating residuals
+set parameters: qsq0 = 0.1, c = 10.1, sig = 36.0
+c2 = 10.1, g = 1.0, qsq2 = 0.1
+bk run time: 0.6733162777953677 hours
+bk solution done...
+bk interpolation done... calculating residuals
+set parameters: qsq0 = 0.1, c = 10.0, sig = 36.0
+c2 = 10.0, g = 1.01, qsq2 = 0.1
+bk run time: 0.6680503710110982 hours
+bk solution done...
+bk interpolation done... calculating residuals
+set parameters: qsq0 = 0.1, c = 10.0, sig = 36.0
+c2 = 10.0, g = 1.0, qsq2 = 0.1
+bk run time: 0.6688460845417447 hours
+bk solution done...
+bk interpolation done... calculating residuals
+set parameters: qsq0 = 0.1, c = 10.0, sig = 36.36
+c2 = 10.0, g = 1.0, qsq2 = 0.1
+bk run time: 0.670465824537807 hours
+bk solution done...
+bk interpolation done... calculating residuals
+set parameters: qsq0 = 0.10040000000000004, c = 10.04, sig = 35.64
+c2 = 10.04, g = 1.004, qsq2 = 0.10040000000000004
+bk run time: 0.6723176868756612 hours
+bk solution done...
+bk interpolation done... calculating residuals
+set parameters: qsq0 = 0.09916000000000005, c = 10.055999999999997, sig = 35.855999999999995
+c2 = 10.055999999999997, g = 1.0056000000000003, qsq2 = 0.09916000000000005
+bk run time: 0.669945819179217 hours
+bk solution done...
+bk interpolation done... calculating residuals
+set parameters: qsq0 = 0.09824000000000008, c = 10.083999999999996, sig = 35.78399999999999
+c2 = 10.083999999999996, g = 1.0084000000000004, qsq2 = 0.09824000000000008
+bk run time: 0.666799609793557 hours
+bk solution done...
+bk interpolation done... calculating residuals
+set parameters: qsq0 = 0.09364000000000017, c = 10.22399999999999, sig = 35.42399999999998
+c2 = 10.22399999999999, g = 1.022400000000001, qsq2 = 0.09364000000000017
+bk run time: 0.6483228544394175 hours
+bk solution done...
+bk interpolation done... calculating residuals
+set parameters: qsq0 = 0.09761600000000012, c = 10.145599999999995, sig = 35.62559999999999
+c2 = 10.145599999999995, g = 1.0145600000000008, qsq2 = 0.09761600000000012
+bk run time: 0.6601782615979512 hours
+bk solution done...
+bk interpolation done... calculating residuals
+set parameters: qsq0 = 0.09666240000000018, c = 10.203839999999992, sig = 35.47583999999999
+c2 = 10.203839999999992, g = 1.0203840000000008, qsq2 = 0.09666240000000018
+bk run time: 0.655672215488222 hours
+bk solution done...
+bk interpolation done... calculating residuals
+set parameters: qsq0 = 0.09532736000000022, c = 10.145375999999994, sig = 35.26617599999999
+c2 = 10.145375999999994, g = 1.0285376000000013, qsq2 = 0.09532736000000022
+bk run time: 0.6519066902001699 hours
+bk solution done...
+bk interpolation done... calculating residuals
+set parameters: qsq0 = 0.09299104000000033, c = 10.16806399999999, sig = 34.89926399999998
+c2 = 10.16806399999999, g = 1.042806400000002, qsq2 = 0.09299104000000033
+bk run time: 0.6450001052353117 hours
+bk solution done...
+bk interpolation done... calculating residuals
+set parameters: qsq0 = 0.09196377600000027, c = 10.256601599999989, sig = 35.32988159999998
+c2 = 10.256601599999989, g = 1.0400601600000021, qsq2 = 0.09196377600000027
+bk run time: 0.6432174822356966 hours
+bk solution done...
+bk interpolation done... calculating residuals
+set parameters: qsq0 = 0.08914928640000044, c = 10.399242239999985, sig = 34.70183423999997
+c2 = 10.399242239999985, g = 1.0460842240000028, qsq2 = 0.08914928640000044
+bk run time: 0.6291380212042067 hours
+bk solution done...
+bk interpolation done... calculating residuals
+set parameters: qsq0 = 0.08814660096000046, c = 10.355099135999986, sig = 34.706727935999965
+c2 = 10.355099135999986, g = 1.054133913600003, qsq2 = 0.08814660096000046
+bk run time: 0.6255474986632665 hours
+bk solution done...
+bk interpolation done... calculating residuals
+set parameters: qsq0 = 0.0856938813440005, c = 10.357362790399986, sig = 34.54884311039996
+c2 = 10.357362790399986, g = 1.0618098790400037, qsq2 = 0.0856938813440005

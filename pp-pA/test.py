@@ -5,6 +5,7 @@ import numpy as np
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 from scipy.special import gamma
+from scipy.integrate import quad
 from scipy.fft import fft, ifft, fftfreq, fftshift
 from scipy.interpolate import interp1d
 import matplotlib.pyplot as plt
@@ -13,9 +14,9 @@ sys.path.append('python-scripts')
 sys.path.append('../bk/')
 from bk_interpolate import N
 
-y = 0
-x = 0.01
-i = 1j
+#y = 0
+#x = 0.01
+#i = 1j
 
 # direct, straightforward implementation
 '''
@@ -53,10 +54,45 @@ plt.show()
 
 
 # implementation with Hankel Transforms
+t1 = time.time()
 bk = N('../bk/results/bk_MV1.csv')
+print(str(time.time()-t1))
 n  = 0
 m  = 0
-num = 2000
+
+from scipy.special import j0
+
+def f(k, y):
+    integrand = lambda r: r * j0(k*r) * (1 - bk.n(r,y))
+    return quad(integrand, 3.e-6, 60.)[0]
+
+# rrange = np.linspace(0, 10, 100)
+# bk_ = [bk.n(rrange[i], 0) for i in range(len(rrange))]
+# plt.plot(rrange, bk_)
+# plt.show()
+
+krange = np.linspace(0.1, 10, 25)
+# y = [f(b) for b in krange]
+y = []
+y1 = []
+for i in range(len(krange)):
+    t1 = time.time()
+    y.append(f(krange[i], 0))
+    y1.append(f(krange[i], 0.1))
+    print('integral took ' + str((time.time()-t1)) + ' s')
+
+# y = [f(krange[i]) for i in range(len(krange))]
+print(krange)
+print(y)
+print(y1)
+plt.yscale('log')
+plt.plot(krange, y)
+plt.plot(krange, y1)
+plt.show()
+
+# r_ = np.linspace(0, 10, 25)
+# y = [integrand(i) for i in r_]
+
 
 def f1(r, y):
     return 1 - bk.n(r, y)
@@ -68,31 +104,47 @@ def q(t):
 def fft1(rho):
     return (1/2/np.pi) * np.exp((1 + m) * rho) * f1(np.exp(rho), y)
 
-p     = [fft1(k) for k in np.linspace(-100,100,num)]
-pfft  = fft(p, n=num)
-pfftx = fftfreq(num)
+'''
+num   = 400
+T     = 1./8
+x1    = np.linspace(0.0, num * T, num)
+y1    = [fft1(x_) for x_ in x1]
 
-pfft  = fftshift(pfft)
-pfftx = fftshift(pfftx)
-phi = interp1d(pfftx, pfft)
+x1f   = np.linspace(0.0, 1.//(2.0 * T), num//2)
+phi   = interp1d(x1f, y1f)
 
 def f2(t):
     return q(t) * phi(t)
-print(pfftx)
-g_    = [f2(k) for k in np.linspace(-0.49, 0.49, num)]
-gifft = ifft(g_, n=num)
-gifftx = np.arange(0, num, 1) # n/Fs, 1/Fs, Fs: sampling freq, 2x max freq in signal
 
-# gifft = fftshift(gifft)
-# gifftx = fftshift(gifftx)
-print(gifftx)
-gg = interp1d(gifftx, gifft)
+x2 = np.linspace(0, 3.5, 100)
+y2 = [f2(x2[i]) for i in range(len(x2))]
+
+y2f = ifft(y2, n=num)
+x2f = np.arange(0, num/40, 1/40)
+gg  = interp1d(x2f, y2f)
+
 def g(k):
     kap = np.log(k)
-    return 2 * np.pi * np.exp((m - 1) * kap) * gg(kap) 
+    return 2 * np.pi * np.exp((m - 1) * kap) * gg(kap)
 
-k_range = np.logspace(-1, 1, 100)
-foo     = [g(k_range[i]) for i in range(len(k_range))]
+x_range = np.logspace(-1, 1, 100)
+y_range = [g(k) for k in x_range]
 
-plt.plot(k_range, foo)
-plt.show() 
+plt.plot(x_range, y_range)
+plt.show()
+
+# ht version without use of fft just to check
+
+def phi(t):
+    f = lambda rho: np.sin(t * rho) * np.exp((1 + m) * rho) * f1(np.exp(rho), 0)
+    return (1/2/np.pi) * quad(f, -50, 50)[0]
+
+def goo(kap):
+    f = lambda t: np.sin(-kap * t) * q(t) * phi(t)
+    return 2 * np.pi * np.exp((m - 1) * kap) * quad(f, -50, 50)[0]
+
+krange = np.logspace(-1, 1, 100)
+y = [goo(np.exp(kap)) for kap in krange]
+
+plt.plot(krange, y)
+plt.show()'''

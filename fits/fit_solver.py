@@ -18,6 +18,7 @@ print('packages loaded...')
 import warnings
 warnings.filterwarnings("ignore")
 
+print('fitting 5 parameters (qsq0, gamma, c, ec, sig) with no fixed parameters')
 # parameters
 alpha = 1/137
 
@@ -49,13 +50,15 @@ parameters:
    4. sigma: normalization factor
 '''
 
-def chi_squared(qsq0, c, gamma, sigma):
+# def chi_squared(qsq0, c, gamma, sigma):
+def chi_squared(qsq0, c, gamma, ec, sigma):
     # run BK for given parameters qsq2, c, sigma, and gamma
     # load dataframe directly without writing to file?
     # write to file so future runs can be avoided?
 
-    print('set parameters: qsq0 = ' + str(qsq0) + ', c = ' + str(c) + ', g = ' + str(gamma) + ', sig = ' + str(sigma))
-    bk_df = bk.master(qsq0, c, gamma, 1)
+    # print('set parameters: qsq0 = ' + str(qsq0) + ', c = ' + str(c) + ', g = ' + str(gamma) + ', sig = ' + str(sigma))
+    print('set parameters: qsq0 = '  + str(qsq0) + ', c = ' + str(c) + ', sig = ' + str(sigma))
+    bk_df = bk.master(qsq0, c, gamma, ec)
 
     print('bk solution done...')
     bk_f  = N(bk_df) # why interpolate now? interpolation happens in dis
@@ -73,7 +76,7 @@ def chi_squared(qsq0, c, gamma, sigma):
 t1 = time.time()
 chi_squared.errordef = Minuit.LEAST_SQUARES
 print('making instance of Minuit class')
-m = Minuit(chi_squared, qsq0=0.1, c=1, gamma=1, sigma=36)
+m = Minuit(chi_squared, qsq0=0.1, c=10, gamma=1., ec=20., sigma=36)
 print('calling simplex method')
 m.simplex()
 print('simplex method complete')
