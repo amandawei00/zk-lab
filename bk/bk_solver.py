@@ -29,7 +29,7 @@ xr2 = np.log(r2)
 
 hr = (xr2 - xr1) / n
 
-hy = 0.2
+hy = 0.1
 ymax = 8.
 y = np.arange(0.0, ymax, hy)
 
@@ -48,8 +48,7 @@ beta = (11 * nc - 2. * nf)/(12 * np.pi)
 afr = 0.7     # frozen coupling constant (default)
 rfr = (2./lamb) * np.exp(-0.5/(beta * afr))  # IR cutoff
 
-c2, gamma, qs02 = 0. , 0., 0.   # fitting parameters
-ec = 1.
+c2, gamma, qs02, ec = 0. , 0., 0., 0.   # fitting parameters
 e  = np.exp(1)
 
 # initial condition
@@ -141,13 +140,12 @@ def master(q_, c2_, g_, ec_, filename=''):
             writer = csv.writer(csvfile, delimiter='\t')
             writer.writerow(l)
             writer.writerow(v)
-            print(len(bk_arr))
             for j in range(len(bk_arr)):
                 writer.writerow(bk_arr[j])
 
     return pd.DataFrame(bk_arr, columns=['y', 'r', 'N(r,Y)'])
 
-'''if __name__ == "__main__":
+if __name__ == "__main__":
     # qsq2, c^2, g, ec, filename
     p = []
 
@@ -157,4 +155,4 @@ def master(q_, c2_, g_, ec_, filename=''):
         p      = next(reader)
 
     bk = master(float(p[0]), float(p[1]), float(p[2]), float(p[3]), p[4])
-    print(bk)'''
+    #print(bk)

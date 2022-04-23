@@ -6,32 +6,32 @@ qsq2   = 45.0
 sqrt_z = 318.
 
 exp_name = '../data/fitdata_dis.csv'
-th_name  = 'test.csv'
+th_name  = '../fits/results/MVe/fit-mve_dis.csv'
 
 # import experimental data--------------------------------------
 df_exp = pd.read_csv(exp_name, sep='\t', header=0, comment='#')
-df_exp = df_exp.loc[(df_exp['qsq2'] == qsq2) & (df_exp['cme'] == sqrt_z)]
+df_exp = df_exp.loc[(df_exp['q2'] == qsq2) & (df_exp['cme'] == sqrt_z)]
 
 x1  = df_exp['x']
-y1  = df_exp['sig']
+y1  = df_exp['redx']
 # err = df_exp['err(%)'].multiply(0.01)
 err = df_exp['err'].multiply(0.01)
 # import theoretical solutions----------------------------------
 df_th  = pd.read_csv(th_name, sep='\t', header=0, comment='#')
-df_th  = df_th.loc[df_th['q2'] == qsq2]
+df_th  = df_th.loc[(df_th['q2'] == qsq2) & (df_th['cme'] == sqrt_z)]
 
 x2 = df_th['x']
 # fl = df_th['fl']
 f2 = df_th['redx']
 # y2 = df_th['sig']
 
-m  = 1.7
+# m  = 1.7
 # fl = fl.multiply(m)
-f2 = f2.multiply(m)
+# f2 = f2.multiply(m)
 # y2 = y2.multiply(m)
 
 
-plt.xlim(1.e-4, 1.e-2)
+plt.xlim(1.e-5, 1.e-2)
 plt.ylim(0., 2.)
 
 plt.xscale('log')

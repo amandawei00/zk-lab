@@ -134,3 +134,16 @@ bk solution done...
 bk interpolation done... calculating residuals
 set parameters: qsq0 = 0.1092940791228462, c = 5.6597129343849755, sig = 43.8405598422495
 c2 = 5.6597129343849755, g = 1.0, qsq2 = 0.1092940791228462
+bk run time: 0.43280196322335135 hours
+bk solution done...
+bk interpolation done... calculating residuals
+set parameters: qsq0 = 0.10965029546435916, c = 5.587899853299774, sig = 43.90418867169622
+c2 = 5.587899853299774, g = 1.0, qsq2 = 0.10965029546435916
+bk run time: 0.4309736211432351 hours
+bk solution done...
+bk interpolation done... calculating residuals
+simplex method complete
+total fit run time: 15.801037957800759 hours
+<ValueView qsq0=0.10965029546435916 c=5.587899853299774 sigma=43.90418867169622>
+<ErrorView qsq0=0.005560441684504932 c=1.723033396624553 sigma=3.366615880784209>
+<FMin algorithm='Simplex' edm=0.03945666829376021 edm_goal=0.1 errordef=1.0 fval=0.2568624454387634 has_accurate_covar=False has_covariance=False has_made_posdef_covar=False has_parameters_at_limit=False has_posdef_covar=False has_reached_call_limit=False has_valid_parameters=True hesse_failed=False is_above_max_edm=False is_valid=True nfcn=28 ngrad=0 reduced_chi2=nan>

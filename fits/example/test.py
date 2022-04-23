@@ -45,7 +45,8 @@ def chi_squared(Nn,pT2):
 chi_squared.errordef = Minuit.LEAST_SQUARES
 m = Minuit(chi_squared,Nn = 0.,pT2= 0.)
 m.simplex()
-print(m.values)  # prints fit results
+print(m.values)
+print(m.values[0])  # prints fit results
 print(m.errors)  # prints errors
 # print(m.fval/(len(midpoints) - len(m.values)))  # prints reduced chi2 (goodness of fit)
 print(repr(m.fmin))

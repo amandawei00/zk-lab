@@ -1,18 +1,13 @@
 # 1. set variables in parameters.txt
-# 2. verify pdf, ff, N are correct
-# 3. check destination filename
-# 4. TODO: MAKE 2 and 3 PART OF 1
-
 import sys
 import numpy as np
 import scipy.integrate as integrate
 import csv
-# import matplotlib.pyplot as plt
-# import subprocess
 
-sys.path.append("python_scripts")
+sys.path.append('python_scripts')
+sys.path.append('../bk/')
 import lhapdf as pdf
-from bk_interpolate2 import N
+from bk_interpolate import N
 
 # - IH FOR HADRON TYPE, IC FOR HADRON CHARGE SHOULD BE MODIFIABLE AND INITIATED UPON CONSTRUCTION
 
@@ -31,6 +26,7 @@ class Master():
 
         # self.flavors = [1,2,3,4,5,21] # flavors: d(1), u(2), s(3), c(4), b(5), g(21)
         self.flavors = self.p.flavors()
+        print(self.flavors)
         self.f = 0.0
 
         self.p_t = 0.0 # plotting points w respect to p_t
@@ -50,7 +46,7 @@ class Master():
         q2 = q*q
 
         pdf_qp = self.p.xfxQ2(self.f, x1, q2) # returns x1*f(x1,pt^2) where f is pdf
-        bkf = self.n.udg_f(x2, q/z)
+        bkf = self.n.nff(q/z, x2)
         ff_hq = self.ff.xfxQ2(self.f, z, q2)/z
 
         return (1/(z * z)) * pdf_qp * bkf * ff_hq
@@ -65,7 +61,7 @@ class Master():
 
         self.f = 21
         pdf_gp = self.p.xfxQ2(self.f, x1, q2)
-        bka = self.n.udg_a(x2, q/z)
+        bka = self.n.nfa(q/z, x2)
         ff_hg = self.ff.xfxQ2(self.f, z, q2)/z
 
         return (1/(z * z)) * pdf_gp * bka * ff_hg

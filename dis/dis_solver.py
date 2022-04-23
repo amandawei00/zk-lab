@@ -144,5 +144,8 @@ def test(q_, x_, cme_, sigma, n_, obs, filename, description=''):
                 writer.writerow([q, x[i], f2_res[i], fl_res[i], redx[i]])
                 print("x = " + str(x[i]) + ", redx = " + str(redx[i]))
 
-# bk = N('../bk/results/bk_MV1.csv') 
-# test(45.0, np.logspace(-6, -2, 25), 318.0, 28, bk, 'redx', 'test.csv')
+if __name__ == '__main__':
+
+    sig = 43.90418867169
+    bk = N('../bk/results/mv_fit.csv', 'dis') 
+    test(45., np.logspace(-6, -2, 25), 318.0, sig, bk, 'redx', 'mv_fit_res.csv')
