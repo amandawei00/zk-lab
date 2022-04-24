@@ -9,50 +9,75 @@ import bk_solver as bk
 from bk_interpolate import N
 import dis_solver as dis
 
+
 print('calculating chi2 for 5 parameter MVe fit')
 # import experimental data to pandas dataframe
-exp    = pd.read_csv('../data/fitdata_dis.csv', delimiter='\t', header=0, comment='#', index_col=0)
-# exp_q2 = np.unique(np.array(exp[['q2']]))
+def data_import(fname):
+    return pd.read_csv(fname, delimiter='\t', header=0, comment='#', index_col=0)
 
-# read results from fit results file
+# run bk with fitted parameters and write to file
+def run_bk(qsq0, c2, gamma, ec, fname):
+    bk_ = bk.master(qsq0, c2, gamma, ec)
+    bk_.to_csv(fname, sep='\t', index=False)
+    return bk_
 
+# call interpolator on bk
+def bk_interp(bk_, t):
+    bki = N(bk_, t)
+    dis.set_n(bki)
+
+# run dis for all data in fitdata_dis.csv and write to file
+def run_dis(exp, fname):
+    th_ = []
+    with open(fname, 'w') as foo:
+        writer = csv.writer(foo, delimiter='\t')
+        writer.writerow(['q2', 'cme', 'x', 'redx'])
+
+        for i in exp.index:
+            q2  = exp['q2'][i]
+            cme = exp['cme'][i]
+            x   = exp['x'][i]
+
+            d   = dis.reduced_x(x, q2, cme, sig)[2]
+            th_.append(d)
+            writer.writerow([q2, cme, x, d])
+    return pd.DataFrame(th_, index=None)
+
+# calculate chi2/dof value with three numpy array type inputs
+def chi2(th, exp, exp_err):
+    exp_err = 0.01 * exp_err * exp
+    chi2 = np.sum(np.power((th - exp)/exp_err, 2))/len(th)
+    print('reduced chi2 value of fit (chi2/d.o.f): ' + str(chi2))
+    return chi2
+
+# plotting routine that takes array of Q2 values
+
+def plot(q2):
+    return 0
+
+# read results from fit file
 qsq0  = 0.09179473
 c2    = 10.251189017
 gamma = 1.041015632
 sig   = 35.04884137
 ec    = 20.445469648
 
-# run bk with fitted parameters
+'''
+to_file_bk = 'fit-mve_bk.csv'
+to_file_dis = 'fit-mve_dis.csv'
 
-bk_ = bk.master(qsq0, c2, gamma, ec)
-bk_.to_csv('fit-mve_bk.csv', sep='\t', index=False)
-# call interpolator on bk
+data = data_import('../data/fitdata_dis.csv')
+# bk   = run_bk(qsq0, c2, gamma, ec, to_file_bk)
+# bk_interp(bk, 'dis')
+# dis  = run_dis(data, to_file_dis)
+dis = data_import('results/MV/fit1_dis.csv')
+chi2(dis['redx'].to_numpy(), data['redx'].to_numpy(), data['err'].to_numpy())
+ 
+'''
+data = data_import('../data/fitdata_dis.csv')
+# bk_interp('../bk/results/bk_MV1.csv', 'dis')
+# th_ = run_dis(data, 'MV1_test_chi2.csv')
+th   = data_import('MV1_test_chi2.csv')
 
-bki = N(bk_, 'dis')
-dis.set_n(bki)
-
-# run dis for all data in fitdata_dis.csv and write to file
-th_ = []
-with open('fit-mve_dis.csv', 'w') as foo:
-    writer = csv.writer(foo, delimiter='\t')
-    writer.writerow(['q2', 'cme', 'x', 'redx'])
-
-    for i in exp.index:
-        q2  = exp['q2'][i]
-        cme = exp['cme'][i]
-        x   = exp['x'][i]
-
-        d   = dis.reduced_x(x, q2, cme, sig)[2]
-        th_.append(d)
-        writer.writerow([q2, cme, x, d])
-
-# calculate chi2/dof value
-
-exp_ = exp['redx'].to_numpy()
-chi2 = np.sum(np.power(exp_ - np.array(th_),2)/np.array(th_))/len(th_)
-print('reduced chi2 value of fit (chi2/d.o.f): ' + str(chi2))
-
-# plotting routine that takes array of Q2 values
-
-
-
+chi2(th['redx'], data['redx'], data['err'])
+# '''

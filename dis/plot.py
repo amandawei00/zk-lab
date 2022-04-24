@@ -2,11 +2,11 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
-qsq2   = 45.0
+qsq2   = 0.65
 sqrt_z = 318.
 
 exp_name = '../data/fitdata_dis.csv'
-th_name  = '../fits/results/MVe/fit-mve_dis.csv'
+th_name  = '../fits/results/MV/fit1_dis.csv'
 
 # import experimental data--------------------------------------
 df_exp = pd.read_csv(exp_name, sep='\t', header=0, comment='#')

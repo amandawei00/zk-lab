@@ -34,7 +34,7 @@ eh    = [2/3, 2/3, -1/3, -2/3, -2/3, 1/3]
 
 bk = None  # bk interpolated object
 
-# n_ is interpolated object
+# bk_ is interpolated object
 def set_n(bk_):
     global bk
     bk = bk_
@@ -72,12 +72,14 @@ def eta_squared(z, m_f, qsq2):
     return z * (1 - z) * qsq2 + m_f * m_f
 
 def t_integral(z, *args):
-    m = lambda r_: r_ * psi_t2(z, r_, args[0]) * bk.n(r_, args[1])
+    # m = lambda r_: r_ * psi_t2(z, r_, args[0]) * bk.n(r_, args[1])
+    m = lambda r_: r_ * psi_t2(z, r_, args[0]) * bk(r_, args[1])
     return quad(m, 3.e-6, 60., epsabs=1.e-3, epsrel=0.0)[0]
 
 # orignal integration bound: [3.e-6, 1/args[0]]
 def l_integral(z, *args): # *args = [qsq2, y]
-    m = lambda r_: r_ * psi_l2(z, r_, args[0]) * bk.n(r_, args[1])
+    # m = lambda r_: r_ * psi_l2(z, r_, args[0]) * bk.n(r_, args[1])
+    m = lambda r_: r_ * psi_l2(z, r_, args[0]) * bk(r_, args[1])
     return quad(m, 3.e-6, 60., epsabs=1.e-3, epsrel=0.0)[0]
 
 def t_xsection(x, qsq2, sigma):

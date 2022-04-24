@@ -7,48 +7,38 @@ import time
 
 import sys
 sys.path.append('../data/')
-sys.path.append('../bk/')
 sys.path.append('../dis/')
 
-import bk_solver as bk
 import dis_solver as dis
-from bk_interpolate import N
 
 print('packages loaded...')
 import warnings
 warnings.filterwarnings("ignore")
 
-print('fitting 5 parameters (qsq0, gamma, c, ec, sig) with no fixed parameters')
+model = 'MV'
+# model = 'MVg'
+# model = 'MVe'
+
+print('running fit to DIS data with ' + model + ' parametrization')
+
 # parameters
 alpha = 1/137
+l_QCD = 0.241
 
-# data import
-# f2
-'''data = pd.read_csv("toydata.csv", delimiter=',', header=0, comment='#')
-data.columns = ['qsq2', 'x', 'f2', 'staterr', 'syserr', 'toterr']
-qsq = np.array(data.qsq2)
-x   = np.array(data.x)
-dat = np.array(data.f2)
-err = np.array(data.toterr)'''
-
-# reduced-x
+# data import, reduced cross section DIS
 data = pd.read_csv('../data/fitdata_dis.csv', delimiter='\t', header=0, index_col=0, comment='#')
 
 sNN = np.array(data.cme)
-qsq = np.array(data.q2)
+qsq = np.array(data.qsq2)
 x   = np.array(data.x)
-dat = np.array(data.redx)
+dat = np.array(data.sig)
 err = np.array(data.err)
 
 # theory
 
-'''
-parameters:
-   1. qsq20: initial saturation scale
-   2. c    :
-   3. gamma: anomalous dimension thing
-   4. sigma: normalization factor
-'''
+
+def theory(r, x, x0, lamb, sig, gamma=1, ec=1.):
+    exp = -0.24 * r 
 
 # def chi_squared(qsq0, c, gamma, sigma):
 def chi_squared(qsq0, c, gamma, ec, sigma):
@@ -63,7 +53,7 @@ def chi_squared(qsq0, c, gamma, ec, sigma):
     print('bk solution done...')
     bk_f  = N(bk_df) # why interpolate now? interpolation happens in dis
     # set n for dis, pp-pA
-    dis.set_n(bk_f.n)
+    dis.set_n(bk_f)
     print('bk interpolation done... calculating residuals')
 
     res = 0
@@ -72,6 +62,7 @@ def chi_squared(qsq0, c, gamma, ec, sigma):
         exp    = dat[i]
         er1    = err[i]
         res    += (theory - exp) * (theory - exp) / (er1 * er1)
+
     return res
 t1 = time.time()
 chi_squared.errordef = Minuit.LEAST_SQUARES
