@@ -9,7 +9,7 @@ import sys
 sys.path.append('../data/')
 sys.path.append('../dis/')
 
-import dis_solver as dis
+import toydis as dis
 
 print('packages loaded...')
 import warnings
@@ -26,49 +26,77 @@ alpha = 1/137
 l_QCD = 0.241
 
 # data import, reduced cross section DIS
-data = pd.read_csv('../data/fitdata_dis.csv', delimiter='\t', header=0, index_col=0, comment='#')
+# data = pd.read_csv('../fits/fitdata_dis.csv', delimiter='\t', header=0, index_col=0, comment='#')
+data = pd.read_csv('toydata.csv', delimiter='\t', header=0, index_col=None, comment='#')
 
 sNN = np.array(data.cme)
-qsq = np.array(data.qsq2)
+qsq = np.array(data.q2)
 x   = np.array(data.x)
-dat = np.array(data.sig)
+dat = np.array(data.redx)
 err = np.array(data.err)
 
 # theory
+def n(r, x, x0, lamb, gamma=1, ec=1.):
+    q2  = np.power(x0/x, lamb)
+    exp = -0.25 * np.power(r * r * q2, gamma) * np.log(1/(0.241 * r) + ec * np.exp(1))
+    return 1 - np.exp(exp)
 
-
-def theory(r, x, x0, lamb, sig, gamma=1, ec=1.):
-    exp = -0.24 * r 
-
-# def chi_squared(qsq0, c, gamma, sigma):
-def chi_squared(qsq0, c, gamma, ec, sigma):
-    # run BK for given parameters qsq2, c, sigma, and gamma
-    # load dataframe directly without writing to file?
-    # write to file so future runs can be avoided?
-
-    # print('set parameters: qsq0 = ' + str(qsq0) + ', c = ' + str(c) + ', g = ' + str(gamma) + ', sig = ' + str(sigma))
-    print('set parameters: qsq0 = '  + str(qsq0) + ', c = ' + str(c) + ', sig = ' + str(sigma))
-    bk_df = bk.master(qsq0, c, gamma, ec)
-
-    print('bk solution done...')
-    bk_f  = N(bk_df) # why interpolate now? interpolation happens in dis
-    # set n for dis, pp-pA
-    dis.set_n(bk_f)
-    print('bk interpolation done... calculating residuals')
+def chi2_mv(x0, lamb, sig):
+    print('set parameters: x0 = ' + str(x0) + ', lamb = ' + str(lamb) +  ', sig = ' + str(sig))
+    a = lambda r, x: n(r, x, x0, lamb)
+    dis.set_n(a)
 
     res = 0
     for i in range(len(data)):
-        theory = dis.reduced_x(x[i], qsq[i], sNN[i], sigma)[2]
+        theory = dis.reduced_x(x[i], qsq[i], sNN[i], sig)[2]
         exp    = dat[i]
         er1    = err[i]
         res    += (theory - exp) * (theory - exp) / (er1 * er1)
 
     return res
+
+
+def chi2_mvg(x0, lamb, gamma, sig):
+    print('set parameters: x0 = ' + str(x0) + ', lamb = ' + str(lamb) +  ', gamma = ' + str(gamma) + ', sig = ' + str(sig))
+    a = lambda r, x: n(r, x, x0, lamb, gamma)
+    dis.set_n(a)
+
+    res = 0
+    for i in range(len(data)):
+        theory = dis.reduced_x(x[i], qsq[i], sNN[i], sig)[2]
+        exp    = dat[i]
+        er1    = err[i]
+        res    += (theory - exp) * (theory - exp) / (er1 * er1)
+
+    return res
+
+
+def chi2_mve(x0, lamb, gamma, ec, sig):
+    print('set parameters: x0 = ' + str(x0) + ', lamb = ' + str(lamb) + ', gamma = ' + str(gamma) + ', ec = ' + str(ec) + ', sig = ' + str(sig))
+    a = lambda r, x: n(r, x, x0, lamb, gamma, ec)
+    dis.set_n(a)
+
+    res = 0
+    for i in range(len(data)):
+        theory = dis.reduced_x(x[i], qsq[i], sNN[i], sig)[2]
+        exp    = dat[i]
+        er1    = err[i]
+        res    += (theory - exp) * (theory - exp) / (er1 * er1)
+
+    return res
+ 
 t1 = time.time()
-chi_squared.errordef = Minuit.LEAST_SQUARES
-print('making instance of Minuit class')
-m = Minuit(chi_squared, qsq0=0.1, c=10, gamma=1., ec=20., sigma=36)
-print('calling simplex method')
+
+if model == 'MV':
+    chi2_mv.errordef = Minuit.LEAST_SQUARES
+    m = Minuit(chi2_mv, x0=0.01, lamb=0.3, sig=20)
+elif model == 'MVg':
+    chi2_mvg.errordef = Minuit.LEAST_SQUARES
+    m = Minuit(chi2_mvg, x0=0.01, lamb=0.3, gamma=1., sig=20)
+elif model == 'MVe':
+    chi2_mve.errordef = Minuit.LEAST_SQUARES
+    m = Minuit(chi2_mve, x0=0.01, lamb=0.3, gamma=1., sig=20)
+
 m.simplex()
 print('simplex method complete')
 t2 = time.time()
