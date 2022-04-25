@@ -1,18 +1,13 @@
 import sys
 import numpy as np
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 from scipy.integrate import quad
 import scipy.special as spec
 import csv
 
 from os.path import exists
-
-sys.path.append('../bk/')
-from bk_interpolate import N
-
 # Units in GeV
 alpha = 1./137   # FIND VALUE (EM coupling)
-x0    = 0.01
 lamb  = 0.241  # lambda_QCD (GeV)
 
 """ordering of flavors:
@@ -72,23 +67,19 @@ def eta_squared(z, m_f, qsq2):
     return z * (1 - z) * qsq2 + m_f * m_f
 
 def t_integral(z, *args):
-    # m = lambda r_: r_ * psi_t2(z, r_, args[0]) * bk.n(r_, args[1])
-    m = lambda r_: r_ * psi_t2(z, r_, args[0]) * bk.n(r_, args[1])
+    m = lambda r_: r_ * psi_t2(z, r_, args[0]) * bk(r_, args[1])
     return quad(m, 3.e-6, 60., epsabs=1.e-3, epsrel=0.0)[0]
 
 # orignal integration bound: [3.e-6, 1/args[0]]
 def l_integral(z, *args): # *args = [qsq2, y]
-    # m = lambda r_: r_ * psi_l2(z, r_, args[0]) * bk.n(r_, args[1])
-    m = lambda r_: r_ * psi_l2(z, r_, args[0]) * bk.n(r_, args[1])
+    m = lambda r_: r_ * psi_l2(z, r_, args[0]) * bk(r_, args[1])
     return quad(m, 3.e-6, 60., epsabs=1.e-3, epsrel=0.0)[0]
 
 def t_xsection(x, qsq2, sigma):
-    y   = np.log(x0/x)
-    return 2 * np.pi * sigma * quad(t_integral, 0., 1., epsabs=1.e-3, epsrel=0.0,  args=(qsq2, y))[0]
+    return 2 * np.pi * sigma * quad(t_integral, 0., 1., epsabs=1.e-3, epsrel=0.0,  args=(qsq2, x))[0]
                 
 def l_xsection(x, qsq2, sigma):
-    y  = np.log(x0/x)  # 2 * np.pi comes from angular independence of inner integral
-    return 2 * np.pi * sigma * quad(l_integral, 0., 1., epsabs=1.e-3, epsrel=0.0,  args=(qsq2, y))[0]
+    return 2 * np.pi * sigma * quad(l_integral, 0., 1., epsabs=1.e-3, epsrel=0.0,  args=(qsq2, x))[0]
 
 def fl(x, qsq2, sigma):
     prefac = qsq2/(4 * np.pi * np.pi * alpha)

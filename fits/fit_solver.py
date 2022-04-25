@@ -63,7 +63,7 @@ def chi_squared(qsq0, c, gamma, ec, sigma):
     print('bk solution done...')
     bk_f  = N(bk_df) # why interpolate now? interpolation happens in dis
     # set n for dis, pp-pA
-    dis.set_n(bk_f.n)
+    dis.set_n(bk_f)
     print('bk interpolation done... calculating residuals')
 
     res = 0

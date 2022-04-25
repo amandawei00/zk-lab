@@ -1,4 +1,5 @@
 import sys,os
+import csv
 import numpy as np
 import pylab as py
 import pandas as pd
@@ -45,6 +46,11 @@ def chi_squared(Nn,pT2):
 chi_squared.errordef = Minuit.LEAST_SQUARES
 m = Minuit(chi_squared,Nn = 0.,pT2= 0.)
 m.simplex()
+with open('test.txt', 'w') as f:
+    writer = csv.writer(f)
+    writer.writerow(m.values)
+    writer.writerow(m.errors)
+    writer.writerow(repr(m.fmin))
 print(m.values)
 print(m.values[0])  # prints fit results
 print(m.errors)  # prints errors
