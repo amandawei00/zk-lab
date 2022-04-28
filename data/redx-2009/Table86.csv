@@ -1,0 +1,24 @@
+#: table_doi: 10.17182/hepdata.58304.v1/t86
+#: name: Table 86
+#: description: Combined double differential cross section and reduced cross section data for Charged Current  E- P scattering at Q**2=5000. GeV**2.
+
+#: data_file: Table86.yaml
+#: keyword reactions: E- P --> NUE X
+#: keyword observables: DSIG/DX/DQ**2 | SIG
+#: keyword phrases: Inclusive | Integrated Cross Section | Cross Section | Single Differential Cross Section | Charged Current | Deep Inelastic Scattering
+#: Q**2 [GeV^2],5000.0
+#: RE,E- P --> NUE X
+X,Y,Ecm,D2(SIG)/DX/DQ**2 [PB/GEV**2],stat +,stat -,sys_1 +,sys_1 -,sys_2 +,sys_2 -,sys_3 +,sys_3 -,sys_4 +,sys_4 -,sys_5 +,sys_5 -
+0.08,0.618,319.0,0.0195,12.66%,-12.66%,4.23%,-4.23%,3.05%,-3.05%,0.88%,-0.88%,0.02%,-0.02%,0.07%,-0.07%
+0.13,0.38,319.0,0.0129,11.18%,-11.18%,3.42%,-3.42%,1.33%,-1.33%,0.37%,-0.37%,0.0%,-0.0%,-0.12%,0.12%
+0.25,0.198,319.0,0.00429,13.35%,-13.35%,2.74%,-2.74%,1.41%,-1.41%,0.59%,-0.59%,0.0%,-0.0%,0.1%,-0.1%
+0.4,0.124,319.0,0.00189,18.8%,-18.8%,5.71%,-5.71%,2.53%,-2.53%,2.41%,-2.41%,-0.02%,0.02%,-0.96%,0.96%
+
+#: Q**2 [GeV^2],5000.0
+#: RE,E- P --> NUE X
+X,Y,Ecm, SIG(C=REDUCED)
+0.08,0.618,319.0,0.581
+0.13,0.38,319.0,0.626
+0.25,0.198,319.0,0.4
+0.4,0.124,319.0,0.283
+
