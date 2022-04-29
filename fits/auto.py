@@ -49,7 +49,7 @@ def run_dis(exp, fname, fitted_sig):
 # calculate chi2/dof value with three numpy array type inputs
 def chi2(th, exp, exp_err):
     exp_err = 0.01 * exp_err * exp
-    chi2 = np.sum(np.power((th - exp)/exp_err, 2))/len(th)
+    chi2 = np.sum(np.power(th - exp, 2)/exp_err)/len(th)
     print('reduced chi2 value of fit (chi2/d.o.f): ' + str(chi2))
     return chi2
 

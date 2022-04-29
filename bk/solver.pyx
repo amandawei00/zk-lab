@@ -14,9 +14,9 @@ cdef extern from "spline_c.c":
     double ispline(double u, double *x, double *y, double *b, double *c, double *d, int n)
 
 # variables
-cdef int n = 399                   # number of r points to be evaluated at each evolution step in Y
-cdef double r1 = 3.e-6             # lower limit of r
-cdef double r2 = 60.e0             # upper limit of r
+cdef int n = 400                   # number of r points evaluated at each evolution step in Y
+cdef double r1 = 1.e-6             # lower limit of r
+cdef double r2 = 1.e2              # upper limit of r
 
 cdef double xr1 = log(r1)          # convert lower r limit to logspace
 cdef double xr2 = log(r2)          # convert upper r limit to logspace

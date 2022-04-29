@@ -32,6 +32,9 @@ heavy = [4, 5, 6, -4, -5, -6]
 mh    = [1.270, 172., 5., 1.270, 172., 5.]
 eh    = [2/3, 2/3, -1/3, -2/3, -2/3, 1/3]
 
+flavors = [1, 2, 3, 4, 5, 6, -1, -2, -3, -4, -5, -6]
+mf      = [0.002, 0.0045, 1.270, 0.101, 172, 5., 0.002, 0.0045, 1.270, 0.101, 172, 5.0]
+ef      = [2/3, -1/3, 2/3, -1/3, 2/3, -1/3, -2/3, 1/3, -2/3, 1/3, -2/3, 1/3]
 bk = None  # bk interpolated object
 
 # bk_ is interpolated object
@@ -72,13 +75,11 @@ def eta_squared(z, m_f, qsq2):
     return z * (1 - z) * qsq2 + m_f * m_f
 
 def t_integral(z, *args):
-    # m = lambda r_: r_ * psi_t2(z, r_, args[0]) * bk.n(r_, args[1])
     m = lambda r_: r_ * psi_t2(z, r_, args[0]) * bk.n(r_, args[1])
     return quad(m, 3.e-6, 60., epsabs=1.e-3, epsrel=0.0)[0]
 
 # orignal integration bound: [3.e-6, 1/args[0]]
 def l_integral(z, *args): # *args = [qsq2, y]
-    # m = lambda r_: r_ * psi_l2(z, r_, args[0]) * bk.n(r_, args[1])
     m = lambda r_: r_ * psi_l2(z, r_, args[0]) * bk.n(r_, args[1])
     return quad(m, 3.e-6, 60., epsabs=1.e-3, epsrel=0.0)[0]
 
@@ -121,7 +122,7 @@ def test(q_, x_, cme_, sigma, n_, obs, filename, description=''):
     if not f_exist:
         with open(filename, 'w') as f:
             writer = csv.writer(f, delimiter='\t')
-            writer.writerow([description])
+            # writer.writerow([description])
             writer.writerow(['q2', 'x', 'cme', 'f2', 'fl', 'redx'])
 
     with open(filename, 'a') as f:
@@ -148,6 +149,6 @@ def test(q_, x_, cme_, sigma, n_, obs, filename, description=''):
 
 if __name__ == '__main__':
 
-    sig = 37.62
-    bk = N('../bk/results/bk_MVg1.csv', 'dis') 
-    test(1.5, np.logspace(-6, -2, 25), 319.0, sig, bk, 'redx', 'redx-MVg-2009_test.csv')
+    sig = 18.81 * 2
+    bk = N('../bk/results/bk_MV2.csv', 'dis') 
+    test(27.0, np.logspace(-6, -2, 20), 319., sig, bk, 'redx', 'redx-2009_results/MV2.csv')

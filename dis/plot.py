@@ -2,13 +2,17 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
-qsq2   = 1.5
+qsq2   = 27.
 sqrt_z = 319.
 
-exp_name = '../data/redx-2009-parsed.csv'
+# exp_name = '../data/redx-2009-parsed.csv'
+# exp_name = '../data/redx-2009/redx-2009-parsed.csv'
+# exp_name = '../data/reduced_x-2010.csv'  # good fit with x_MV1.csv
 # th_name  = '../fits/results/MV/fit1_dis.csv'
-th_name  = 'redx-MVg-2009_test.csv'
-
+# th_name  = 'redx-MVg-2009_test.csv'
+exp_name = '../data/redx-2009/redx-2009-parsed.csv'
+# exp_name   = '../data/redx-2015/fitdata_dis.csv'
+th_name  = '../dis/redx-2009_results/MV2.csv'
 # import experimental data--------------------------------------
 df_exp = pd.read_csv(exp_name, sep='\t', header=0, comment='#')
 df_exp = df_exp.loc[(df_exp['q2'] == qsq2) & (df_exp['cme'] == sqrt_z)]
@@ -26,7 +30,7 @@ x2 = df_th['x']
 f2 = df_th['redx']
 # y2 = df_th['sig']
 
-# m  = 1.18
+# m  = 1.25
 # fl = fl.multiply(m)
 # f2 = f2.multiply(m)
 # y2 = y2.multiply(m)
