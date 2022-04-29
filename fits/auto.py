@@ -13,7 +13,7 @@ import dis_solver as dis
 print('calculating chi2 for 5 parameter MVe fit')
 # import experimental data to pandas dataframe
 def data_import(fname):
-    return pd.read_csv(fname, delimiter='\t', header=0, comment='#', index_col=0)
+    return pd.read_csv(fname, delimiter='\t', header=0, comment='#')
 
 # run bk with fitted parameters and write to file
 def run_bk(qsq0, c2, gamma, ec, fname):
@@ -21,13 +21,16 @@ def run_bk(qsq0, c2, gamma, ec, fname):
     bk_.to_csv(fname, sep='\t', index=False)
     return bk_
 
+def import_bk(fname):
+    return pd.read_csv(fname, delimiter='\t', header=0, comment='#', index_col=None)
+
 # call interpolator on bk
 def bk_interp(bk_, t):
     bki = N(bk_, t)
     dis.set_n(bki)
 
 # run dis for all data in fitdata_dis.csv and write to file
-def run_dis(exp, fname):
+def run_dis(exp, fname, fitted_sig):
     th_ = []
     with open(fname, 'w') as foo:
         writer = csv.writer(foo, delimiter='\t')
@@ -37,8 +40,8 @@ def run_dis(exp, fname):
             q2  = exp['q2'][i]
             cme = exp['cme'][i]
             x   = exp['x'][i]
-
-            d   = dis.reduced_x(x, q2, cme, sig)[2]
+            
+            d   = dis.reduced_x(x, q2, cme, fitted_sig)[2]
             th_.append(d)
             writer.writerow([q2, cme, x, d])
     return pd.DataFrame(th_, index=None)
@@ -55,6 +58,7 @@ def chi2(th, exp, exp_err):
 def plot(q2):
     return 0
 
+'''
 # read results from fit file
 qsq0  = 0.09179473
 c2    = 10.251189017
@@ -62,7 +66,6 @@ gamma = 1.041015632
 sig   = 35.04884137
 ec    = 20.445469648
 
-'''
 to_file_bk = 'fit-mve_bk.csv'
 to_file_dis = 'fit-mve_dis.csv'
 
@@ -74,10 +77,12 @@ dis = data_import('results/MV/fit1_dis.csv')
 chi2(dis['redx'].to_numpy(), data['redx'].to_numpy(), data['err'].to_numpy())
  
 '''
-data = data_import('../data/fitdata_dis.csv')
-# bk_interp('../bk/results/bk_MV1.csv', 'dis')
-# th_ = run_dis(data, 'MV1_test_chi2.csv')
-th   = data_import('MV1_test_chi2.csv')
-
+# data = data_import('../data/fitdata_dis.csv')
+# th   = run_dis(data, 'MV1_test_chi2.csv')
+data = data_import('../data/redx-2009-parsed.csv')
+th_  = import_bk('../bk/results/bk_MV1.csv')
+bk_interp(th_, 'dis')
+run_dis(data, 'lappi-MV-params_chi2.csv', 37.62)
+th   = data_import('lappi-MV-params_chi2.csv')
 chi2(th['redx'], data['redx'], data['err'])
 # '''

@@ -27,7 +27,7 @@ l_QCD = 0.241
 
 # data import, reduced cross section DIS
 # data = pd.read_csv('../fits/fitdata_dis.csv', delimiter='\t', header=0, index_col=0, comment='#')
-data = pd.read_csv('toydata.csv', delimiter='\t', header=0, index_col=None, comment='#')
+data = pd.read_csv('toydata-2009.csv', delimiter='\t', header=0, index_col=None, comment='#')
 
 sNN = np.array(data.cme)
 qsq = np.array(data.q2)
@@ -87,18 +87,34 @@ def chi2_mve(x0, lamb, gamma, ec, sig):
  
 t1 = time.time()
 
-if model == 'MV':
-    chi2_mv.errordef = Minuit.LEAST_SQUARES
-    m = Minuit(chi2_mv, x0=0.01, lamb=0.3, sig=20)
-elif model == 'MVg':
-    chi2_mvg.errordef = Minuit.LEAST_SQUARES
-    m = Minuit(chi2_mvg, x0=0.01, lamb=0.3, gamma=1., sig=20)
-elif model == 'MVe':
-    chi2_mve.errordef = Minuit.LEAST_SQUARES
-    m = Minuit(chi2_mve, x0=0.01, lamb=0.3, gamma=1., sig=20)
+x0_ = 1.e-4
+l_  = 0.3
+g_  = 1.
+ec_ = 1.
+s_  = 20
 
+print('Making fit with the following initials: ')
+print('x0     = ' + str(x0_))
+print('lambda = ' + str(l_))
+print('gamma  = ' + str(g_))
+print('ec     = ' + str(ec_))
+
+print('normalization constant (sigma) = ' + str(s_))
+if model == 'MV':
+    print('fitting MV parametrization (x0, lambda, sigma)')
+    chi2_mv.errordef = Minuit.LEAST_SQUARES
+    m = Minuit(chi2_mv, x0=x0_, lamb=l_, sig=s_)
+elif model == 'MVg':
+    print('fitting MVg parametrization (x0, lambda, gamma, sigma)')
+    chi2_mvg.errordef = Minuit.LEAST_SQUARES
+    m = Minuit(chi2_mvg, x0=x0_, lamb=l_, gamma=g_, sig=s_)
+elif model == 'MVe':
+    print('fitting MVe parametrization (x0, lambda, gamma, ec, sigma)')
+    chi2_mve.errordef = Minuit.LEAST_SQUARES
+    m = Minuit(chi2_mve, x0=x0_, lamb=l_, gamma=g_, ec=ec_, sig=s_)
+
+print('using simplex minimization routine')
 m.simplex()
-print('simplex method complete')
 t2 = time.time()
 print('total fit run time: ' + str((t2 - t1)/3600) + ' hours')
 print(m.values)  # prints fitted values

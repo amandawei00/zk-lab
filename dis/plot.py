@@ -2,11 +2,12 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
-qsq2   = 0.65
-sqrt_z = 318.
+qsq2   = 1.5
+sqrt_z = 319.
 
-exp_name = '../data/fitdata_dis.csv'
-th_name  = '../fits/results/MV/fit1_dis.csv'
+exp_name = '../data/redx-2009-parsed.csv'
+# th_name  = '../fits/results/MV/fit1_dis.csv'
+th_name  = 'redx-MVg-2009_test.csv'
 
 # import experimental data--------------------------------------
 df_exp = pd.read_csv(exp_name, sep='\t', header=0, comment='#')
@@ -25,13 +26,13 @@ x2 = df_th['x']
 f2 = df_th['redx']
 # y2 = df_th['sig']
 
-# m  = 1.7
+# m  = 1.18
 # fl = fl.multiply(m)
 # f2 = f2.multiply(m)
 # y2 = y2.multiply(m)
 
 
-plt.xlim(1.e-5, 1.e-2)
+plt.xlim(1.e-6, 1.e-2)
 plt.ylim(0., 2.)
 
 plt.xscale('log')

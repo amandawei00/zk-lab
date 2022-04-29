@@ -122,7 +122,7 @@ def test(q_, x_, cme_, sigma, n_, obs, filename, description=''):
         with open(filename, 'w') as f:
             writer = csv.writer(f, delimiter='\t')
             writer.writerow([description])
-            writer.writerow(['q2', 'x', 'f2', 'fl', 'redx'])
+            writer.writerow(['q2', 'x', 'cme', 'f2', 'fl', 'redx'])
 
     with open(filename, 'a') as f:
         writer = csv.writer(f, delimiter='\t')
@@ -130,12 +130,12 @@ def test(q_, x_, cme_, sigma, n_, obs, filename, description=''):
         if obs == 'f2':
             f2_res = [f2(x[i], q) for i in range(len(x))]
             for i in range(len(x)):
-                writer.writerow([q, x[i], f2_res[i], '-', '-'])
+                writer.writerow([q, x[i], sqrt_s,f2_res[i], '-', '-'])
 
         elif obs == 'fl':
             fl_res = [fl(x[i], q) for i in range(len(x))]
             for i in range(len(x)):
-                writer.writerow([q, x[i], '-', fl_res[i], '-'])
+                writer.writerow([q, x[i], sqrt_s, '-', fl_res[i], '-'])
 
         elif obs == 'redx':
             results = [reduced_x(x[i], q, sqrt_s, sigma) for i in range(len(x))]
@@ -143,11 +143,11 @@ def test(q_, x_, cme_, sigma, n_, obs, filename, description=''):
             fl_res  = [results[i][1] for i in range(len(results))]
             redx    = [results[i][2] for i in range(len(results))]
             for i in range(len(x)):
-                writer.writerow([q, x[i], f2_res[i], fl_res[i], redx[i]])
+                writer.writerow([q, x[i], sqrt_s, f2_res[i], fl_res[i], redx[i]])
                 print("x = " + str(x[i]) + ", redx = " + str(redx[i]))
 
 if __name__ == '__main__':
 
-    sig = 43.90418867169
-    bk = N('../bk/results/mv_fit.csv', 'dis') 
-    test(45., np.logspace(-6, -2, 25), 318.0, sig, bk, 'redx', 'mv_fit_res.csv')
+    sig = 37.62
+    bk = N('../bk/results/bk_MVg1.csv', 'dis') 
+    test(1.5, np.logspace(-6, -2, 25), 319.0, sig, bk, 'redx', 'redx-MVg-2009_test.csv')
