@@ -149,6 +149,6 @@ def test(q_, x_, cme_, sigma, n_, obs, filename, description=''):
 
 if __name__ == '__main__':
 
-    sig = 18.81 * 2
-    bk = N('../bk/results/bk_MV2.csv', 'dis') 
-    test(27.0, np.logspace(-6, -2, 20), 319., sig, bk, 'redx', 'redx-2009_results/MV2.csv')
+    sig = 16.45 * 2
+    bk = N('../bk/results/bk_MVg3.csv', 'dis') 
+    test(1.5, np.logspace(-6, -2, 20), 319., sig, bk, 'redx', 'redx-2009_results/MVg3.csv')

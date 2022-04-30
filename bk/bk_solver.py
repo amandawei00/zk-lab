@@ -20,7 +20,7 @@ import warnings
 warnings.filterwarnings('ignore')
 
 # variables
-n = 400  # number of r points to be evaluated at each evolution step in Y
+n = 399     # number of r points to be evaluated at each evolution step in Y
 r1 = 1.e-6  # limits of r
 r2 = 1.e2
 
@@ -30,7 +30,7 @@ xr2 = np.log(r2)
 hr = (xr2 - xr1) / n
 
 hy = 0.2
-ymax = 8.
+ymax = 16.
 y = np.arange(0.0, ymax, hy)
 
 # Arrays for N and r in N(r), evaluated at some rapidity Y (including next step N(r,Y) in the evolution

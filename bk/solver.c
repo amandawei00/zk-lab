@@ -4605,15 +4605,15 @@ if (!__Pyx_RefNanny) {
   /* "solver.pyx":17
  * 
  * # variables
- * cdef int n = 400                   # number of r points evaluated at each evolution step in Y             # <<<<<<<<<<<<<<
+ * cdef int n = 399                   # number of r points evaluated at each evolution step in Y             # <<<<<<<<<<<<<<
  * cdef double r1 = 1.e-6             # lower limit of r
  * cdef double r2 = 1.e2              # upper limit of r
  */
-  __pyx_v_6solver_n = 0x190;
+  __pyx_v_6solver_n = 0x18F;
 
   /* "solver.pyx":18
  * # variables
- * cdef int n = 400                   # number of r points evaluated at each evolution step in Y
+ * cdef int n = 399                   # number of r points evaluated at each evolution step in Y
  * cdef double r1 = 1.e-6             # lower limit of r             # <<<<<<<<<<<<<<
  * cdef double r2 = 1.e2              # upper limit of r
  * 
@@ -4621,7 +4621,7 @@ if (!__Pyx_RefNanny) {
   __pyx_v_6solver_r1 = 1.e-6;
 
   /* "solver.pyx":19
- * cdef int n = 400                   # number of r points evaluated at each evolution step in Y
+ * cdef int n = 399                   # number of r points evaluated at each evolution step in Y
  * cdef double r1 = 1.e-6             # lower limit of r
  * cdef double r2 = 1.e2              # upper limit of r             # <<<<<<<<<<<<<<
  * 
