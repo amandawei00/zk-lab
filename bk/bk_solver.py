@@ -76,7 +76,7 @@ def evolve(xlr):
     k1 = Com
     k2 = k1 + (0.5 * hy * k1 * Ker) - (0.5 * hy * k1 * Spl) - (0.25 * hy * hy * k1 * k1 * Ker)
     k3 = k1 + (0.5 * hy * k2 * Ker) - (0.5 * hy * k2 * Spl) - (0.25 * hy * hy * k2 * k2 * Ker)
-    k4 = k1 + (0.5 * hy * k3 * Ker) - (0.5 * hy * k3 * Spl) - (0.25 * hy * hy * k3 * k3 * Ker)
+    k4 = k1 + (hy * k3 * Ker) - (hy * k3 * Spl) - (hy * hy * k3 * k3 * Ker)
 
     return (1/6) * hy * (k1 + 2 * k2 + 2 * k3 + k4)
 
