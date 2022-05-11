@@ -35,7 +35,6 @@ y = np.arange(0.0, ymax, hy)
 
 # Arrays for N and r in N(r), evaluated at some rapidity Y (including next step N(r,Y) in the evolution
 xlr_ = [xr1 + i * hr for i in range(n + 1)]
-pi_ = np.linspace(0.0, 0.5*np.pi, 20)
 r_ = np.exp(xlr_)
 n_ = []
 
