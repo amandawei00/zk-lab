@@ -45,7 +45,6 @@ lamb = 0.241  # lambda QCD (default)
 
 beta = (11 * nc - 2. * nf)/(12 * np.pi)
 afr = 0.7     # frozen coupling constant (default)
-rfr = (2./lamb) * np.exp(-0.5/(beta * afr))  # IR cutoff
 
 c2, gamma, qs02, ec = 0. , 0., 0., 0.   # fitting parameters
 e  = np.exp(1)
@@ -68,9 +67,9 @@ def evolve(xlr):
     fs = llc.from_cython(so, 'f_split', signature='double (int, double *)')
     fc = llc.from_cython(so, 'f_combined', signature='double (int, double *)')
 
-    Ker = dblquad(fk, xr1, xr2, 0.0, 0.5 * np.pi, epsabs=0.00, epsrel=0.05)[0]
-    Spl = dblquad(fs, xr1, xr2, 0.0, 0.5 * np.pi, epsabs=0.00, epsrel=0.05)[0]
-    Com = dblquad(fc, xr1, xr2, 0.0, 0.5 * np.pi, epsabs=0.00, epsrel=0.05)[0]
+    Ker = dblquad(fk, xr1, xr2, 0.0, 0.5 * np.pi, epsabs=0.00, epsrel=1.e-5)[0]
+    Spl = dblquad(fs, xr1, xr2, 0.0, 0.5 * np.pi, epsabs=0.00, epsrel=1.e-5)[0]
+    Com = dblquad(fc, xr1, xr2, 0.0, 0.5 * np.pi, epsabs=0.00, epsrel=1.e-5)[0]
 
     k1 = Com
     k2 = k1 + (0.5 * hy * k1 * Ker) - (0.5 * hy * k1 * Spl) - (0.25 * hy * hy * k1 * k1 * Ker)
