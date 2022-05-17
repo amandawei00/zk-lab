@@ -152,15 +152,17 @@ cdef double f_kernel(int n, double *xx):  # xx = [theta, a]
     r1_ = find_r1(r0, z, xx[0])
     r2_ = find_r2(r0, z, xx[0])
 
-    return 4 * z * z * k(r0, r1_, r2_)
+    # return 4 * z * z * k(r0, r1_, r2_)
+    return z * z * k(r0, r1_, r2_)
 
 # kernel integrand
-cdef double f_ker(double theta, double a):
-    cdef double z, r1_, r2_
-    z = exp(a)
-    r1_ = find_r1(r0, z, theta)
-    r2_ = find_r2(r0, z, theta)
-    return 4 * z * z * k(r0, r1_, r2_)
+# cdef double f_ker(double theta, double a):
+#     cdef double z, r1_, r2_
+#     z = exp(a)
+#     r1_ = find_r1(r0, z, theta)
+#     r2_ = find_r2(r0, z, theta)
+    # return 4 * z * z * k(r0, r1_, r2_)
+#    return z * z * k(r0, r1_, r2_)
 
 # split integrand
 cdef double f_split(int n, double *xx):
@@ -173,7 +175,8 @@ cdef double f_split(int n, double *xx):
     nr1 = nfunc(log(r1_))
     nr2 = nfunc(log(r2_))
 
-    return 4 * z * z * k(r0, r1_, r2_) * (nr1 + nr2)
+    # return 4 * z * z * k(r0, r1_, r2_) * (nr1 + nr2)
+    return z * z * k(r0, r1_, r2_) * (nr1 + nr2)
 
 # combined integrand
 cdef double f_combined(int n, double *xx):
@@ -191,4 +194,6 @@ cdef double f_combined(int n, double *xx):
     nr1 = nfunc(xlr1)
     nr2 = nfunc(xlr2)
 
-    return 4 * z * z * k(r0, r1_, r2_) * (nr1 + nr2 - n0 - nr1 * nr2)
+    # return 4 * z * z * k(r0, r1_, r2_) * (nr1 + nr2 - n0 - nr1 * nr2)
+    return z * z * k(r0, r1_, r2_) * (nr1 + nr2 - n0 - nr1 * nr2)
+
