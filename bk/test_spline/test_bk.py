@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 import sys
 import glob
 from numpy import sqrt, exp
-
+import pandas as pd
 # variables
 n = 399     # number of r points to be evaluated at each evolution step in Y
 r1 = 1.e-6  # limits of r
@@ -45,23 +45,16 @@ def mv(r):
 cspline = CDLL('./spline_c.so')
 print("shared object imported")
 
-b = np.empty(n)
-c = np.empty(n)
-d = np.empty(n)
-
 cspline.spline.restype = None
 cspline.spline.argtypes = [np.ctypeslib.ndpointer(dtype=np.float64), np.ctypeslib.ndpointer(dtype=np.float64), np.ctypeslib.ndpointer(dtype=np.float64), np.ctypeslib.ndpointer(dtype=np.float64), np.ctypeslib.ndpointer(dtype=np.float64), ctypes.c_int]
 
 cspline.ispline.restype = ctypes.c_double
 cspline.ispline.argtypes = [ctypes.c_double] + cspline.spline.argtypes
 
-cspline.spline(x, y, b, c, d, n)
-y_grid = [cspline.ispline(x0, x, y, b, c, d, n) for x0 in x_grid]
-
-def nfunc(qlr):
+def nfunc(qlr, xlr_, n_, coeff1, coeff2, coeff3):
     x = 0.0
     if qlr < xr1:
-        x = n_[0] * exp(2 * qlr)/(r1 * r1)
+        x = n_[0] * exp(2 * qlr)/(1.e-6 * 1.e-6)
     elif qlr >= xr2:
         x = 1.
     else:
@@ -139,16 +132,32 @@ def f_combined(theta, xlr):
 
     return z * z * k(r0, r1_, r2_) * (nr1 + nr2 - n0 - nr1 * nr2)
 
-x = np.logspace(xr1, xr2, n)
-x_grid = np.logspace(xr1, xr2, 600)
-y = np.array([f_combined(np.pi, xlr) for xlr in x])
+prev = 0.5  # previous step in rapidity
+f    = '../results/bk_MV1.csv'
 
-ratio = [y_grid[i]/mv(x_grid[i]) for i in range(len(y_grid))]
+# read from file
+df     = pd.read_csv(f, delimiter='\t', header=0, index_col=None)
+r_prev = df.loc[df['y']==prev][['r']]
+n_prev = df.loc[df['y']==prev][['N(r,Y)']]
+
+b = np.empty(n)
+c = np.empty(n)
+d = np.empty(n)
+print(r_prev)
+print(n_prev)
+cspline.spline(r_prev.to_numpy(), n_prev.to_numpy(), b, c, d, n)
+
+x      = np.logspace(xr1, xr2, n)
+x_grid = np.logspace(xr1, xr2, 600)
+y      = np.array([nfunc(xlr, r_prev, n_prev, b, c, d) for xlr in x])
+y_grid = [nfunc(xlr, r_prev, n_prev, b, c, d) for xlr in x_grid]
+
+# ratio = [y_grid[i]/ for i in range(len(y_grid))]
 plt.xscale('log')
-# plt.errorbar(x,y,fmt='o', markersize=1.)
-# plt.plot(x_grid, y_grid)
-print(ratio)
-plt.plot(x_grid, ratio)
+plt.errorbar(x,y,fmt='o', markersize=1.)
+plt.plot(x_grid, y_grid)
+# print(ratio)
+# plt.plot(x_grid, ratio)
 plt.show()
 
 
