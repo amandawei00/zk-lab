@@ -2999,8 +2999,8 @@ static double __pyx_f_6solver_f_kernel(CYTHON_UNUSED int __pyx_v_n, double *__py
  *     r2_ = find_r2(r0, z, xx[0])
  * 
  *     return 4 * z * z * k(r0, r1_, r2_)             # <<<<<<<<<<<<<<
+ *     # return z * z * k(r0, r1_, r2_)
  * 
- * # kernel integrand
  */
   __pyx_r = (((4.0 * __pyx_v_z) * __pyx_v_z) * __pyx_f_6solver_k(__pyx_v_6solver_r0, __pyx_v_r1_, __pyx_v_r2_));
   goto __pyx_L0;
@@ -3019,74 +3019,7 @@ static double __pyx_f_6solver_f_kernel(CYTHON_UNUSED int __pyx_v_n, double *__py
   return __pyx_r;
 }
 
-/* "solver.pyx":158
- * 
- * # kernel integrand
- * cdef double f_ker(double theta, double a):             # <<<<<<<<<<<<<<
- *     cdef double z, r1_, r2_
- *     z = exp(a)
- */
-
-static double __pyx_f_6solver_f_ker(double __pyx_v_theta, double __pyx_v_a) {
-  double __pyx_v_z;
-  double __pyx_v_r1_;
-  double __pyx_v_r2_;
-  double __pyx_r;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("f_ker", 0);
-
-  /* "solver.pyx":160
- * cdef double f_ker(double theta, double a):
- *     cdef double z, r1_, r2_
- *     z = exp(a)             # <<<<<<<<<<<<<<
- *     r1_ = find_r1(r0, z, theta)
- *     r2_ = find_r2(r0, z, theta)
- */
-  __pyx_v_z = exp(__pyx_v_a);
-
-  /* "solver.pyx":161
- *     cdef double z, r1_, r2_
- *     z = exp(a)
- *     r1_ = find_r1(r0, z, theta)             # <<<<<<<<<<<<<<
- *     r2_ = find_r2(r0, z, theta)
- *     return 4 * z * z * k(r0, r1_, r2_)
- */
-  __pyx_v_r1_ = __pyx_f_6solver_find_r1(__pyx_v_6solver_r0, __pyx_v_z, __pyx_v_theta);
-
-  /* "solver.pyx":162
- *     z = exp(a)
- *     r1_ = find_r1(r0, z, theta)
- *     r2_ = find_r2(r0, z, theta)             # <<<<<<<<<<<<<<
- *     return 4 * z * z * k(r0, r1_, r2_)
- * 
- */
-  __pyx_v_r2_ = __pyx_f_6solver_find_r2(__pyx_v_6solver_r0, __pyx_v_z, __pyx_v_theta);
-
-  /* "solver.pyx":163
- *     r1_ = find_r1(r0, z, theta)
- *     r2_ = find_r2(r0, z, theta)
- *     return 4 * z * z * k(r0, r1_, r2_)             # <<<<<<<<<<<<<<
- * 
- * # split integrand
- */
-  __pyx_r = (((4.0 * __pyx_v_z) * __pyx_v_z) * __pyx_f_6solver_k(__pyx_v_6solver_r0, __pyx_v_r1_, __pyx_v_r2_));
-  goto __pyx_L0;
-
-  /* "solver.pyx":158
- * 
- * # kernel integrand
- * cdef double f_ker(double theta, double a):             # <<<<<<<<<<<<<<
- *     cdef double z, r1_, r2_
- *     z = exp(a)
- */
-
-  /* function exit code */
-  __pyx_L0:;
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* "solver.pyx":166
+/* "solver.pyx":168
  * 
  * # split integrand
  * cdef double f_split(int n, double *xx):             # <<<<<<<<<<<<<<
@@ -3104,7 +3037,7 @@ static double __pyx_f_6solver_f_split(CYTHON_UNUSED int __pyx_v_n, double *__pyx
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("f_split", 0);
 
-  /* "solver.pyx":169
+  /* "solver.pyx":171
  *     cdef double z, r1_, r2_, kk
  * 
  *     z = exp(xx[1])             # <<<<<<<<<<<<<<
@@ -3113,7 +3046,7 @@ static double __pyx_f_6solver_f_split(CYTHON_UNUSED int __pyx_v_n, double *__pyx
  */
   __pyx_v_z = exp((__pyx_v_xx[1]));
 
-  /* "solver.pyx":170
+  /* "solver.pyx":172
  * 
  *     z = exp(xx[1])
  *     r1_ = find_r1(r0, z, xx[0])             # <<<<<<<<<<<<<<
@@ -3122,7 +3055,7 @@ static double __pyx_f_6solver_f_split(CYTHON_UNUSED int __pyx_v_n, double *__pyx
  */
   __pyx_v_r1_ = __pyx_f_6solver_find_r1(__pyx_v_6solver_r0, __pyx_v_z, (__pyx_v_xx[0]));
 
-  /* "solver.pyx":171
+  /* "solver.pyx":173
  *     z = exp(xx[1])
  *     r1_ = find_r1(r0, z, xx[0])
  *     r2_ = find_r2(r0, z, xx[0])             # <<<<<<<<<<<<<<
@@ -3131,7 +3064,7 @@ static double __pyx_f_6solver_f_split(CYTHON_UNUSED int __pyx_v_n, double *__pyx
  */
   __pyx_v_r2_ = __pyx_f_6solver_find_r2(__pyx_v_6solver_r0, __pyx_v_z, (__pyx_v_xx[0]));
 
-  /* "solver.pyx":173
+  /* "solver.pyx":175
  *     r2_ = find_r2(r0, z, xx[0])
  * 
  *     nr1 = nfunc(log(r1_))             # <<<<<<<<<<<<<<
@@ -3140,7 +3073,7 @@ static double __pyx_f_6solver_f_split(CYTHON_UNUSED int __pyx_v_n, double *__pyx
  */
   __pyx_v_nr1 = __pyx_f_6solver_nfunc(log(__pyx_v_r1_));
 
-  /* "solver.pyx":174
+  /* "solver.pyx":176
  * 
  *     nr1 = nfunc(log(r1_))
  *     nr2 = nfunc(log(r2_))             # <<<<<<<<<<<<<<
@@ -3149,17 +3082,17 @@ static double __pyx_f_6solver_f_split(CYTHON_UNUSED int __pyx_v_n, double *__pyx
  */
   __pyx_v_nr2 = __pyx_f_6solver_nfunc(log(__pyx_v_r2_));
 
-  /* "solver.pyx":176
+  /* "solver.pyx":178
  *     nr2 = nfunc(log(r2_))
  * 
  *     return 4 * z * z * k(r0, r1_, r2_) * (nr1 + nr2)             # <<<<<<<<<<<<<<
+ *     # return z * z * k(r0, r1_, r2_) * (nr1 + nr2)
  * 
- * # combined integrand
  */
   __pyx_r = ((((4.0 * __pyx_v_z) * __pyx_v_z) * __pyx_f_6solver_k(__pyx_v_6solver_r0, __pyx_v_r1_, __pyx_v_r2_)) * (__pyx_v_nr1 + __pyx_v_nr2));
   goto __pyx_L0;
 
-  /* "solver.pyx":166
+  /* "solver.pyx":168
  * 
  * # split integrand
  * cdef double f_split(int n, double *xx):             # <<<<<<<<<<<<<<
@@ -3173,7 +3106,7 @@ static double __pyx_f_6solver_f_split(CYTHON_UNUSED int __pyx_v_n, double *__pyx
   return __pyx_r;
 }
 
-/* "solver.pyx":179
+/* "solver.pyx":182
  * 
  * # combined integrand
  * cdef double f_combined(int n, double *xx):             # <<<<<<<<<<<<<<
@@ -3193,7 +3126,7 @@ static double __pyx_f_6solver_f_combined(CYTHON_UNUSED int __pyx_v_n, double *__
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("f_combined", 0);
 
-  /* "solver.pyx":184
+  /* "solver.pyx":187
  *     cdef double nr1, nr2
  * 
  *     z = exp(xx[1])             # <<<<<<<<<<<<<<
@@ -3202,7 +3135,7 @@ static double __pyx_f_6solver_f_combined(CYTHON_UNUSED int __pyx_v_n, double *__
  */
   __pyx_v_z = exp((__pyx_v_xx[1]));
 
-  /* "solver.pyx":185
+  /* "solver.pyx":188
  * 
  *     z = exp(xx[1])
  *     r1_ = find_r1(r0, z, xx[0])             # <<<<<<<<<<<<<<
@@ -3211,7 +3144,7 @@ static double __pyx_f_6solver_f_combined(CYTHON_UNUSED int __pyx_v_n, double *__
  */
   __pyx_v_r1_ = __pyx_f_6solver_find_r1(__pyx_v_6solver_r0, __pyx_v_z, (__pyx_v_xx[0]));
 
-  /* "solver.pyx":186
+  /* "solver.pyx":189
  *     z = exp(xx[1])
  *     r1_ = find_r1(r0, z, xx[0])
  *     r2_ = find_r2(r0, z, xx[0])             # <<<<<<<<<<<<<<
@@ -3220,7 +3153,7 @@ static double __pyx_f_6solver_f_combined(CYTHON_UNUSED int __pyx_v_n, double *__
  */
   __pyx_v_r2_ = __pyx_f_6solver_find_r2(__pyx_v_6solver_r0, __pyx_v_z, (__pyx_v_xx[0]));
 
-  /* "solver.pyx":188
+  /* "solver.pyx":191
  *     r2_ = find_r2(r0, z, xx[0])
  * 
  *     xlr1 = log(r1_)             # <<<<<<<<<<<<<<
@@ -3229,7 +3162,7 @@ static double __pyx_f_6solver_f_combined(CYTHON_UNUSED int __pyx_v_n, double *__
  */
   __pyx_v_xlr1 = log(__pyx_v_r1_);
 
-  /* "solver.pyx":189
+  /* "solver.pyx":192
  * 
  *     xlr1 = log(r1_)
  *     xlr2 = log(r2_)             # <<<<<<<<<<<<<<
@@ -3238,7 +3171,7 @@ static double __pyx_f_6solver_f_combined(CYTHON_UNUSED int __pyx_v_n, double *__
  */
   __pyx_v_xlr2 = log(__pyx_v_r2_);
 
-  /* "solver.pyx":191
+  /* "solver.pyx":194
  *     xlr2 = log(r2_)
  * 
  *     nr1 = nfunc(xlr1)             # <<<<<<<<<<<<<<
@@ -3247,7 +3180,7 @@ static double __pyx_f_6solver_f_combined(CYTHON_UNUSED int __pyx_v_n, double *__
  */
   __pyx_v_nr1 = __pyx_f_6solver_nfunc(__pyx_v_xlr1);
 
-  /* "solver.pyx":192
+  /* "solver.pyx":195
  * 
  *     nr1 = nfunc(xlr1)
  *     nr2 = nfunc(xlr2)             # <<<<<<<<<<<<<<
@@ -3256,15 +3189,17 @@ static double __pyx_f_6solver_f_combined(CYTHON_UNUSED int __pyx_v_n, double *__
  */
   __pyx_v_nr2 = __pyx_f_6solver_nfunc(__pyx_v_xlr2);
 
-  /* "solver.pyx":194
+  /* "solver.pyx":197
  *     nr2 = nfunc(xlr2)
  * 
  *     return 4 * z * z * k(r0, r1_, r2_) * (nr1 + nr2 - n0 - nr1 * nr2)             # <<<<<<<<<<<<<<
+ *     # return z * z * k(r0, r1_, r2_) * (nr1 + nr2 - n0 - nr1 * nr2)
+ * 
  */
   __pyx_r = ((((4.0 * __pyx_v_z) * __pyx_v_z) * __pyx_f_6solver_k(__pyx_v_6solver_r0, __pyx_v_r1_, __pyx_v_r2_)) * (((__pyx_v_nr1 + __pyx_v_nr2) - __pyx_v_6solver_n0) - (__pyx_v_nr1 * __pyx_v_nr2)));
   goto __pyx_L0;
 
-  /* "solver.pyx":179
+  /* "solver.pyx":182
  * 
  * # combined integrand
  * cdef double f_combined(int n, double *xx):             # <<<<<<<<<<<<<<
