@@ -1,12 +1,23 @@
 from scipy import LowLevelCallable as llc
 import scipy.integrate as intg
-# import test
+from numba.types import intc, voidptr, CPointer, float64
+from numba import cfunc
 import t
 import subprocess
 import numpy as np
+import ctypes
+from ctypes import c_void_p, c_int, POINTER, c_uint64
 
-f1 = llc.from_cython(t, 'f1')
-print(intg.quad(f1, 0., 4., args=(2,)))
+@cfunc(intc(intc, CPointer(float64), voidptr))
+def f1_wrap(n, x, udata):
+    return t.f1(n, x, udata)
+
+udata = np.array([2])
+# f1 = llc.from_cython(t, 'f1', user_data=CPointer(float64))
+# print(intg.quad(f1, 0., 4., args=(2,)))
+print(intg.quad(LowLevelCallable(f1_wrap.ctypes), 0., 4., args=(2,)))
+
+#------------------------------------------------------------------------------------
 # subprocess.run(['python3', 'setup.py', 'build_ext', '--inplac'])
 
 # def sample(x, y):

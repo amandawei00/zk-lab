@@ -23,12 +23,13 @@ cpdef py_f(cnp.ndarray[int, ndim=1, mode='c'] x, int n):
     # cdef int[:] x_ = np.ascontiguousarray(x, dtype=int)
     return func(<int*> x.data, n)
 
-cdef double f1(int n, double *u, void *user_data):
-    cdef double a = (<double*>user_data)[0]
-    cdef double b = (<double*>u)[0]
-    # print(a)
-    # print(b)
-    return a * b
+# cpdef double f1(int n, double *u, void *user_data):
+cpdef f1(int n, double[::1] arr, double[::1] user_data):
+    # cdef double a = (<double*>user_data.data)[0]
+    # cdef double b = (<double*>u.data)[0] 
+    cdef double *a = &user_data[0]
+    cdef double *b = &u[0]
+    return &a[0] * &b[0]
 
 cdef double py_f2(int n, double *xx):
     return func2(n, xx)
