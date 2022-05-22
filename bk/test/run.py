@@ -8,14 +8,14 @@ import numpy as np
 import ctypes
 from ctypes import c_void_p, c_int, POINTER, c_uint64
 
-@cfunc(intc(intc, CPointer(float64), voidptr))
+@cfunc(float64(intc, CPointer(float64), voidptr))
 def f1_wrap(n, x, udata):
-    return t.f1(n, x, udata)
+    return t.f1(x[0], udata[0])
 
 udata = np.array([2])
 # f1 = llc.from_cython(t, 'f1', user_data=CPointer(float64))
 # print(intg.quad(f1, 0., 4., args=(2,)))
-print(intg.quad(LowLevelCallable(f1_wrap.ctypes), 0., 4., args=(2,)))
+print(intg.quad(LowLevelCallable(f1_wrap, (2,)), 0., 4.))
 
 #------------------------------------------------------------------------------------
 # subprocess.run(['python3', 'setup.py', 'build_ext', '--inplac'])
