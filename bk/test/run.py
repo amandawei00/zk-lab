@@ -6,11 +6,19 @@ import t
 import subprocess
 import numpy as np
 import ctypes
-from ctypes import c_void_p, c_int, POINTER, c_uint64
+from ctypes import c_void_p, c_int, POINTER, c_uint64, c_double
 
-@cfunc(float64(intc, CPointer(float64), voidptr))
+'''@cfunc(float64(intc, CPointer(float64), voidptr))
 def f1_wrap(n, x, udata):
-    return t.f1(x[0], udata[0])
+    return t.f1(x[0], udata[0])'''
+
+fname = 't.cpython-36m-x86_64-linux-gnu.so'
+lib = ctypes.CDLL('/u/home/a/amandawe/zk-lab/bk/test/' + fname)
+lib.f1.restype = c_double
+lib.f1.argtypes = (c_double, c_double)
+
+def f1_wrap(n, x, data):
+    return lib.f1(x, data[0])
 
 udata = np.array([2])
 # f1 = llc.from_cython(t, 'f1', user_data=CPointer(float64))
