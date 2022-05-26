@@ -1,1 +1,1 @@
-cdef double f_combined(int n, double *xx)
+cdef double f(int n, double *xx)

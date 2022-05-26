@@ -2232,7 +2232,6 @@ static PyObject *indirect_contiguous = 0;
 static int __pyx_memoryview_thread_locks_used;
 static PyThread_type_lock __pyx_memoryview_thread_locks[8];
 static PyObject *__pyx_f_1t_py_f(PyArrayObject *, int, int __pyx_skip_dispatch); /*proto*/
-static double __pyx_f_1t_f1(double, double, int __pyx_skip_dispatch); /*proto*/
 static void __pyx_f_1t_set_abc(int, int, int, int __pyx_skip_dispatch); /*proto*/
 static void __pyx_f_1t_print_abc(int __pyx_skip_dispatch); /*proto*/
 static struct __pyx_array_obj *__pyx_array_new(PyObject *, Py_ssize_t, char *, char *, char *); /*proto*/
@@ -2284,14 +2283,13 @@ static PyObject *__pyx_builtin_Ellipsis;
 static PyObject *__pyx_builtin_id;
 static PyObject *__pyx_builtin_IndexError;
 static const char __pyx_k_O[] = "O";
-static const char __pyx_k_a[] = "a";
+static const char __pyx_k_a[] = "a = ";
 static const char __pyx_k_b[] = "b = ";
 static const char __pyx_k_c[] = "c = ";
 static const char __pyx_k_n[] = "n";
 static const char __pyx_k_x[] = "x";
 static const char __pyx_k_id[] = "id";
 static const char __pyx_k_np[] = "np";
-static const char __pyx_k_a_2[] = "a = ";
 static const char __pyx_k_ant[] = "ant";
 static const char __pyx_k_c_2[] = "c";
 static const char __pyx_k_end[] = "end";
@@ -2408,8 +2406,7 @@ static PyObject *__pyx_n_s_TypeError;
 static PyObject *__pyx_kp_s_Unable_to_convert_item_to_object;
 static PyObject *__pyx_n_s_ValueError;
 static PyObject *__pyx_n_s_View_MemoryView;
-static PyObject *__pyx_n_s_a;
-static PyObject *__pyx_kp_s_a_2;
+static PyObject *__pyx_kp_s_a;
 static PyObject *__pyx_n_s_allocate_buffer;
 static PyObject *__pyx_n_s_ant;
 static PyObject *__pyx_kp_s_b;
@@ -2488,9 +2485,8 @@ static PyObject *__pyx_n_s_unpack;
 static PyObject *__pyx_n_s_update;
 static PyObject *__pyx_n_s_x;
 static PyObject *__pyx_pf_1t_py_f(CYTHON_UNUSED PyObject *__pyx_self, PyArrayObject *__pyx_v_x, int __pyx_v_n); /* proto */
-static PyObject *__pyx_pf_1t_2f1(CYTHON_UNUSED PyObject *__pyx_self, double __pyx_v_x, double __pyx_v_a); /* proto */
-static PyObject *__pyx_pf_1t_4set_abc(CYTHON_UNUSED PyObject *__pyx_self, int __pyx_v_ant, int __pyx_v_baboon, int __pyx_v_clown); /* proto */
-static PyObject *__pyx_pf_1t_6print_abc(CYTHON_UNUSED PyObject *__pyx_self); /* proto */
+static PyObject *__pyx_pf_1t_2set_abc(CYTHON_UNUSED PyObject *__pyx_self, int __pyx_v_ant, int __pyx_v_baboon, int __pyx_v_clown); /* proto */
+static PyObject *__pyx_pf_1t_4print_abc(CYTHON_UNUSED PyObject *__pyx_self); /* proto */
 static int __pyx_array___pyx_pf_15View_dot_MemoryView_5array___cinit__(struct __pyx_array_obj *__pyx_v_self, PyObject *__pyx_v_shape, Py_ssize_t __pyx_v_itemsize, PyObject *__pyx_v_format, PyObject *__pyx_v_mode, int __pyx_v_allocate_buffer); /* proto */
 static int __pyx_array___pyx_pf_15View_dot_MemoryView_5array_2__getbuffer__(struct __pyx_array_obj *__pyx_v_self, Py_buffer *__pyx_v_info, int __pyx_v_flags); /* proto */
 static void __pyx_array___pyx_pf_15View_dot_MemoryView_5array_4__dealloc__(struct __pyx_array_obj *__pyx_v_self); /* proto */
@@ -2759,13 +2755,12 @@ static PyObject *__pyx_pf_1t_py_f(CYTHON_UNUSED PyObject *__pyx_self, PyArrayObj
 /* "t.pyx":27
  * 
  * # cpdef double f1(int n, double *u, void *user_data):
- * cpdef double f1(double x, double a):             # <<<<<<<<<<<<<<
+ * cdef double f1(int n, double *xx):             # <<<<<<<<<<<<<<
  *     # cdef double a = (<double*>user_data.data)[0]
  *     # cdef double b = (<double*>u.data)[0]
  */
 
-static PyObject *__pyx_pw_1t_3f1(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static double __pyx_f_1t_f1(double __pyx_v_x, double __pyx_v_a, CYTHON_UNUSED int __pyx_skip_dispatch) {
+static double __pyx_f_1t_f1(CYTHON_UNUSED int __pyx_v_n, double *__pyx_v_xx) {
   double __pyx_r;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("f1", 0);
@@ -2773,17 +2768,17 @@ static double __pyx_f_1t_f1(double __pyx_v_x, double __pyx_v_a, CYTHON_UNUSED in
   /* "t.pyx":31
  *     # cdef double b = (<double*>u.data)[0]
  *     # cdef double *a = <double*> user_data.data[0]
- *     return a * x             # <<<<<<<<<<<<<<
+ *     return xx[0] * xx[1]             # <<<<<<<<<<<<<<
  * 
  * cdef double py_f2(int n, double *xx):
  */
-  __pyx_r = (__pyx_v_a * __pyx_v_x);
+  __pyx_r = ((__pyx_v_xx[0]) * (__pyx_v_xx[1]));
   goto __pyx_L0;
 
   /* "t.pyx":27
  * 
  * # cpdef double f1(int n, double *u, void *user_data):
- * cpdef double f1(double x, double a):             # <<<<<<<<<<<<<<
+ * cdef double f1(int n, double *xx):             # <<<<<<<<<<<<<<
  *     # cdef double a = (<double*>user_data.data)[0]
  *     # cdef double b = (<double*>u.data)[0]
  */
@@ -2794,98 +2789,8 @@ static double __pyx_f_1t_f1(double __pyx_v_x, double __pyx_v_a, CYTHON_UNUSED in
   return __pyx_r;
 }
 
-/* Python wrapper */
-static PyObject *__pyx_pw_1t_3f1(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyObject *__pyx_pw_1t_3f1(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
-  double __pyx_v_x;
-  double __pyx_v_a;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
-  PyObject *__pyx_r = 0;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("f1 (wrapper)", 0);
-  {
-    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_x,&__pyx_n_s_a,0};
-    PyObject* values[2] = {0,0};
-    if (unlikely(__pyx_kwds)) {
-      Py_ssize_t kw_args;
-      const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
-      switch (pos_args) {
-        case  2: values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
-        CYTHON_FALLTHROUGH;
-        case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
-        CYTHON_FALLTHROUGH;
-        case  0: break;
-        default: goto __pyx_L5_argtuple_error;
-      }
-      kw_args = PyDict_Size(__pyx_kwds);
-      switch (pos_args) {
-        case  0:
-        if (likely((values[0] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_x)) != 0)) kw_args--;
-        else goto __pyx_L5_argtuple_error;
-        CYTHON_FALLTHROUGH;
-        case  1:
-        if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_a)) != 0)) kw_args--;
-        else {
-          __Pyx_RaiseArgtupleInvalid("f1", 1, 2, 2, 1); __PYX_ERR(0, 27, __pyx_L3_error)
-        }
-      }
-      if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "f1") < 0)) __PYX_ERR(0, 27, __pyx_L3_error)
-      }
-    } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
-      goto __pyx_L5_argtuple_error;
-    } else {
-      values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
-      values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
-    }
-    __pyx_v_x = __pyx_PyFloat_AsDouble(values[0]); if (unlikely((__pyx_v_x == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 27, __pyx_L3_error)
-    __pyx_v_a = __pyx_PyFloat_AsDouble(values[1]); if (unlikely((__pyx_v_a == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 27, __pyx_L3_error)
-  }
-  goto __pyx_L4_argument_unpacking_done;
-  __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("f1", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 27, __pyx_L3_error)
-  __pyx_L3_error:;
-  __Pyx_AddTraceback("t.f1", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __Pyx_RefNannyFinishContext();
-  return NULL;
-  __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_1t_2f1(__pyx_self, __pyx_v_x, __pyx_v_a);
-
-  /* function exit code */
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-static PyObject *__pyx_pf_1t_2f1(CYTHON_UNUSED PyObject *__pyx_self, double __pyx_v_x, double __pyx_v_a) {
-  PyObject *__pyx_r = NULL;
-  __Pyx_RefNannyDeclarations
-  PyObject *__pyx_t_1 = NULL;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("f1", 0);
-  __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyFloat_FromDouble(__pyx_f_1t_f1(__pyx_v_x, __pyx_v_a, 0)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 27, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_r = __pyx_t_1;
-  __pyx_t_1 = 0;
-  goto __pyx_L0;
-
-  /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("t.f1", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = NULL;
-  __pyx_L0:;
-  __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
 /* "t.pyx":33
- *     return a * x
+ *     return xx[0] * xx[1]
  * 
  * cdef double py_f2(int n, double *xx):             # <<<<<<<<<<<<<<
  *     return func2(n, xx)
@@ -2908,7 +2813,7 @@ static double __pyx_f_1t_py_f2(int __pyx_v_n, double *__pyx_v_xx) {
   goto __pyx_L0;
 
   /* "t.pyx":33
- *     return a * x
+ *     return xx[0] * xx[1]
  * 
  * cdef double py_f2(int n, double *xx):             # <<<<<<<<<<<<<<
  *     return func2(n, xx)
@@ -2966,7 +2871,7 @@ static double __pyx_f_1t_py_f3(double __pyx_v_x) {
  * 
  */
 
-static PyObject *__pyx_pw_1t_5set_abc(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyObject *__pyx_pw_1t_3set_abc(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
 static void __pyx_f_1t_set_abc(int __pyx_v_ant, int __pyx_v_baboon, int __pyx_v_clown, CYTHON_UNUSED int __pyx_skip_dispatch) {
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("set_abc", 0);
@@ -3011,8 +2916,8 @@ static void __pyx_f_1t_set_abc(int __pyx_v_ant, int __pyx_v_baboon, int __pyx_v_
 }
 
 /* Python wrapper */
-static PyObject *__pyx_pw_1t_5set_abc(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyObject *__pyx_pw_1t_5set_abc(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_1t_3set_abc(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyObject *__pyx_pw_1t_3set_abc(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   int __pyx_v_ant;
   int __pyx_v_baboon;
   int __pyx_v_clown;
@@ -3078,14 +2983,14 @@ static PyObject *__pyx_pw_1t_5set_abc(PyObject *__pyx_self, PyObject *__pyx_args
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_1t_4set_abc(__pyx_self, __pyx_v_ant, __pyx_v_baboon, __pyx_v_clown);
+  __pyx_r = __pyx_pf_1t_2set_abc(__pyx_self, __pyx_v_ant, __pyx_v_baboon, __pyx_v_clown);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_1t_4set_abc(CYTHON_UNUSED PyObject *__pyx_self, int __pyx_v_ant, int __pyx_v_baboon, int __pyx_v_clown) {
+static PyObject *__pyx_pf_1t_2set_abc(CYTHON_UNUSED PyObject *__pyx_self, int __pyx_v_ant, int __pyx_v_baboon, int __pyx_v_clown) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -3119,7 +3024,7 @@ static PyObject *__pyx_pf_1t_4set_abc(CYTHON_UNUSED PyObject *__pyx_self, int __
  *     print("b = " + str(b))
  */
 
-static PyObject *__pyx_pw_1t_7print_abc(PyObject *__pyx_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static PyObject *__pyx_pw_1t_5print_abc(PyObject *__pyx_self, CYTHON_UNUSED PyObject *unused); /*proto*/
 static void __pyx_f_1t_print_abc(CYTHON_UNUSED int __pyx_skip_dispatch) {
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -3141,7 +3046,7 @@ static void __pyx_f_1t_print_abc(CYTHON_UNUSED int __pyx_skip_dispatch) {
   __pyx_t_2 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyString_Type)), __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 47, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = PyNumber_Add(__pyx_kp_s_a_2, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 47, __pyx_L1_error)
+  __pyx_t_1 = PyNumber_Add(__pyx_kp_s_a, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 47, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   if (__Pyx_PrintOne(0, __pyx_t_1) < 0) __PYX_ERR(0, 47, __pyx_L1_error)
@@ -3199,19 +3104,19 @@ static void __pyx_f_1t_print_abc(CYTHON_UNUSED int __pyx_skip_dispatch) {
 }
 
 /* Python wrapper */
-static PyObject *__pyx_pw_1t_7print_abc(PyObject *__pyx_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-static PyObject *__pyx_pw_1t_7print_abc(PyObject *__pyx_self, CYTHON_UNUSED PyObject *unused) {
+static PyObject *__pyx_pw_1t_5print_abc(PyObject *__pyx_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static PyObject *__pyx_pw_1t_5print_abc(PyObject *__pyx_self, CYTHON_UNUSED PyObject *unused) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("print_abc (wrapper)", 0);
-  __pyx_r = __pyx_pf_1t_6print_abc(__pyx_self);
+  __pyx_r = __pyx_pf_1t_4print_abc(__pyx_self);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_1t_6print_abc(CYTHON_UNUSED PyObject *__pyx_self) {
+static PyObject *__pyx_pf_1t_4print_abc(CYTHON_UNUSED PyObject *__pyx_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -17827,9 +17732,8 @@ static PyTypeObject __pyx_type___pyx_memoryviewslice = {
 
 static PyMethodDef __pyx_methods[] = {
   {"py_f", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_1t_1py_f, METH_VARARGS|METH_KEYWORDS, 0},
-  {"f1", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_1t_3f1, METH_VARARGS|METH_KEYWORDS, 0},
-  {"set_abc", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_1t_5set_abc, METH_VARARGS|METH_KEYWORDS, 0},
-  {"print_abc", (PyCFunction)__pyx_pw_1t_7print_abc, METH_NOARGS, 0},
+  {"set_abc", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_1t_3set_abc, METH_VARARGS|METH_KEYWORDS, 0},
+  {"print_abc", (PyCFunction)__pyx_pw_1t_5print_abc, METH_NOARGS, 0},
   {0, 0, 0, 0}
 };
 
@@ -17899,8 +17803,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_kp_s_Unable_to_convert_item_to_object, __pyx_k_Unable_to_convert_item_to_object, sizeof(__pyx_k_Unable_to_convert_item_to_object), 0, 0, 1, 0},
   {&__pyx_n_s_ValueError, __pyx_k_ValueError, sizeof(__pyx_k_ValueError), 0, 0, 1, 1},
   {&__pyx_n_s_View_MemoryView, __pyx_k_View_MemoryView, sizeof(__pyx_k_View_MemoryView), 0, 0, 1, 1},
-  {&__pyx_n_s_a, __pyx_k_a, sizeof(__pyx_k_a), 0, 0, 1, 1},
-  {&__pyx_kp_s_a_2, __pyx_k_a_2, sizeof(__pyx_k_a_2), 0, 0, 1, 0},
+  {&__pyx_kp_s_a, __pyx_k_a, sizeof(__pyx_k_a), 0, 0, 1, 0},
   {&__pyx_n_s_allocate_buffer, __pyx_k_allocate_buffer, sizeof(__pyx_k_allocate_buffer), 0, 0, 1, 1},
   {&__pyx_n_s_ant, __pyx_k_ant, sizeof(__pyx_k_ant), 0, 0, 1, 1},
   {&__pyx_kp_s_b, __pyx_k_b, sizeof(__pyx_k_b), 0, 0, 1, 0},
@@ -18333,6 +18236,7 @@ static int __Pyx_modinit_function_export_code(void) {
   /*--- Function export code ---*/
   if (__Pyx_ExportFunction("py_f2", (void (*)(void))__pyx_f_1t_py_f2, "double (int, double *)") < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   if (__Pyx_ExportFunction("py_f3", (void (*)(void))__pyx_f_1t_py_f3, "double (double)") < 0) __PYX_ERR(0, 1, __pyx_L1_error)
+  if (__Pyx_ExportFunction("f1", (void (*)(void))__pyx_f_1t_f1, "double (int, double *)") < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;

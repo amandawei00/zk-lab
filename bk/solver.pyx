@@ -145,7 +145,7 @@ cdef double k(double r, double r1_, double r2_):
         return prefac * (t1 + t2 + t3)
 
 # combined integrand
-cdef double f (int n, double *xx):
+cdef double f(int n, double *xx):
     cdef double z, r1_, r2_
     cdef double xlr1, xlr2
     cdef double nr1, nr2
@@ -157,9 +157,10 @@ cdef double f (int n, double *xx):
     xlr1 = log(r1_)
     xlr2 = log(r2_)
 
-    nr1 = nfunc(xlr1)
-    nr2 = nfunc(xlr2)
+    nr0 = n0 + xx[2]
+    nr1 = nfunc(xlr1) + xx[2]
+    nr2 = nfunc(xlr2) + xx[2]
 
-    return 4 * z * z * k(r0, r1_, r2_) * (nr1 + nr2 - n0 - nr1 * nr2)
+    return 4 * z * z * k(r0, r1_, r2_) * (nr1 + nr2 - nr0 - nr1 * nr2)
     # return z * z * k(r0, r1_, r2_) * (nr1 + nr2 - n0 - nr1 * nr2)
 

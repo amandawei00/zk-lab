@@ -63,18 +63,12 @@ def evolve(xlr):
     # set_vars(xlr, n(r0), xlr_, n_arr)
     so.set_vars(xlr, nr0, xlr_, n_)
 
-    fk = llc.from_cython(so, 'f_kernel', signature='double (int, double *)')
-    fs = llc.from_cython(so, 'f_split', signature='double (int, double *)')
-    fc = llc.from_cython(so, 'f_combined', signature='double (int, double *)')
+    func = llc.from_cython(so, 'f', signature='double (int, double *)')
 
-    Ker = dblquad(fk, xr1, xr2, 0.0, 0.5 * np.pi, epsabs=0.00, epsrel=0.05)[0]
-    Spl = dblquad(fs, xr1, xr2, 0.0, 0.5 * np.pi, epsabs=0.00, epsrel=0.05)[0]
-    Com = dblquad(fc, xr1, xr2, 0.0, 0.5 * np.pi, epsabs=0.00, epsrel=0.05)[0]
-
-    k1 = Com
-    k2 = k1 + (0.5 * hy * k1 * Ker) - (0.5 * hy * k1 * Spl) - (0.25 * hy * hy * k1 * k1 * Ker)
-    k3 = k1 + (0.5 * hy * k2 * Ker) - (0.5 * hy * k2 * Spl) - (0.25 * hy * hy * k2 * k2 * Ker)
-    k4 = k1 + (hy * k3 * Ker) - (hy * k3 * Spl) - (hy * hy * k3 * k3 * Ker)
+    k1 = dblquad(func, xr1, xr2, 0.0, 0.5 * np.pi, epsabs=0.0, epsrel=0.05, args=(0,))[0]
+    k2 = dblquad(func, xr1, xr2, 0.0, 0.5 * np.pi, epsabs=0.0, epsrel=0.05, args=(0.5 * hy * k1,))[0]
+    k3 = dblquad(func, xr1, xr2, 0.0, 0.5 * np.pi, epsabs=0.0, epsrel=0.05, args=(0.5 * hy * k2,))[0]
+    k4 = dblquad(func, xr1, xr2, 0.0, 0.5 * np.pi, epsabs=0.0, epsrel=0.05, args=(hy * k3,))[0]
 
     return (1/6) * hy * (k1 + 2 * k2 + 2 * k3 + k4)
 

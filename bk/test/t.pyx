@@ -24,11 +24,11 @@ cpdef py_f(cnp.ndarray[int, ndim=1, mode='c'] x, int n):
     return func(<int*> x.data, n)
 
 # cpdef double f1(int n, double *u, void *user_data):
-cpdef double f1(double x, double a):
+cdef double f1(int n, double *xx):
     # cdef double a = (<double*>user_data.data)[0]
     # cdef double b = (<double*>u.data)[0] 
     # cdef double *a = <double*> user_data.data[0]
-    return a * x
+    return xx[0] * xx[1]
 
 cdef double py_f2(int n, double *xx):
     return func2(n, xx)
