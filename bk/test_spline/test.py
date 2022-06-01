@@ -17,7 +17,7 @@ xmax = 7
 
 x  = np.linspace(xmin, xmax, n)
 x_grid = np.linspace(xmin, xmax, m)
-y = np.sin(x)
+y = 0 * x
 
 b = np.empty(n)
 c = np.empty(n)
@@ -31,7 +31,7 @@ cspline.ispline.argtypes = [ctypes.c_double] + cspline.spline.argtypes
 
 cspline.spline(x, y, b, c, d, n)
 y_grid = [cspline.ispline(x0, x, y, b, c, d, n) for x0 in x_grid]
-
+print(y_grid)
 
 plt.errorbar(x,y,fmt='o')
 plt.plot(x_grid, y_grid)

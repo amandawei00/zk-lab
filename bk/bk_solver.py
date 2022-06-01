@@ -55,22 +55,28 @@ def mv(r):
     xexp = np.power(qs02 * r * r, gamma) * xlog/4.0
     return 1 - np.exp(-xexp)
 
-def evolve(xlr):
-
-    index = xlr_.index(xlr)
+def intg(xx):
+    index = xlr_.index(xx)
     nr0 = n_[index]
 
-    # set_vars(xlr, n(r0), xlr_, n_arr)
-    so.set_vars(xlr, nr0, xlr_, n_)
+    so.set_vars(xx, nr0, xlr_, n_)
+    func = llc.from_cython(so, 'f', signature='double (int, double *)') # maybe this needs to be called once?
+    return dblquad(func, xr1, xr2, 0.0, 0.5 * np.pi, epsabs=0.0, epsrel=0.05)[0]
 
-    func = llc.from_cython(so, 'f', signature='double (int, double *)')
+# return type: array
+def evolve():
 
-    k1 = dblquad(func, xr1, xr2, 0.0, 0.5 * np.pi, epsabs=0.0, epsrel=0.05, args=(0,))[0]
-    k2 = dblquad(func, xr1, xr2, 0.0, 0.5 * np.pi, epsabs=0.0, epsrel=0.05, args=(0.5 * hy * k1,))[0]
-    k3 = dblquad(func, xr1, xr2, 0.0, 0.5 * np.pi, epsabs=0.0, epsrel=0.05, args=(0.5 * hy * k2,))[0]
-    k4 = dblquad(func, xr1, xr2, 0.0, 0.5 * np.pi, epsabs=0.0, epsrel=0.05, args=(hy * k3,))[0]
+    # Euler's method
+    so.set_k(xlr_, [0 for i in range(n)])
+    with Pool(processes=5) as pool:
+        k1 = np.array(pool.map(intg, xlr_, chunksize=80))
 
-    return (1/6) * hy * (k1 + 2 * k2 + 2 * k3 + k4)
+    so.set_k(xlr_, list(k1 * hy))
+    with Pool(processes=5) as pool:
+        k2 = np.array(pool.map(intg, xlr_, chunksize=80))
+    return 0.5 * hy * (k1 + k2)
+
+    # return (1/6) * hy * (k1 + 2 * k2 + 2 * k3 + k4)
 
 # pass fitting variables q_, c_, g_ to set variables in master.py
 def master(q_, c2_, g_, ec_, filename=''):
@@ -103,10 +109,7 @@ def master(q_, c2_, g_, ec_, filename=''):
 
         # calculate correction and update N(r,Y) to next step in rapidity
 
-        xk = []
-        with Pool(processes=5) as pool:
-            xk = pool.map(evolve, xlr_, chunksize=80)
-
+        xk = evolve()
         n_ = [n_[j] + xk[j] for j in range(len(n_))]
 
         # remove nan values from solution
