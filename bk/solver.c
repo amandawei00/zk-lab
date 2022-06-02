@@ -1750,6 +1750,9 @@ static const char __pyx_k_c2[] = "c2 = ";
 static const char __pyx_k_n0[] = "n0_";
 static const char __pyx_k_np[] = "np";
 static const char __pyx_k_end[] = "end";
+static const char __pyx_k_kr0[] = "kr0 = ";
+static const char __pyx_k_kr1[] = ", kr1 = ";
+static const char __pyx_k_kr2[] = ", kr2 = ";
 static const char __pyx_k_plt[] = "plt";
 static const char __pyx_k_qsq[] = "qsq_";
 static const char __pyx_k_file[] = "file";
@@ -1787,6 +1790,9 @@ static PyObject *__pyx_kp_s_g;
 static PyObject *__pyx_n_s_gamma;
 static PyObject *__pyx_n_s_import;
 static PyObject *__pyx_n_s_k_arr;
+static PyObject *__pyx_kp_s_kr0;
+static PyObject *__pyx_kp_s_kr1;
+static PyObject *__pyx_kp_s_kr2;
 static PyObject *__pyx_n_s_main;
 static PyObject *__pyx_n_s_matplotlib_pyplot;
 static PyObject *__pyx_n_s_n0;
@@ -3164,6 +3170,14 @@ static double __pyx_f_6solver_f(int __pyx_v_n, double *__pyx_v_xx) {
   double __pyx_v_nr0;
   double __pyx_r;
   __Pyx_RefNannyDeclarations
+  int __pyx_t_1;
+  int __pyx_t_2;
+  PyObject *__pyx_t_3 = NULL;
+  PyObject *__pyx_t_4 = NULL;
+  PyObject *__pyx_t_5 = NULL;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("f", 0);
 
   /* "solver.pyx":177
@@ -3234,21 +3248,96 @@ static double __pyx_f_6solver_f(int __pyx_v_n, double *__pyx_v_xx) {
  *     kr1 = ispline(xlr1, xlr_, k_, kcoeff1, kcoeff2, kcoeff3, n)
  *     kr2 = ispline(xlr2, xlr_, k_, kcoeff1, kcoeff2, kcoeff3, n)             # <<<<<<<<<<<<<<
  * 
- *     # print('kr0 = ' + str(kr0) + ', kr1 = ' + str(kr1) + ', kr2 = ' + str(kr2))
+ *     if kr0 != 0 or kr1 != 0 or kr2 !=0:
  */
   __pyx_v_kr2 = ispline(__pyx_v_xlr2, __pyx_v_6solver_xlr_, __pyx_v_6solver_k_, __pyx_v_6solver_kcoeff1, __pyx_v_6solver_kcoeff2, __pyx_v_6solver_kcoeff3, __pyx_v_n);
 
-  /* "solver.pyx":189
+  /* "solver.pyx":188
+ *     kr2 = ispline(xlr2, xlr_, k_, kcoeff1, kcoeff2, kcoeff3, n)
  * 
- *     # print('kr0 = ' + str(kr0) + ', kr1 = ' + str(kr1) + ', kr2 = ' + str(kr2))
+ *     if kr0 != 0 or kr1 != 0 or kr2 !=0:             # <<<<<<<<<<<<<<
+ *         print('kr0 = ' + str(kr0) + ', kr1 = ' + str(kr1) + ', kr2 = ' + str(kr2))
+ *     nr0 = n0 + kr0
+ */
+  __pyx_t_2 = ((__pyx_v_kr0 != 0.0) != 0);
+  if (!__pyx_t_2) {
+  } else {
+    __pyx_t_1 = __pyx_t_2;
+    goto __pyx_L4_bool_binop_done;
+  }
+  __pyx_t_2 = ((__pyx_v_kr1 != 0.0) != 0);
+  if (!__pyx_t_2) {
+  } else {
+    __pyx_t_1 = __pyx_t_2;
+    goto __pyx_L4_bool_binop_done;
+  }
+  __pyx_t_2 = ((__pyx_v_kr2 != 0.0) != 0);
+  __pyx_t_1 = __pyx_t_2;
+  __pyx_L4_bool_binop_done:;
+  if (__pyx_t_1) {
+
+    /* "solver.pyx":189
+ * 
+ *     if kr0 != 0 or kr1 != 0 or kr2 !=0:
+ *         print('kr0 = ' + str(kr0) + ', kr1 = ' + str(kr1) + ', kr2 = ' + str(kr2))             # <<<<<<<<<<<<<<
+ *     nr0 = n0 + kr0
+ *     nr1 = nfunc(xlr1) + kr1
+ */
+    __pyx_t_3 = PyFloat_FromDouble(__pyx_v_kr0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 189, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_3);
+    __pyx_t_4 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyString_Type)), __pyx_t_3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 189, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+    __pyx_t_3 = PyNumber_Add(__pyx_kp_s_kr0, __pyx_t_4); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 189, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_3);
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+    __pyx_t_4 = PyNumber_Add(__pyx_t_3, __pyx_kp_s_kr1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 189, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+    __pyx_t_3 = PyFloat_FromDouble(__pyx_v_kr1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 189, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_3);
+    __pyx_t_5 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyString_Type)), __pyx_t_3); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 189, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+    __pyx_t_3 = PyNumber_Add(__pyx_t_4, __pyx_t_5); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 189, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_3);
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    __pyx_t_5 = PyNumber_Add(__pyx_t_3, __pyx_kp_s_kr2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 189, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+    __pyx_t_3 = PyFloat_FromDouble(__pyx_v_kr2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 189, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_3);
+    __pyx_t_4 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyString_Type)), __pyx_t_3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 189, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+    __pyx_t_3 = PyNumber_Add(__pyx_t_5, __pyx_t_4); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 189, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_3);
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+    if (__Pyx_PrintOne(0, __pyx_t_3) < 0) __PYX_ERR(0, 189, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+
+    /* "solver.pyx":188
+ *     kr2 = ispline(xlr2, xlr_, k_, kcoeff1, kcoeff2, kcoeff3, n)
+ * 
+ *     if kr0 != 0 or kr1 != 0 or kr2 !=0:             # <<<<<<<<<<<<<<
+ *         print('kr0 = ' + str(kr0) + ', kr1 = ' + str(kr1) + ', kr2 = ' + str(kr2))
+ *     nr0 = n0 + kr0
+ */
+  }
+
+  /* "solver.pyx":190
+ *     if kr0 != 0 or kr1 != 0 or kr2 !=0:
+ *         print('kr0 = ' + str(kr0) + ', kr1 = ' + str(kr1) + ', kr2 = ' + str(kr2))
  *     nr0 = n0 + kr0             # <<<<<<<<<<<<<<
  *     nr1 = nfunc(xlr1) + kr1
  *     nr2 = nfunc(xlr2) + kr2
  */
   __pyx_v_nr0 = (__pyx_v_6solver_n0 + __pyx_v_kr0);
 
-  /* "solver.pyx":190
- *     # print('kr0 = ' + str(kr0) + ', kr1 = ' + str(kr1) + ', kr2 = ' + str(kr2))
+  /* "solver.pyx":191
+ *         print('kr0 = ' + str(kr0) + ', kr1 = ' + str(kr1) + ', kr2 = ' + str(kr2))
  *     nr0 = n0 + kr0
  *     nr1 = nfunc(xlr1) + kr1             # <<<<<<<<<<<<<<
  *     nr2 = nfunc(xlr2) + kr2
@@ -3256,7 +3345,7 @@ static double __pyx_f_6solver_f(int __pyx_v_n, double *__pyx_v_xx) {
  */
   __pyx_v_nr1 = (__pyx_f_6solver_nfunc(__pyx_v_xlr1) + __pyx_v_kr1);
 
-  /* "solver.pyx":191
+  /* "solver.pyx":192
  *     nr0 = n0 + kr0
  *     nr1 = nfunc(xlr1) + kr1
  *     nr2 = nfunc(xlr2) + kr2             # <<<<<<<<<<<<<<
@@ -3265,7 +3354,7 @@ static double __pyx_f_6solver_f(int __pyx_v_n, double *__pyx_v_xx) {
  */
   __pyx_v_nr2 = (__pyx_f_6solver_nfunc(__pyx_v_xlr2) + __pyx_v_kr2);
 
-  /* "solver.pyx":193
+  /* "solver.pyx":194
  *     nr2 = nfunc(xlr2) + kr2
  * 
  *     return 4 * z * z * k(r0, r1_, r2_) * (nr1 + nr2 - nr0 - nr1 * nr2)             # <<<<<<<<<<<<<<
@@ -3284,6 +3373,12 @@ static double __pyx_f_6solver_f(int __pyx_v_n, double *__pyx_v_xx) {
  */
 
   /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_3);
+  __Pyx_XDECREF(__pyx_t_4);
+  __Pyx_XDECREF(__pyx_t_5);
+  __Pyx_WriteUnraisable("solver.f", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
+  __pyx_r = 0;
   __pyx_L0:;
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
@@ -4195,6 +4290,9 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_gamma, __pyx_k_gamma, sizeof(__pyx_k_gamma), 0, 0, 1, 1},
   {&__pyx_n_s_import, __pyx_k_import, sizeof(__pyx_k_import), 0, 0, 1, 1},
   {&__pyx_n_s_k_arr, __pyx_k_k_arr, sizeof(__pyx_k_k_arr), 0, 0, 1, 1},
+  {&__pyx_kp_s_kr0, __pyx_k_kr0, sizeof(__pyx_k_kr0), 0, 0, 1, 0},
+  {&__pyx_kp_s_kr1, __pyx_k_kr1, sizeof(__pyx_k_kr1), 0, 0, 1, 0},
+  {&__pyx_kp_s_kr2, __pyx_k_kr2, sizeof(__pyx_k_kr2), 0, 0, 1, 0},
   {&__pyx_n_s_main, __pyx_k_main, sizeof(__pyx_k_main), 0, 0, 1, 1},
   {&__pyx_n_s_matplotlib_pyplot, __pyx_k_matplotlib_pyplot, sizeof(__pyx_k_matplotlib_pyplot), 0, 0, 1, 1},
   {&__pyx_n_s_n0, __pyx_k_n0, sizeof(__pyx_k_n0), 0, 0, 1, 1},

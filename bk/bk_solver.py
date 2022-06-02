@@ -70,14 +70,16 @@ def evolve():
     so.set_k(xlr_, [0 for i in range(n)])
     with Pool(processes=5) as pool:
         k1 = np.array(pool.map(intg, xlr_, chunksize=80))
-
-    k1 = list(k1 * hy * 0.5)
-    so.set_k(xlr_, k1)
-    with Pool(processes=5) as pool:
-        k2 = np.array(pool.map(intg, xlr_, chunksize=80))
+    return k1 * hy
+    # return k1 * hy
+    # k1 = list(k1 * hy * 0.5)
+    # so.set_k(xlr_, k1)
+    # with Pool(processes=5) as pool:
+    #     k2 = np.array(pool.map(intg, xlr_, chunksize=80))
+    # k1 = np.array(k1)
     # print('k1 - k2 = ')
     # print(((k1/0.2/0.5) - k2)/(k1/0.2/0.5))
-    return k2 * hy
+    # return k2 * hy
 
     # return (1/6) * hy * (k1 + 2 * k2 + 2 * k3 + k4)
 

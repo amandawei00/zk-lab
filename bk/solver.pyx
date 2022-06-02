@@ -185,7 +185,8 @@ cdef double f(int n, double *xx):
     kr1 = ispline(xlr1, xlr_, k_, kcoeff1, kcoeff2, kcoeff3, n)
     kr2 = ispline(xlr2, xlr_, k_, kcoeff1, kcoeff2, kcoeff3, n)
 
-    # print('kr0 = ' + str(kr0) + ', kr1 = ' + str(kr1) + ', kr2 = ' + str(kr2))
+    if kr0 != 0 or kr1 != 0 or kr2 !=0:
+        print('kr0 = ' + str(kr0) + ', kr1 = ' + str(kr1) + ', kr2 = ' + str(kr2))
     nr0 = n0 + kr0
     nr1 = nfunc(xlr1) + kr1
     nr2 = nfunc(xlr2) + kr2
