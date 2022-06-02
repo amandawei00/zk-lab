@@ -30,7 +30,7 @@ xr2 = np.log(r2)
 hr = (xr2 - xr1) / n
 
 hy = 0.2
-ymax = 16.
+ymax = 0.4
 y = np.arange(0.0, ymax, hy)
 
 # Arrays for N and r in N(r), evaluated at some rapidity Y (including next step N(r,Y) in the evolution
@@ -71,7 +71,8 @@ def evolve():
     with Pool(processes=5) as pool:
         k1 = np.array(pool.map(intg, xlr_, chunksize=80))
 
-    so.set_k(xlr_, list(k1 * hy))
+    k1 = list(k1 * hy)
+    so.set_k(xlr_, k1)
     with Pool(processes=5) as pool:
         k2 = np.array(pool.map(intg, xlr_, chunksize=80))
     return 0.5 * hy * (k1 + k2)
