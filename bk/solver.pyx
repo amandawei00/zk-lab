@@ -87,10 +87,16 @@ cpdef void set_k(list xlr_arr, list k_arr):
     memset(kcoeff2, 0, n * sizeof(double))
     memset(kcoeff3, 0, n * sizeof(double))
 
+    # print('after passing to cython, beofre conversion')
+    # print(k_arr)
     convert_to_c(xlr_arr, xx_)
     convert_to_c(k_arr, k_)
-
+    # print('after conversion')
+    # for i in range(n):
+    #     print(k_[i])
     spline(xx_, k_, kcoeff1, kcoeff2, kcoeff3, n)
+    # for i in range(n):
+    #     print(str(kcoeff1[i]) + ' ' + str(kcoeff2[i]) + ' ' + str(kcoeff3[i]))
 
 cdef void convert_to_c(list l1, double *arr):
     cdef int i
@@ -179,6 +185,7 @@ cdef double f(int n, double *xx):
     kr1 = ispline(xlr1, xlr_, k_, kcoeff1, kcoeff2, kcoeff3, n)
     kr2 = ispline(xlr2, xlr_, k_, kcoeff1, kcoeff2, kcoeff3, n)
 
+    # print('kr0 = ' + str(kr0) + ', kr1 = ' + str(kr1) + ', kr2 = ' + str(kr2))
     nr0 = n0 + kr0
     nr1 = nfunc(xlr1) + kr1
     nr2 = nfunc(xlr2) + kr2
