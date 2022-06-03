@@ -87,16 +87,10 @@ cpdef void set_k(list xlr_arr, list k_arr):
     memset(kcoeff2, 0, n * sizeof(double))
     memset(kcoeff3, 0, n * sizeof(double))
 
-    # print('after passing to cython, beofre conversion')
-    # print(k_arr)
     convert_to_c(xlr_arr, xx_)
     convert_to_c(k_arr, k_)
-    # print('after conversion')
-    # for i in range(n):
-    #     print(k_[i])
+
     spline(xx_, k_, kcoeff1, kcoeff2, kcoeff3, n)
-    # for i in range(n):
-    #     print(str(kcoeff1[i]) + ' ' + str(kcoeff2[i]) + ' ' + str(kcoeff3[i]))
 
 cdef void convert_to_c(list l1, double *arr):
     cdef int i
@@ -169,7 +163,7 @@ cdef double k(double r, double r1_, double r2_):
         return prefac * (t1 + t2 + t3)
 
 # combined integrand
-cdef double f(int n, double *xx):
+cdef double f(int num, double *xx):
     cdef double z, r1_, r2_
     cdef double xlr1, xlr2, kr0, kr1, kr2
     cdef double nr1, nr2
@@ -181,12 +175,11 @@ cdef double f(int n, double *xx):
     xlr1 = log(r1_)
     xlr2 = log(r2_)
 
+    # print(n)
     kr0 = ispline(xr0 , xlr_, k_, kcoeff1, kcoeff2, kcoeff3, n)
     kr1 = ispline(xlr1, xlr_, k_, kcoeff1, kcoeff2, kcoeff3, n)
     kr2 = ispline(xlr2, xlr_, k_, kcoeff1, kcoeff2, kcoeff3, n)
 
-    if kr0 != 0 or kr1 != 0 or kr2 !=0:
-        print('kr0 = ' + str(kr0) + ', kr1 = ' + str(kr1) + ', kr2 = ' + str(kr2))
     nr0 = n0 + kr0
     nr1 = nfunc(xlr1) + kr1
     nr2 = nfunc(xlr2) + kr2
