@@ -123,9 +123,6 @@ cdef double nfunc(double qlr):
 
 cdef double alphaS(double rsq):
     cdef double xlog
-    # cte = exp(1./beta/afr)
-    # return 2 * pre/log(auxal * auxal/rsq/rsq + cte)
-
     if rsq > rfr2:
         return afr
     else:
@@ -148,7 +145,7 @@ cdef double k(double r, double r1_, double r2_):
     cdef double t1, t2, t3
     cdef double prefac
 
-    if (r1_ < 1e-20) or (r2_ < 1e-20):
+    if (r1_ < 1e-8) or (r2_ < 1e-8):
         return 0
     else:
         rr = r * r
@@ -175,7 +172,6 @@ cdef double f(int num, double *xx):
     xlr1 = log(r1_)
     xlr2 = log(r2_)
 
-    # print(n)
     kr0 = ispline(xr0 , xlr_, k_, kcoeff1, kcoeff2, kcoeff3, n)
     kr1 = ispline(xlr1, xlr_, k_, kcoeff1, kcoeff2, kcoeff3, n)
     kr2 = ispline(xlr2, xlr_, k_, kcoeff1, kcoeff2, kcoeff3, n)
@@ -185,5 +181,3 @@ cdef double f(int num, double *xx):
     nr2 = nfunc(xlr2) + kr2
 
     return 4 * z * z * k(r0, r1_, r2_) * (nr1 + nr2 - nr0 - nr1 * nr2)
-    # return z * z * k(r0, r1_, r2_) * (nr1 + nr2 - n0 - nr1 * nr2)
-

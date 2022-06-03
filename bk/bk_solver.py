@@ -61,7 +61,7 @@ def intg(xx):
 
     so.set_vars(xx, nr0, xlr_, n_)
     func = llc.from_cython(so, 'f', signature='double (int, double *)')
-    return dblquad(func, xr1, xr2, 0.0, 0.5 * np.pi, epsabs=0.0, epsrel=0.05)[0]
+    return dblquad(func, xr1, xr2, 0., 0.5 * np.pi, epsabs=0.0, epsrel=0.05)[0]
 
 # return type: array
 def evolve():
@@ -76,9 +76,7 @@ def evolve():
     so.set_k(xlr_, k1)
     with Pool(processes=5) as pool:
         k2 = np.array(pool.map(intg, xlr_, chunksize=80))
-    # k1 = np.array(k1)
-    # print('k1 - k2 = ')
-    # print(((k1/0.2/0.5) - k2)/(k1/0.2/0.5))
+
     return k2 * hy
 
     # return (1/6) * hy * (k1 + 2 * k2 + 2 * k3 + k4)
@@ -155,4 +153,3 @@ if __name__ == "__main__":
         p      = next(reader)
 
     bk = master(float(p[0]), float(p[1]), float(p[2]), float(p[3]), p[4])
-    #print(bk)

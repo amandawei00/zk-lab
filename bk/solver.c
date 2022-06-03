@@ -2768,7 +2768,7 @@ static double __pyx_f_6solver_nfunc(double __pyx_v_qlr) {
  * 
  * cdef double alphaS(double rsq):             # <<<<<<<<<<<<<<
  *     cdef double xlog
- *     # cte = exp(1./beta/afr)
+ *     if rsq > rfr2:
  */
 
 static double __pyx_f_6solver_alphaS(double __pyx_v_rsq) {
@@ -2783,9 +2783,9 @@ static double __pyx_f_6solver_alphaS(double __pyx_v_rsq) {
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("alphaS", 0);
 
-  /* "solver.pyx":129
- *     # return 2 * pre/log(auxal * auxal/rsq/rsq + cte)
- * 
+  /* "solver.pyx":126
+ * cdef double alphaS(double rsq):
+ *     cdef double xlog
  *     if rsq > rfr2:             # <<<<<<<<<<<<<<
  *         return afr
  *     else:
@@ -2793,8 +2793,8 @@ static double __pyx_f_6solver_alphaS(double __pyx_v_rsq) {
   __pyx_t_1 = ((__pyx_v_rsq > __pyx_v_6solver_rfr2) != 0);
   if (__pyx_t_1) {
 
-    /* "solver.pyx":130
- * 
+    /* "solver.pyx":127
+ *     cdef double xlog
  *     if rsq > rfr2:
  *         return afr             # <<<<<<<<<<<<<<
  *     else:
@@ -2803,16 +2803,16 @@ static double __pyx_f_6solver_alphaS(double __pyx_v_rsq) {
     __pyx_r = __pyx_v_6solver_afr;
     goto __pyx_L0;
 
-    /* "solver.pyx":129
- *     # return 2 * pre/log(auxal * auxal/rsq/rsq + cte)
- * 
+    /* "solver.pyx":126
+ * cdef double alphaS(double rsq):
+ *     cdef double xlog
  *     if rsq > rfr2:             # <<<<<<<<<<<<<<
  *         return afr
  *     else:
  */
   }
 
-  /* "solver.pyx":132
+  /* "solver.pyx":129
  *         return afr
  *     else:
  *         xlog = log((4 * c2)/(rsq * lamb * lamb))             # <<<<<<<<<<<<<<
@@ -2824,11 +2824,11 @@ static double __pyx_f_6solver_alphaS(double __pyx_v_rsq) {
     __pyx_t_3 = ((__pyx_v_rsq * __pyx_v_6solver_lamb) * __pyx_v_6solver_lamb);
     if (unlikely(__pyx_t_3 == 0)) {
       PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-      __PYX_ERR(0, 132, __pyx_L1_error)
+      __PYX_ERR(0, 129, __pyx_L1_error)
     }
     __pyx_v_xlog = log((__pyx_t_2 / __pyx_t_3));
 
-    /* "solver.pyx":133
+    /* "solver.pyx":130
  *     else:
  *         xlog = log((4 * c2)/(rsq * lamb * lamb))
  *         return 1/(beta * xlog)             # <<<<<<<<<<<<<<
@@ -2838,7 +2838,7 @@ static double __pyx_f_6solver_alphaS(double __pyx_v_rsq) {
     __pyx_t_3 = (__pyx_v_6solver_beta * __pyx_v_xlog);
     if (unlikely(__pyx_t_3 == 0)) {
       PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-      __PYX_ERR(0, 133, __pyx_L1_error)
+      __PYX_ERR(0, 130, __pyx_L1_error)
     }
     __pyx_r = (1.0 / __pyx_t_3);
     goto __pyx_L0;
@@ -2849,7 +2849,7 @@ static double __pyx_f_6solver_alphaS(double __pyx_v_rsq) {
  * 
  * cdef double alphaS(double rsq):             # <<<<<<<<<<<<<<
  *     cdef double xlog
- *     # cte = exp(1./beta/afr)
+ *     if rsq > rfr2:
  */
 
   /* function exit code */
@@ -2861,7 +2861,7 @@ static double __pyx_f_6solver_alphaS(double __pyx_v_rsq) {
   return __pyx_r;
 }
 
-/* "solver.pyx":135
+/* "solver.pyx":132
  *         return 1/(beta * xlog)
  * 
  * cdef double find_r1(double r, double z, double thet):             # <<<<<<<<<<<<<<
@@ -2875,7 +2875,7 @@ static double __pyx_f_6solver_find_r1(double __pyx_v_r, double __pyx_v_z, double
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("find_r1", 0);
 
-  /* "solver.pyx":136
+  /* "solver.pyx":133
  * 
  * cdef double find_r1(double r, double z, double thet):
  *     cdef double r12 = (0.25 * r * r) + (z * z) - (r * z * cos(thet))             # <<<<<<<<<<<<<<
@@ -2884,7 +2884,7 @@ static double __pyx_f_6solver_find_r1(double __pyx_v_r, double __pyx_v_z, double
  */
   __pyx_v_r12 = ((((0.25 * __pyx_v_r) * __pyx_v_r) + (__pyx_v_z * __pyx_v_z)) - ((__pyx_v_r * __pyx_v_z) * cos(__pyx_v_thet)));
 
-  /* "solver.pyx":137
+  /* "solver.pyx":134
  * cdef double find_r1(double r, double z, double thet):
  *     cdef double r12 = (0.25 * r * r) + (z * z) - (r * z * cos(thet))
  *     return sqrt(r12)             # <<<<<<<<<<<<<<
@@ -2894,7 +2894,7 @@ static double __pyx_f_6solver_find_r1(double __pyx_v_r, double __pyx_v_z, double
   __pyx_r = sqrt(__pyx_v_r12);
   goto __pyx_L0;
 
-  /* "solver.pyx":135
+  /* "solver.pyx":132
  *         return 1/(beta * xlog)
  * 
  * cdef double find_r1(double r, double z, double thet):             # <<<<<<<<<<<<<<
@@ -2908,7 +2908,7 @@ static double __pyx_f_6solver_find_r1(double __pyx_v_r, double __pyx_v_z, double
   return __pyx_r;
 }
 
-/* "solver.pyx":140
+/* "solver.pyx":137
  * 
  * 
  * cdef double find_r2(double r, double z, double thet):             # <<<<<<<<<<<<<<
@@ -2922,7 +2922,7 @@ static double __pyx_f_6solver_find_r2(double __pyx_v_r, double __pyx_v_z, double
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("find_r2", 0);
 
-  /* "solver.pyx":141
+  /* "solver.pyx":138
  * 
  * cdef double find_r2(double r, double z, double thet):
  *     cdef double r22 = (0.25 * r * r) + (z * z) + (r * z * cos(thet))             # <<<<<<<<<<<<<<
@@ -2931,7 +2931,7 @@ static double __pyx_f_6solver_find_r2(double __pyx_v_r, double __pyx_v_z, double
  */
   __pyx_v_r22 = ((((0.25 * __pyx_v_r) * __pyx_v_r) + (__pyx_v_z * __pyx_v_z)) + ((__pyx_v_r * __pyx_v_z) * cos(__pyx_v_thet)));
 
-  /* "solver.pyx":142
+  /* "solver.pyx":139
  * cdef double find_r2(double r, double z, double thet):
  *     cdef double r22 = (0.25 * r * r) + (z * z) + (r * z * cos(thet))
  *     return sqrt(r22)             # <<<<<<<<<<<<<<
@@ -2941,7 +2941,7 @@ static double __pyx_f_6solver_find_r2(double __pyx_v_r, double __pyx_v_z, double
   __pyx_r = sqrt(__pyx_v_r22);
   goto __pyx_L0;
 
-  /* "solver.pyx":140
+  /* "solver.pyx":137
  * 
  * 
  * cdef double find_r2(double r, double z, double thet):             # <<<<<<<<<<<<<<
@@ -2955,7 +2955,7 @@ static double __pyx_f_6solver_find_r2(double __pyx_v_r, double __pyx_v_z, double
   return __pyx_r;
 }
 
-/* "solver.pyx":146
+/* "solver.pyx":143
  * 
  * # kernel
  * cdef double k(double r, double r1_, double r2_):             # <<<<<<<<<<<<<<
@@ -2982,27 +2982,27 @@ static double __pyx_f_6solver_k(double __pyx_v_r, double __pyx_v_r1_, double __p
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("k", 0);
 
-  /* "solver.pyx":151
+  /* "solver.pyx":148
  *     cdef double prefac
  * 
- *     if (r1_ < 1e-20) or (r2_ < 1e-20):             # <<<<<<<<<<<<<<
+ *     if (r1_ < 1e-8) or (r2_ < 1e-8):             # <<<<<<<<<<<<<<
  *         return 0
  *     else:
  */
-  __pyx_t_2 = ((__pyx_v_r1_ < 1e-20) != 0);
+  __pyx_t_2 = ((__pyx_v_r1_ < 1e-8) != 0);
   if (!__pyx_t_2) {
   } else {
     __pyx_t_1 = __pyx_t_2;
     goto __pyx_L4_bool_binop_done;
   }
-  __pyx_t_2 = ((__pyx_v_r2_ < 1e-20) != 0);
+  __pyx_t_2 = ((__pyx_v_r2_ < 1e-8) != 0);
   __pyx_t_1 = __pyx_t_2;
   __pyx_L4_bool_binop_done:;
   if (__pyx_t_1) {
 
-    /* "solver.pyx":152
+    /* "solver.pyx":149
  * 
- *     if (r1_ < 1e-20) or (r2_ < 1e-20):
+ *     if (r1_ < 1e-8) or (r2_ < 1e-8):
  *         return 0             # <<<<<<<<<<<<<<
  *     else:
  *         rr = r * r
@@ -3010,16 +3010,16 @@ static double __pyx_f_6solver_k(double __pyx_v_r, double __pyx_v_r1_, double __p
     __pyx_r = 0.0;
     goto __pyx_L0;
 
-    /* "solver.pyx":151
+    /* "solver.pyx":148
  *     cdef double prefac
  * 
- *     if (r1_ < 1e-20) or (r2_ < 1e-20):             # <<<<<<<<<<<<<<
+ *     if (r1_ < 1e-8) or (r2_ < 1e-8):             # <<<<<<<<<<<<<<
  *         return 0
  *     else:
  */
   }
 
-  /* "solver.pyx":154
+  /* "solver.pyx":151
  *         return 0
  *     else:
  *         rr = r * r             # <<<<<<<<<<<<<<
@@ -3029,7 +3029,7 @@ static double __pyx_f_6solver_k(double __pyx_v_r, double __pyx_v_r1_, double __p
   /*else*/ {
     __pyx_v_rr = (__pyx_v_r * __pyx_v_r);
 
-    /* "solver.pyx":155
+    /* "solver.pyx":152
  *     else:
  *         rr = r * r
  *         r12 = r1_ * r1_             # <<<<<<<<<<<<<<
@@ -3038,7 +3038,7 @@ static double __pyx_f_6solver_k(double __pyx_v_r, double __pyx_v_r1_, double __p
  */
     __pyx_v_r12 = (__pyx_v_r1_ * __pyx_v_r1_);
 
-    /* "solver.pyx":156
+    /* "solver.pyx":153
  *         rr = r * r
  *         r12 = r1_ * r1_
  *         r22 = r2_ * r2_             # <<<<<<<<<<<<<<
@@ -3047,7 +3047,7 @@ static double __pyx_f_6solver_k(double __pyx_v_r, double __pyx_v_r1_, double __p
  */
     __pyx_v_r22 = (__pyx_v_r2_ * __pyx_v_r2_);
 
-    /* "solver.pyx":158
+    /* "solver.pyx":155
  *         r22 = r2_ * r2_
  * 
  *         t1 = rr/(r12 * r22)             # <<<<<<<<<<<<<<
@@ -3057,11 +3057,11 @@ static double __pyx_f_6solver_k(double __pyx_v_r, double __pyx_v_r1_, double __p
     __pyx_t_3 = (__pyx_v_r12 * __pyx_v_r22);
     if (unlikely(__pyx_t_3 == 0)) {
       PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-      __PYX_ERR(0, 158, __pyx_L1_error)
+      __PYX_ERR(0, 155, __pyx_L1_error)
     }
     __pyx_v_t1 = (__pyx_v_rr / __pyx_t_3);
 
-    /* "solver.pyx":159
+    /* "solver.pyx":156
  * 
  *         t1 = rr/(r12 * r22)
  *         t2 = (1/r12) * (alphaS(r12)/alphaS(r22) - 1)             # <<<<<<<<<<<<<<
@@ -3070,17 +3070,17 @@ static double __pyx_f_6solver_k(double __pyx_v_r, double __pyx_v_r1_, double __p
  */
     if (unlikely(__pyx_v_r12 == 0)) {
       PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-      __PYX_ERR(0, 159, __pyx_L1_error)
+      __PYX_ERR(0, 156, __pyx_L1_error)
     }
     __pyx_t_3 = __pyx_f_6solver_alphaS(__pyx_v_r12);
     __pyx_t_4 = __pyx_f_6solver_alphaS(__pyx_v_r22);
     if (unlikely(__pyx_t_4 == 0)) {
       PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-      __PYX_ERR(0, 159, __pyx_L1_error)
+      __PYX_ERR(0, 156, __pyx_L1_error)
     }
     __pyx_v_t2 = ((1.0 / __pyx_v_r12) * ((__pyx_t_3 / __pyx_t_4) - 1.0));
 
-    /* "solver.pyx":160
+    /* "solver.pyx":157
  *         t1 = rr/(r12 * r22)
  *         t2 = (1/r12) * (alphaS(r12)/alphaS(r22) - 1)
  *         t3 = (1/r22) * (alphaS(r22)/alphaS(r12) - 1)             # <<<<<<<<<<<<<<
@@ -3089,17 +3089,17 @@ static double __pyx_f_6solver_k(double __pyx_v_r, double __pyx_v_r1_, double __p
  */
     if (unlikely(__pyx_v_r22 == 0)) {
       PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-      __PYX_ERR(0, 160, __pyx_L1_error)
+      __PYX_ERR(0, 157, __pyx_L1_error)
     }
     __pyx_t_4 = __pyx_f_6solver_alphaS(__pyx_v_r22);
     __pyx_t_3 = __pyx_f_6solver_alphaS(__pyx_v_r12);
     if (unlikely(__pyx_t_3 == 0)) {
       PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-      __PYX_ERR(0, 160, __pyx_L1_error)
+      __PYX_ERR(0, 157, __pyx_L1_error)
     }
     __pyx_v_t3 = ((1.0 / __pyx_v_r22) * ((__pyx_t_4 / __pyx_t_3) - 1.0));
 
-    /* "solver.pyx":162
+    /* "solver.pyx":159
  *         t3 = (1/r22) * (alphaS(r22)/alphaS(r12) - 1)
  * 
  *         prefac = (nc * alphaS(rr))/(2 * M_PI * M_PI)             # <<<<<<<<<<<<<<
@@ -3110,11 +3110,11 @@ static double __pyx_f_6solver_k(double __pyx_v_r, double __pyx_v_r1_, double __p
     __pyx_t_4 = ((2.0 * M_PI) * M_PI);
     if (unlikely(__pyx_t_4 == 0)) {
       PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-      __PYX_ERR(0, 162, __pyx_L1_error)
+      __PYX_ERR(0, 159, __pyx_L1_error)
     }
     __pyx_v_prefac = (__pyx_t_3 / __pyx_t_4);
 
-    /* "solver.pyx":163
+    /* "solver.pyx":160
  * 
  *         prefac = (nc * alphaS(rr))/(2 * M_PI * M_PI)
  *         return prefac * (t1 + t2 + t3)             # <<<<<<<<<<<<<<
@@ -3125,7 +3125,7 @@ static double __pyx_f_6solver_k(double __pyx_v_r, double __pyx_v_r1_, double __p
     goto __pyx_L0;
   }
 
-  /* "solver.pyx":146
+  /* "solver.pyx":143
  * 
  * # kernel
  * cdef double k(double r, double r1_, double r2_):             # <<<<<<<<<<<<<<
@@ -3142,7 +3142,7 @@ static double __pyx_f_6solver_k(double __pyx_v_r, double __pyx_v_r1_, double __p
   return __pyx_r;
 }
 
-/* "solver.pyx":166
+/* "solver.pyx":163
  * 
  * # combined integrand
  * cdef double f(int num, double *xx):             # <<<<<<<<<<<<<<
@@ -3166,7 +3166,7 @@ static double __pyx_f_6solver_f(CYTHON_UNUSED int __pyx_v_num, double *__pyx_v_x
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("f", 0);
 
-  /* "solver.pyx":171
+  /* "solver.pyx":168
  *     cdef double nr1, nr2
  * 
  *     z = exp(xx[1])             # <<<<<<<<<<<<<<
@@ -3175,7 +3175,7 @@ static double __pyx_f_6solver_f(CYTHON_UNUSED int __pyx_v_num, double *__pyx_v_x
  */
   __pyx_v_z = exp((__pyx_v_xx[1]));
 
-  /* "solver.pyx":172
+  /* "solver.pyx":169
  * 
  *     z = exp(xx[1])
  *     r1_ = find_r1(r0, z, xx[0])             # <<<<<<<<<<<<<<
@@ -3184,7 +3184,7 @@ static double __pyx_f_6solver_f(CYTHON_UNUSED int __pyx_v_num, double *__pyx_v_x
  */
   __pyx_v_r1_ = __pyx_f_6solver_find_r1(__pyx_v_6solver_r0, __pyx_v_z, (__pyx_v_xx[0]));
 
-  /* "solver.pyx":173
+  /* "solver.pyx":170
  *     z = exp(xx[1])
  *     r1_ = find_r1(r0, z, xx[0])
  *     r2_ = find_r2(r0, z, xx[0])             # <<<<<<<<<<<<<<
@@ -3193,7 +3193,7 @@ static double __pyx_f_6solver_f(CYTHON_UNUSED int __pyx_v_num, double *__pyx_v_x
  */
   __pyx_v_r2_ = __pyx_f_6solver_find_r2(__pyx_v_6solver_r0, __pyx_v_z, (__pyx_v_xx[0]));
 
-  /* "solver.pyx":175
+  /* "solver.pyx":172
  *     r2_ = find_r2(r0, z, xx[0])
  * 
  *     xlr1 = log(r1_)             # <<<<<<<<<<<<<<
@@ -3202,26 +3202,26 @@ static double __pyx_f_6solver_f(CYTHON_UNUSED int __pyx_v_num, double *__pyx_v_x
  */
   __pyx_v_xlr1 = log(__pyx_v_r1_);
 
-  /* "solver.pyx":176
+  /* "solver.pyx":173
  * 
  *     xlr1 = log(r1_)
  *     xlr2 = log(r2_)             # <<<<<<<<<<<<<<
  * 
- *     # print(n)
+ *     kr0 = ispline(xr0 , xlr_, k_, kcoeff1, kcoeff2, kcoeff3, n)
  */
   __pyx_v_xlr2 = log(__pyx_v_r2_);
 
-  /* "solver.pyx":179
+  /* "solver.pyx":175
+ *     xlr2 = log(r2_)
  * 
- *     # print(n)
  *     kr0 = ispline(xr0 , xlr_, k_, kcoeff1, kcoeff2, kcoeff3, n)             # <<<<<<<<<<<<<<
  *     kr1 = ispline(xlr1, xlr_, k_, kcoeff1, kcoeff2, kcoeff3, n)
  *     kr2 = ispline(xlr2, xlr_, k_, kcoeff1, kcoeff2, kcoeff3, n)
  */
   __pyx_v_kr0 = ispline(__pyx_v_6solver_xr0, __pyx_v_6solver_xlr_, __pyx_v_6solver_k_, __pyx_v_6solver_kcoeff1, __pyx_v_6solver_kcoeff2, __pyx_v_6solver_kcoeff3, __pyx_v_6solver_n);
 
-  /* "solver.pyx":180
- *     # print(n)
+  /* "solver.pyx":176
+ * 
  *     kr0 = ispline(xr0 , xlr_, k_, kcoeff1, kcoeff2, kcoeff3, n)
  *     kr1 = ispline(xlr1, xlr_, k_, kcoeff1, kcoeff2, kcoeff3, n)             # <<<<<<<<<<<<<<
  *     kr2 = ispline(xlr2, xlr_, k_, kcoeff1, kcoeff2, kcoeff3, n)
@@ -3229,7 +3229,7 @@ static double __pyx_f_6solver_f(CYTHON_UNUSED int __pyx_v_num, double *__pyx_v_x
  */
   __pyx_v_kr1 = ispline(__pyx_v_xlr1, __pyx_v_6solver_xlr_, __pyx_v_6solver_k_, __pyx_v_6solver_kcoeff1, __pyx_v_6solver_kcoeff2, __pyx_v_6solver_kcoeff3, __pyx_v_6solver_n);
 
-  /* "solver.pyx":181
+  /* "solver.pyx":177
  *     kr0 = ispline(xr0 , xlr_, k_, kcoeff1, kcoeff2, kcoeff3, n)
  *     kr1 = ispline(xlr1, xlr_, k_, kcoeff1, kcoeff2, kcoeff3, n)
  *     kr2 = ispline(xlr2, xlr_, k_, kcoeff1, kcoeff2, kcoeff3, n)             # <<<<<<<<<<<<<<
@@ -3238,7 +3238,7 @@ static double __pyx_f_6solver_f(CYTHON_UNUSED int __pyx_v_num, double *__pyx_v_x
  */
   __pyx_v_kr2 = ispline(__pyx_v_xlr2, __pyx_v_6solver_xlr_, __pyx_v_6solver_k_, __pyx_v_6solver_kcoeff1, __pyx_v_6solver_kcoeff2, __pyx_v_6solver_kcoeff3, __pyx_v_6solver_n);
 
-  /* "solver.pyx":183
+  /* "solver.pyx":179
  *     kr2 = ispline(xlr2, xlr_, k_, kcoeff1, kcoeff2, kcoeff3, n)
  * 
  *     nr0 = n0 + kr0             # <<<<<<<<<<<<<<
@@ -3247,7 +3247,7 @@ static double __pyx_f_6solver_f(CYTHON_UNUSED int __pyx_v_num, double *__pyx_v_x
  */
   __pyx_v_nr0 = (__pyx_v_6solver_n0 + __pyx_v_kr0);
 
-  /* "solver.pyx":184
+  /* "solver.pyx":180
  * 
  *     nr0 = n0 + kr0
  *     nr1 = nfunc(xlr1) + kr1             # <<<<<<<<<<<<<<
@@ -3256,7 +3256,7 @@ static double __pyx_f_6solver_f(CYTHON_UNUSED int __pyx_v_num, double *__pyx_v_x
  */
   __pyx_v_nr1 = (__pyx_f_6solver_nfunc(__pyx_v_xlr1) + __pyx_v_kr1);
 
-  /* "solver.pyx":185
+  /* "solver.pyx":181
  *     nr0 = n0 + kr0
  *     nr1 = nfunc(xlr1) + kr1
  *     nr2 = nfunc(xlr2) + kr2             # <<<<<<<<<<<<<<
@@ -3265,17 +3265,15 @@ static double __pyx_f_6solver_f(CYTHON_UNUSED int __pyx_v_num, double *__pyx_v_x
  */
   __pyx_v_nr2 = (__pyx_f_6solver_nfunc(__pyx_v_xlr2) + __pyx_v_kr2);
 
-  /* "solver.pyx":187
+  /* "solver.pyx":183
  *     nr2 = nfunc(xlr2) + kr2
  * 
  *     return 4 * z * z * k(r0, r1_, r2_) * (nr1 + nr2 - nr0 - nr1 * nr2)             # <<<<<<<<<<<<<<
- *     # return z * z * k(r0, r1_, r2_) * (nr1 + nr2 - n0 - nr1 * nr2)
- * 
  */
   __pyx_r = ((((4.0 * __pyx_v_z) * __pyx_v_z) * __pyx_f_6solver_k(__pyx_v_6solver_r0, __pyx_v_r1_, __pyx_v_r2_)) * (((__pyx_v_nr1 + __pyx_v_nr2) - __pyx_v_nr0) - (__pyx_v_nr1 * __pyx_v_nr2)));
   goto __pyx_L0;
 
-  /* "solver.pyx":166
+  /* "solver.pyx":163
  * 
  * # combined integrand
  * cdef double f(int num, double *xx):             # <<<<<<<<<<<<<<
