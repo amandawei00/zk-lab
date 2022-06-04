@@ -61,7 +61,7 @@ def intg(xx):
 
     so.set_vars(xx, nr0, xlr_, n_)
     func = llc.from_cython(so, 'f', signature='double (int, double *)')
-    return dblquad(func, xr1, xr2, 0., 0.5 * np.pi, epsabs=0.0, epsrel=0.05)[0]
+    return dblquad(func, xr1, xr2, 1.e-6, 0.5 * np.pi, epsabs=0.0, epsrel=0.05)[0]
 
 # return type: array
 def evolve():
@@ -70,16 +70,26 @@ def evolve():
     so.set_k(xlr_, [0 for i in range(n)])
     with Pool(processes=5) as pool:
         k1 = np.array(pool.map(intg, xlr_, chunksize=80))
-    # return k1 * hy
 
-    k1 = list(k1 * hy * 0.5)
-    so.set_k(xlr_, k1)
+    # RK2
+    list_k1 = list(k1 * hy * 0.5)
+    so.set_k(xlr_, list_k1)
     with Pool(processes=5) as pool:
         k2 = np.array(pool.map(intg, xlr_, chunksize=80))
 
-    return k2 * hy
+    # RK3
+    list_k2 = list(k2 * hy * 0.5)
+    so.set_k(xlr_, list_k2)
+    with Pool(processes=5) as pool:
+        k3 = np.array(pool.map(intg, xlr_, chunksize=80))
 
-    # return (1/6) * hy * (k1 + 2 * k2 + 2 * k3 + k4)
+    # RK4
+    list_k3 = list(k3 * hy)
+    so.set_k(xlr_, list_k3)
+    with Pool(processes=5) as pool:
+        k4 = np.array(pool.map(intg, xlr_, chunksize=80))
+
+    return (1/6) * hy * (k1 + 2 * k2 + 2 * k3 + k4)
 
 # pass fitting variables q_, c_, g_ to set variables in master.py
 def master(q_, c2_, g_, ec_, filename=''):

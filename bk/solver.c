@@ -2985,24 +2985,24 @@ static double __pyx_f_6solver_k(double __pyx_v_r, double __pyx_v_r1_, double __p
   /* "solver.pyx":148
  *     cdef double prefac
  * 
- *     if (r1_ < 1e-8) or (r2_ < 1e-8):             # <<<<<<<<<<<<<<
+ *     if (r1_ < 1e-20) or (r2_ < 1e-20):             # <<<<<<<<<<<<<<
  *         return 0
  *     else:
  */
-  __pyx_t_2 = ((__pyx_v_r1_ < 1e-8) != 0);
+  __pyx_t_2 = ((__pyx_v_r1_ < 1e-20) != 0);
   if (!__pyx_t_2) {
   } else {
     __pyx_t_1 = __pyx_t_2;
     goto __pyx_L4_bool_binop_done;
   }
-  __pyx_t_2 = ((__pyx_v_r2_ < 1e-8) != 0);
+  __pyx_t_2 = ((__pyx_v_r2_ < 1e-20) != 0);
   __pyx_t_1 = __pyx_t_2;
   __pyx_L4_bool_binop_done:;
   if (__pyx_t_1) {
 
     /* "solver.pyx":149
  * 
- *     if (r1_ < 1e-8) or (r2_ < 1e-8):
+ *     if (r1_ < 1e-20) or (r2_ < 1e-20):
  *         return 0             # <<<<<<<<<<<<<<
  *     else:
  *         rr = r * r
@@ -3013,7 +3013,7 @@ static double __pyx_f_6solver_k(double __pyx_v_r, double __pyx_v_r1_, double __p
     /* "solver.pyx":148
  *     cdef double prefac
  * 
- *     if (r1_ < 1e-8) or (r2_ < 1e-8):             # <<<<<<<<<<<<<<
+ *     if (r1_ < 1e-20) or (r2_ < 1e-20):             # <<<<<<<<<<<<<<
  *         return 0
  *     else:
  */
