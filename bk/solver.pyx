@@ -145,7 +145,7 @@ cdef double k(double r, double r1_, double r2_):
     cdef double t1, t2, t3
     cdef double prefac
 
-    if (r1_ < 1e-8) or (r2_ < 1e-8):
+    if (r1_ < 1e-20) or (r2_ < 1e-20):
         return 0
     else:
         rr = r * r
