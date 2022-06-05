@@ -30,7 +30,7 @@ xr2 = np.log(r2)
 hr = (xr2 - xr1) / n
 
 hy = 0.2
-ymax = 0.4
+ymax = 16.
 y = np.arange(0.0, ymax, hy)
 
 # Arrays for N and r in N(r), evaluated at some rapidity Y (including next step N(r,Y) in the evolution
@@ -70,7 +70,8 @@ def evolve():
     so.set_k(xlr_, [0 for i in range(n)])
     with Pool(processes=5) as pool:
         k1 = np.array(pool.map(intg, xlr_, chunksize=80))
-
+    return k1 * hy
+    '''
     # RK2
     list_k1 = list(k1 * hy * 0.5)
     so.set_k(xlr_, list_k1)
@@ -89,7 +90,7 @@ def evolve():
     with Pool(processes=5) as pool:
         k4 = np.array(pool.map(intg, xlr_, chunksize=80))
 
-    return (1/6) * hy * (k1 + 2 * k2 + 2 * k3 + k4)
+    return (1/6) * hy * (k1 + 2 * k2 + 2 * k3 + k4)'''
 
 # pass fitting variables q_, c_, g_ to set variables in master.py
 def master(q_, c2_, g_, ec_, filename=''):
