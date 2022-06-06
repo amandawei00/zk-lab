@@ -77,6 +77,8 @@ def evolve():
     with Pool(processes=5) as pool:
         k2 = np.array(pool.map(intg, xlr_, chunksize=80))
 
+    return hy * k2
+    '''
     # RK3
     list_k2 = list(k2 * hy * 0.5)
     so.set_k(xlr_, list_k2)
@@ -89,7 +91,7 @@ def evolve():
     with Pool(processes=5) as pool:
         k4 = np.array(pool.map(intg, xlr_, chunksize=80))
 
-    return (1/6) * hy * (k1 + 2 * k2 + 2 * k3 + k4)
+    return (1/6) * hy * (k1 + 2 * k2 + 2 * k3 + k4)'''
 
 # pass fitting variables q_, c_, g_ to set variables in master.py
 def master(q_, c2_, g_, ec_, filename=''):

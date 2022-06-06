@@ -1,4 +1,4 @@
-import numpy as np
+mport numpy as np
 import pandas as pd
 import csv
 import sys
@@ -65,10 +65,8 @@ c2    = 10.251189017
 gamma = 1.041015632
 sig   = 35.04884137
 ec    = 20.445469648
-
 to_file_bk = 'fit-mve_bk.csv'
 to_file_dis = 'fit-mve_dis.csv'
-
 data = data_import('../data/fitdata_dis.csv')
 # bk   = run_bk(qsq0, c2, gamma, ec, to_file_bk)
 # bk_interp(bk, 'dis')
