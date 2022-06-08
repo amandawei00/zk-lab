@@ -61,7 +61,7 @@ def intg(xx):
 
     so.set_vars(xx, nr0, xlr_, n_)
     func = llc.from_cython(so, 'f', signature='double (int, double *)')
-    return dblquad(func, xr1, xr2, 1.e-6, 0.5 * np.pi, epsabs=0.0, epsrel=0.05)[0]
+    return dblquad(func, xr1, xr2, 1.e-6, 0.5 * np.pi, epsabs=0.0, epsrel=1.e-4)[0]
 
 # return type: array
 def evolve(order):
