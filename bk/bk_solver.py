@@ -61,21 +61,27 @@ def intg(xx):
 
     so.set_vars(xx, nr0, xlr_, n_)
     func = llc.from_cython(so, 'f', signature='double (int, double *)')
-    return dblquad(func, xr1, xr2, 1.e-6, 0.5 * np.pi, epsabs=0.0, epsrel=0.05)[0]
+    return dblquad(func, xr1, xr2, 1.e-6, 0.5 * np.pi, epsabs=0.0, epsrel=1.e-4)[0]
 
 # return type: array
-def evolve():
+def evolve(order):
 
     # Euler's method
     so.set_k(xlr_, [0 for i in range(n)])
     with Pool(processes=5) as pool:
         k1 = np.array(pool.map(intg, xlr_, chunksize=80))
 
+    if order=='RK1':
+        return hy * k1
+
     # RK2
     list_k1 = list(k1 * hy * 0.5)
     so.set_k(xlr_, list_k1)
     with Pool(processes=5) as pool:
         k2 = np.array(pool.map(intg, xlr_, chunksize=80))
+
+    if order=='RK2':
+        return hy * k2
 
     # RK3
     list_k2 = list(k2 * hy * 0.5)
@@ -89,10 +95,11 @@ def evolve():
     with Pool(processes=5) as pool:
         k4 = np.array(pool.map(intg, xlr_, chunksize=80))
 
-    return (1/6) * hy * (k1 + 2 * k2 + 2 * k3 + k4)
+    if order=='RK4':
+        return (1/6) * hy * (k1 + 2 * k2 + 2 * k3 + k4)
 
 # pass fitting variables q_, c_, g_ to set variables in master.py
-def master(q_, c2_, g_, ec_, filename=''):
+def master(q_, c2_, g_, ec_, filename='', order='RK4'):
     global n_, qs02, c2, gamma, ec
 
     # variables
@@ -103,8 +110,8 @@ def master(q_, c2_, g_, ec_, filename=''):
 
     so.set_params(c2, gamma, qs02) 
 
-    l = ['n   ', 'r1  ', 'r2  ', 'y   ', 'hy  ', 'ec  ', 'qs02 ', 'c2  ', 'g   ']
-    v = [n, r1, r2, ymax, hy, ec, qs02, c2, gamma]
+    l = ['n   ', 'r1  ', 'r2  ', 'y   ', 'hy  ', 'ec  ', 'qs02 ', 'c2  ', 'g ', 'order']
+    v = [n, r1, r2, ymax, hy, ec, qs02, c2, gamma, order]
     bk_arr = []
     t1 = time.time()
 
@@ -122,7 +129,7 @@ def master(q_, c2_, g_, ec_, filename=''):
 
         # calculate correction and update N(r,Y) to next step in rapidity
 
-        xk = evolve()
+        xk = evolve(order)
         n_ = [n_[j] + xk[j] for j in range(len(n_))]
 
         # remove nan values from solution
@@ -162,4 +169,4 @@ if __name__ == "__main__":
         header = next(reader)
         p      = next(reader)
 
-    bk = master(float(p[0]), float(p[1]), float(p[2]), float(p[3]), p[4])
+    bk = master(float(p[0]), float(p[1]), float(p[2]), float(p[3]), p[4], p[5])

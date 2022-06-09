@@ -2,11 +2,11 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
-y      = 3.3
+y      = 3.8
 sqrt_s = 200  # [GeV]
 
 exp_name = '../data/pp.csv'
-th_name  = 'test.csv'
+th_name  = 'results/pp/RK2/MV.csv'
 # th_name  = 'pp_MV1.csv'
 # import experimental data--------------------------------------
 df_exp = pd.read_csv(exp_name, sep='\t', header=0, comment='#')
@@ -22,7 +22,6 @@ df_th  = df_th.loc[df_th['y'] == y]
 
 x2 = df_th['pt']
 y2 = df_th['dN']
-y2 = y2.multiply(-1/8)
 
 plt.xlim(0., 5.)
 plt.ylim(1.e-7, 1.e2)
