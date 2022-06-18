@@ -13,8 +13,8 @@ class N:
     def __init__(self, bk, vers=''):
         self.n_ = 400
         self.x0 = 0.01
-        self.xr1 = np.log(3.e-6)
-        self.xr2 = np.log(60.e0)  # limit of integration in fourier transform calculation
+        self.xr1 = np.log(1.e-6)
+        self.xr2 = np.log(1.e2)  # limit of integration in fourier transform calculation
         tol = 1.e-8
         self.width = 100
         self.pointsy = 600

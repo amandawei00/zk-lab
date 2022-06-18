@@ -12,7 +12,7 @@ sqrt_z = 319.
 exp_name = '../data/redx-2009/redx-2009-parsed.csv'
 # th_name  = '../dis/redx-2009_results/MV2.csv'
 # exp_name   = '../data/redx-2015/fitdata_dis.csv'
-th_name  = '../dis/results/redx/RK4/MV.csv'
+th_name  = '../dis/results/redx/RK4/MVg_test.csv'
 # th_name = '../dis/results/redx/RK4/MVe_equal_masses.csv'
 # import experimental data--------------------------------------
 df_exp = pd.read_csv(exp_name, sep='\t', header=0, comment='#')

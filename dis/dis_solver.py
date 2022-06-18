@@ -2,7 +2,7 @@ import sys
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.integrate import quad
-import scipy.special as spec
+import scipy.special import kn
 import csv
 
 from os.path import exists
@@ -27,7 +27,7 @@ lamb  = 0.241  # lambda_QCD (GeV)
 light = [1, 2, 3, -1, -2, -3]  # q flavors CHECK 
 ml    = [0.14, 0.14, 0.14, 0.14, 0.14, 0.14] # q masses in GeV
 el    = [2/3, -1/3, -1/3, -2/3, 1/3, 1/3] # q charge
-
+'''
 heavy = [4, 5, 6, -4, -5, -6]
 mh    = [1.270, 172., 5., 1.270, 172., 5.]
 eh    = [2/3, 2/3, -1/3, -2/3, -2/3, 1/3]
@@ -35,6 +35,7 @@ eh    = [2/3, 2/3, -1/3, -2/3, -2/3, 1/3]
 flavors = [1, 2, 3, 4, 5, 6, -1, -2, -3, -4, -5, -6]
 mf      = [0.002, 0.0045, 1.270, 0.101, 172, 5., 0.002, 0.0045, 1.270, 0.101, 172, 5.0]
 ef      = [2/3, -1/3, 2/3, -1/3, 2/3, -1/3, -2/3, 1/3, -2/3, 1/3, -2/3, 1/3]
+'''
 bk = None  # bk interpolated object
 
 # bk_ is interpolated object
@@ -45,31 +46,31 @@ def set_n(bk_):
 # (transverse) wave function for splitting of photon to quark-antiquark dipole
 def psi_t2(z, r, *args):
     coeff = (6 * alpha)/(4 * np.pi * np.pi)
-    sum   = 0
+    s     = 0
 
-    for i in range(len(light)):   # summing over all flavors
+    for i in range(len(light)):   # summing over light flavors
         eta2 = eta_squared(z, ml[i], args[0])
         eta  = np.sqrt(eta2)
-        k02  = np.power(spec.kn(0, eta * r), 2) # modified Bessel function (2nd kind, 0th order)
-        k12  = np.power(spec.kn(1, eta * r), 2)  # MacDonald's Function first order
+        k02  = np.power(kn(0, eta * r), 2) # modified Bessel function (kind 2, order 0)
+        k12  = np.power(kn(1, eta * r), 2)  # MacDonald's Function first order
 
         t1   = (z * z + (1 - z) * (1 - z)) * eta2 * k12
         t2   = ml[i] * ml[i] * k02
-        sum  += el[i] * el[i] * (t1 + t2)
-    return coeff * sum
+        s    += el[i] * el[i] * (t1 + t2)
+    return coeff * s
 
 # (longitudinal) wave function for splitting of photon to quark-antiquark dipole
 def psi_l2(z, r, *args): # args = [qsq2]
 
     coeff = (6 * alpha) / (4 * np.pi * np.pi)
-    sum   = 0
+    s     = 0
 
     for i in range(len(light)):
         eta2 = eta_squared(z, ml[i], args[0])
         eta  = np.sqrt(eta2)
-        k02  = np.power(spec.kn(0, eta * r), 2)
-        sum  += 4 * args[0] * np.power(z * (1 - z), 2) * k02 * el[i] * el[i]
-    return coeff * sum
+        k02  = np.power(kn(0, eta * r), 2)
+        s    += 4 * args[0] * np.power(z * (1 - z), 2) * k02 * el[i] * el[i]
+    return coeff * s
         
 def eta_squared(z, m_f, qsq2):
     return z * (1 - z) * qsq2 + m_f * m_f
@@ -149,9 +150,9 @@ def test(q_, x_, cme_, sigma, n_, obs, filename, description=''):
 
 if __name__ == '__main__':
 
-    sig = 16.36 * 2
-    bk  = N('../bk/results/RK4/bk_MVe.csv', 'dis')
-    res = 'results/redx/RK4/MVe_equal_masses.csv'
+    sig = 16.45 * 2
+    bk  = N('../bk/results/RK4/bk_MVg.csv', 'dis')
+    res = 'results/redx/RK4/MVg_test.csv'
 
     # qsq = [0.15, 0.2, 0.25, 0.35, 0.4, 0.5, 0.65, 0.85, 1.2, 1.5, 2.0, 2.7, 3.5, 4.5, 6.5, 8.5, 10., 12., 15., 18., 22., 27., 35., 45.] 
     qsq = [1.5]
