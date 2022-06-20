@@ -2,7 +2,7 @@ import sys
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.integrate import quad
-import scipy.special import kn
+from scipy.special import kn
 import csv
 
 from os.path import exists
@@ -15,27 +15,10 @@ alpha = 1./137   # FIND VALUE (EM coupling)
 x0    = 0.01
 lamb  = 0.241  # lambda_QCD (GeV)
 
-"""ordering of flavors:
-   1. up      -1. antiup
-   2. down    -2. antidown
-   3. strange -3. strange
-   4. charm   -4. anticharm
-   5. top     -5. antitop
-   6. bottom  -6. antibottom  
-"""
-
-light = [1, 2, 3, -1, -2, -3]  # q flavors CHECK 
-ml    = [0.14, 0.14, 0.14, 0.14, 0.14, 0.14] # q masses in GeV
+light = 6  # q flavors CHECK 
+ml    = 0.14 # q masses in GeV
 el    = [2/3, -1/3, -1/3, -2/3, 1/3, 1/3] # q charge
-'''
-heavy = [4, 5, 6, -4, -5, -6]
-mh    = [1.270, 172., 5., 1.270, 172., 5.]
-eh    = [2/3, 2/3, -1/3, -2/3, -2/3, 1/3]
 
-flavors = [1, 2, 3, 4, 5, 6, -1, -2, -3, -4, -5, -6]
-mf      = [0.002, 0.0045, 1.270, 0.101, 172, 5., 0.002, 0.0045, 1.270, 0.101, 172, 5.0]
-ef      = [2/3, -1/3, 2/3, -1/3, 2/3, -1/3, -2/3, 1/3, -2/3, 1/3, -2/3, 1/3]
-'''
 bk = None  # bk interpolated object
 
 # bk_ is interpolated object
@@ -44,18 +27,18 @@ def set_n(bk_):
     bk = bk_
 
 # (transverse) wave function for splitting of photon to quark-antiquark dipole
-def psi_t2(z, r, *args):
+def psi_t2(z, r, *args): # args = [qsq2]
     coeff = (6 * alpha)/(4 * np.pi * np.pi)
     s     = 0
 
-    for i in range(len(light)):   # summing over light flavors
-        eta2 = eta_squared(z, ml[i], args[0])
+    for i in range(light):   # summing over light flavors
+        eta2 = eta_squared(z, ml, args[0])
         eta  = np.sqrt(eta2)
         k02  = np.power(kn(0, eta * r), 2) # modified Bessel function (kind 2, order 0)
         k12  = np.power(kn(1, eta * r), 2)  # MacDonald's Function first order
 
         t1   = (z * z + (1 - z) * (1 - z)) * eta2 * k12
-        t2   = ml[i] * ml[i] * k02
+        t2   = ml * ml * k02
         s    += el[i] * el[i] * (t1 + t2)
     return coeff * s
 
@@ -65,8 +48,8 @@ def psi_l2(z, r, *args): # args = [qsq2]
     coeff = (6 * alpha) / (4 * np.pi * np.pi)
     s     = 0
 
-    for i in range(len(light)):
-        eta2 = eta_squared(z, ml[i], args[0])
+    for i in range(light):
+        eta2 = eta_squared(z, ml, args[0])
         eta  = np.sqrt(eta2)
         k02  = np.power(kn(0, eta * r), 2)
         s    += 4 * args[0] * np.power(z * (1 - z), 2) * k02 * el[i] * el[i]
@@ -75,22 +58,21 @@ def psi_l2(z, r, *args): # args = [qsq2]
 def eta_squared(z, m_f, qsq2):
     return z * (1 - z) * qsq2 + m_f * m_f
 
-def t_integral(z, *args):
+def t_integral(z, *args): # args = [qsq2, y]
     m = lambda r_: r_ * psi_t2(z, r_, args[0]) * bk.n(r_, args[1])
-    return quad(m, 1e-6, 1.e2, epsabs=0.05, epsrel=0.0)[0]
+    return 2 * np.pi * quad(m, 1e-6, 1.5e3, epsabs=0.05, epsrel=0.0)[0]
 
-# orignal integration bound: [3.e-6, 1/args[0]]
 def l_integral(z, *args): # *args = [qsq2, y]
     m = lambda r_: r_ * psi_l2(z, r_, args[0]) * bk.n(r_, args[1])
-    return quad(m, 1e-6, 1.e2, epsabs=0.05, epsrel=0.0)[0]
+    return 2 * np.pi * quad(m, 1e-6, 1.5e3, epsabs=0.05, epsrel=0.0)[0]
 
 def t_xsection(x, qsq2, sigma):
-    y   = np.log(x0/x)
-    return 2 * np.pi * sigma * quad(t_integral, 0., 1., epsabs=0.05, epsrel=0.0,  args=(qsq2, y))[0]
+    rap   = np.log(x0/x)
+    return sigma * quad(t_integral, 0., 1., epsabs=0.05, epsrel=0.0,args=(qsq2, rap))[0]
                 
 def l_xsection(x, qsq2, sigma):
-    y  = np.log(x0/x)  # 2 * np.pi comes from angular independence of inner integral
-    return 2 * np.pi * sigma * quad(l_integral, 0., 1., epsabs=0.05, epsrel=0.0,  args=(qsq2, y))[0]
+    rap = np.log(x0/x)  # 2 * np.pi comes from angular independence of inner integral
+    return sigma * quad(l_integral, 0., 1., epsabs=0.05, epsrel=0.0,args=(qsq2, rap))[0]
 
 def fl(x, qsq2, sigma):
     prefac = qsq2/(4 * np.pi * np.pi * alpha)
@@ -124,18 +106,19 @@ def test(q_, x_, cme_, sigma, n_, obs, filename, description=''):
         with open(filename, 'w') as f:
             writer = csv.writer(f, delimiter='\t')
             # writer.writerow([description])
+            writer.writerow(['# bk: ' + n_.get_name()])
             writer.writerow(['q2', 'x', 'cme', 'f2', 'fl', 'redx'])
 
     with open(filename, 'a') as f:
         writer = csv.writer(f, delimiter='\t')
 
         if obs == 'f2':
-            f2_res = [f2(x[i], q) for i in range(len(x))]
+            f2_res = [f2(x[i], q, sigma) for i in range(len(x))]
             for i in range(len(x)):
-                writer.writerow([q, x[i], sqrt_s,f2_res[i], '-', '-'])
+                writer.writerow([q, x[i], sqrt_s, f2_res[i], '-', '-'])
 
         elif obs == 'fl':
-            fl_res = [fl(x[i], q) for i in range(len(x))]
+            fl_res = [fl(x[i], q, sigma) for i in range(len(x))]
             for i in range(len(x)):
                 writer.writerow([q, x[i], sqrt_s, '-', fl_res[i], '-'])
 
@@ -150,11 +133,12 @@ def test(q_, x_, cme_, sigma, n_, obs, filename, description=''):
 
 if __name__ == '__main__':
 
-    sig = 16.45 * 2
-    bk  = N('../bk/results/RK4/bk_MVg.csv', 'dis')
-    res = 'results/redx/RK4/MVg_test.csv'
+    sig = 18.81 * 2
+    bk  = N('../bk/results/RK4/bk_MV.csv', 'dis')
+    res = 'results/redx/RK4/MV_r2-15e3.csv'
 
     # qsq = [0.15, 0.2, 0.25, 0.35, 0.4, 0.5, 0.65, 0.85, 1.2, 1.5, 2.0, 2.7, 3.5, 4.5, 6.5, 8.5, 10., 12., 15., 18., 22., 27., 35., 45.] 
-    qsq = [1.5]
+    qsq = [1.5, 8.5, 27., 200.]
     for i in qsq:
+        print(i)
         test(i, np.logspace(-5, -2, 20), 319., sig, bk, 'redx', res)

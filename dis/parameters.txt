@@ -1,4 +1,0 @@
-transverse/longitudinal cross section (T/L): T
-x: 10.e-3
-number of points: 5
-momentum scale (GeV^2): 250
