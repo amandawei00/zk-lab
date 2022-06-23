@@ -15,9 +15,9 @@ alpha = 1./137   # FIND VALUE (EM coupling)
 x0    = 0.01
 lamb  = 0.241  # lambda_QCD (GeV)
 
-light = 6  # q flavors CHECK 
+light = 3  # q flavors CHECK 
 ml    = 0.14 # q masses in GeV
-el    = [2/3, -1/3, -1/3, -2/3, 1/3, 1/3] # q charge
+el    = [2/3, -1/3, -1/3] # q charge
 
 bk = None  # bk interpolated object
 
@@ -60,19 +60,19 @@ def eta_squared(z, m_f, qsq2):
 
 def t_integral(z, *args): # args = [qsq2, y]
     m = lambda r_: r_ * psi_t2(z, r_, args[0]) * bk.n(r_, args[1])
-    return 2 * np.pi * quad(m, 1e-6, 1.5e3, epsabs=0.05, epsrel=0.0)[0]
+    return 2 * np.pi * quad(m, 1e-6, 1e4, epsabs=1.e-9, epsrel=0.0)[0]
 
 def l_integral(z, *args): # *args = [qsq2, y]
     m = lambda r_: r_ * psi_l2(z, r_, args[0]) * bk.n(r_, args[1])
-    return 2 * np.pi * quad(m, 1e-6, 1.5e3, epsabs=0.05, epsrel=0.0)[0]
+    return 2 * np.pi * quad(m, 1e-6, 1e4, epsabs=1.e-9, epsrel=0.0)[0]
 
 def t_xsection(x, qsq2, sigma):
     rap   = np.log(x0/x)
-    return sigma * quad(t_integral, 0., 1., epsabs=0.05, epsrel=0.0,args=(qsq2, rap))[0]
+    return 2 * sigma * quad(t_integral, 0., 0.5, epsabs=1e-4, epsrel=0.0,args=(qsq2, rap))[0]
                 
 def l_xsection(x, qsq2, sigma):
     rap = np.log(x0/x)  # 2 * np.pi comes from angular independence of inner integral
-    return sigma * quad(l_integral, 0., 1., epsabs=0.05, epsrel=0.0,args=(qsq2, rap))[0]
+    return 2 * sigma * quad(l_integral, 0., 0.5, epsabs=1e-4, epsrel=0.0,args=(qsq2, rap))[0]
 
 def fl(x, qsq2, sigma):
     prefac = qsq2/(4 * np.pi * np.pi * alpha)
@@ -133,12 +133,12 @@ def test(q_, x_, cme_, sigma, n_, obs, filename, description=''):
 
 if __name__ == '__main__':
 
-    sig = 18.81 * 2
-    bk  = N('../bk/results/RK4/bk_MV.csv', 'dis')
-    res = 'results/redx/RK4/MV_r2-15e3.csv'
+    sig = 16.36 * 2 * 2.5681 
+    bk  = N('../bk/results/RK4/bk_MVe.csv', 'dis')
+    res = 'results/redx/RK4/MVe_r2-1e4_more_accurate.csv'
 
     # qsq = [0.15, 0.2, 0.25, 0.35, 0.4, 0.5, 0.65, 0.85, 1.2, 1.5, 2.0, 2.7, 3.5, 4.5, 6.5, 8.5, 10., 12., 15., 18., 22., 27., 35., 45.] 
-    qsq = [1.5, 8.5, 27., 200.]
+    qsq = [1.5, 8.5, 27.]
     for i in qsq:
         print(i)
         test(i, np.logspace(-5, -2, 20), 319., sig, bk, 'redx', res)

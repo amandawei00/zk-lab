@@ -3,25 +3,15 @@ import csv
 import pandas as pd
 from multiprocessing import Pool
 import time
-import numba
-from numba import jit
-from numba import cfunc, carray
-from numba.types import intc, intp, float64, voidptr
-from numba.types import CPointer
-from scipy import LowLevelCallable as llc
-import scipy.interpolate as interpolate
-from scipy.interpolate import UnivariateSpline
-from scipy.integrate import nquad
+from scipy.interpolate import CubicSpline as cs
 from scipy.integrate import dblquad
-import solver as so
 import subprocess
-
 import warnings
 warnings.filterwarnings('ignore')
 
 # variables
-n = 399     # number of r points to be evaluated at each evolution step in Y
-r1 = 1.e-6  # limits of r
+n = 399   
+r1 = 1.e-6
 r2 = 1.e2
 
 xr1 = np.log(r1)
@@ -33,7 +23,7 @@ hy = 0.2
 ymax = 16.
 y = np.arange(0.0, ymax, hy)
 
-# Arrays for N and r in N(r), evaluated at some rapidity Y (including next step N(r,Y) in the evolution
+# Arrays for N and r in N(r)
 xlr_ = [xr1 + i * hr for i in range(n + 1)]
 r_ = np.exp(xlr_)
 n_ = []
@@ -46,40 +36,105 @@ lamb = 0.241  # lambda QCD (default)
 beta = (11 * nc - 2. * nf)/(12 * np.pi)
 afr = 0.7     # frozen coupling constant (default)
 
+kk = None
+xr0, r0, n0 = 0., 0., 0.
 c2, gamma, qs02, ec = 0. , 0., 0., 0.   # fitting parameters
 e  = np.exp(1)
 
 # initial condition
-def mv(r):
-    xlog = np.log(1/(lamb * r) + ec * e)
-    xexp = np.power(qs02 * r * r, gamma) * xlog/4.0
+def mv(vr):
+    xlog = np.log(1/(lamb * vr) + ec * e)
+    xexp = np.power(qs02 * vr * vr, gamma) * xlog/4.0
     return 1 - np.exp(-xexp)
 
-def evolve(xlr):
+def find_r1(vr, vz, thet):
+    r12 = (0.25 * vr * vr) + (vz * vz) - (vr * vz * np.cos(thet))
+    return np.sqrt(r12)
 
-    index = xlr_.index(xlr)
-    nr0 = n_[index]
 
-    # set_vars(xlr, n(r0), xlr_, n_arr)
-    so.set_vars(xlr, nr0, xlr_, n_)
+def find_r2(vr, vz, thet):
+    r22 = (0.25 * vr * vr) + (vz * vz) + (vr * vz * np.cos(thet))
+    return np.sqrt(r22)
 
-    fk = llc.from_cython(so, 'f_kernel', signature='double (int, double *)')
-    fs = llc.from_cython(so, 'f_split', signature='double (int, double *)')
-    fc = llc.from_cython(so, 'f_combined', signature='double (int, double *)')
+# kernel
+def k(vr, vr1, vr2):
 
-    Ker = dblquad(fk, xr1, xr2, 0.0, 2 * np.pi, epsabs=0.00, epsrel=0.05)[0]
-    Spl = dblquad(fs, xr1, xr2, 0.0, 2 * np.pi, epsabs=0.00, epsrel=0.05)[0]
-    Com = dblquad(fc, xr1, xr2, 0.0, 2 * np.pi, epsabs=0.00, epsrel=0.05)[0]
+    if (vr1 < 1e-20) or (vr2 < 1e-20):
+        return 0
+    else:
+        rr = vr * vr
+        r12 = vr1 * vr1
+        r22 = vr2 * vr2
 
-    k1 = Com
-    k2 = k1 + (0.5 * hy * k1 * Ker) - (0.5 * hy * k1 * Spl) - (0.25 * hy * hy * k1 * k1 * Ker)
-    k3 = k1 + (0.5 * hy * k2 * Ker) - (0.5 * hy * k2 * Spl) - (0.25 * hy * hy * k2 * k2 * Ker)
-    k4 = k1 + (hy * k3 * Ker) - (hy * k3 * Spl) - (hy * hy * k3 * k3 * Ker)
+        t1 = rr/(r12 * r22)
+        t2 = (1/r12) * (alphaS(r12)/alphaS(r22) - 1)
+        t3 = (1/r22) * (alphaS(r22)/alphaS(r12) - 1)
 
-    return (1/6) * hy * (k1 + 2 * k2 + 2 * k3 + k4)
+        prefac = (nc * alphaS(rr))/(2 * M_PI * M_PI)
+        return prefac * (t1 + t2 + t3)
+
+def f(theta, vr):
+
+    z = np.exp(vr)
+    r1_ = find_r1(r0, z, theta)
+    r2_ = find_r2(r0, z, theta)
+
+    xlr1 = np.log(r1_)
+    xlr2 = np.log(r2_)
+
+    nr0 = n0 + kk(xr0)
+    nr1 = nfunc(xlr1) + kk(xlr1)
+    nr2 = nfunc(xlr2) + kk(xlr2)
+
+    return 4 * z * z * k(r0, r1_, r2_) * (nr1 + nr2 - nr0 - nr1 * nr2)
+
+def intg(xx):
+    global xr0, r0, n0
+
+    index = xlr_.index(xx)
+    xr0 = xx
+    r0  = np.exp(xr0)
+    n0 = n_[index]
+
+    return dblquad(f, xr1, xr2, 1.e-6, 0.5 * np.pi, epsabs=0.0, epsrel=1.e-4)[0]
+
+# return type: array
+def evolve(order):
+
+    # Euler's method
+    kk = cs(xlr_, [0 for i in range(len(xlr_))])
+    with Pool(processes=5) as pool:
+        k1 = np.array(pool.map(intg, xlr_, chunksize=80))
+
+    if order=='RK1':
+        return hy * k1
+
+    # RK2
+    list_k1 = list(k1 * hy * 0.5)
+    kk = cs(xlr_, list_k1)
+    with Pool(processes=5) as pool:
+        k2 = np.array(pool.map(intg, xlr_, chunksize=80))
+
+    if order=='RK2':
+        return hy * k2
+
+    # RK3
+    list_k2 = list(k2 * hy * 0.5)
+    kk = cs(xlr_, list_k2)
+    with Pool(processes=5) as pool:
+        k3 = np.array(pool.map(intg, xlr_, chunksize=80))
+
+    # RK4
+    list_k3 = list(k3 * hy)
+    kk = cs(xlr_, list_k3)
+    with Pool(processes=5) as pool:
+        k4 = np.array(pool.map(intg, xlr_, chunksize=80))
+
+    if order=='RK4':
+        return (1/6) * hy * (k1 + 2 * k2 + 2 * k3 + k4)
 
 # pass fitting variables q_, c_, g_ to set variables in master.py
-def master(q_, c2_, g_, ec_, filename=''):
+def master(q_, c2_, g_, ec_, filename='', order='RK4'):
     global n_, qs02, c2, gamma, ec
 
     # variables
@@ -88,10 +143,8 @@ def master(q_, c2_, g_, ec_, filename=''):
     gamma = g_
     ec    = ec_
 
-    so.set_params(c2, gamma, qs02) 
-
-    l = ['n   ', 'r1  ', 'r2  ', 'y   ', 'hy  ', 'ec  ', 'qs02 ', 'c2  ', 'g   ']
-    v = [n, r1, r2, ymax, hy, ec, qs02, c2, gamma]
+    l = ['n   ', 'r1  ', 'r2  ', 'y   ', 'hy  ', 'ec  ', 'qs02 ', 'c2  ', 'g ', 'order']
+    v = [n, r1, r2, ymax, hy, ec, qs02, c2, gamma, order]
     bk_arr = []
     t1 = time.time()
 
@@ -109,10 +162,7 @@ def master(q_, c2_, g_, ec_, filename=''):
 
         # calculate correction and update N(r,Y) to next step in rapidity
 
-        xk = []
-        with Pool(processes=5) as pool:
-            xk = pool.map(evolve, xlr_, chunksize=80)
-
+        xk = evolve(order)
         n_ = [n_[j] + xk[j] for j in range(len(n_))]
 
         # remove nan values from solution
@@ -152,5 +202,4 @@ if __name__ == "__main__":
         header = next(reader)
         p      = next(reader)
 
-    bk = master(float(p[0]), float(p[1]), float(p[2]), float(p[3]), p[4])
-    #print(bk)
+    bk = master(float(p[0]), float(p[1]), float(p[2]), float(p[3]), p[4], p[5])

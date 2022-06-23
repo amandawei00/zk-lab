@@ -6,9 +6,9 @@ import matplotlib.pyplot as plt
 
 order  = 'RK4'
 obs    = 'redx'
-qsq2   = 27.
+qsq2   = 27
 sqrt_z = 319.
-bk_ver = 'MV_r2-15e3'
+bk_ver = 'MVe'
 
 exp_name = '../data/redx-2009-parsed.csv'
 th_name  = '../dis/results/' + obs + '/' + order + '/' + bk_ver + '.csv'

@@ -8,14 +8,14 @@ qsq2     = 1.5
 sqrt_z   = 319.
 
 prefix   = 'results/redx/RK4/MVe_r2-'
-th1      = prefix + '9e2.csv'
-th2      = prefix + '95e2.csv'
-th3      = prefix + '1e3.csv'
-th4      = prefix + '15e3.csv'
-th5      = prefix + '2e3.csv'
-th6      = prefix + '3e3.csv'
+th0      = prefix + '10.csv'
+th1      = prefix + '1e2.csv'
+th2      = prefix + '1e3.csv'
+th3      = prefix + '1e4.csv'
+th4      = prefix + '1e4_accurate.csv'
+th5      = prefix + '1e4_more_accurate.csv'
 
-th       = [th1, th2, th3, th4, th5, th6]
+th       = [th0, th1, th2, th3, th4, th5]
 exp_name = '../data/redx-2009-parsed.csv'
 # import experimental data--------------------------------------
 df_exp = pd.read_csv(exp_name, sep='\t', header=0, comment='#')
