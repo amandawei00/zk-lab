@@ -162,8 +162,6 @@ def master(q_, c2_, g_, ec_, filename='', order='RK4'):
 
 if __name__ == "__main__":
     # qsq2, c^2, g, ec, filename
-    p = []
-
     with open('params.csv', 'r') as foo:
         reader = csv.reader(foo, delimiter='\t')
         header = next(reader)

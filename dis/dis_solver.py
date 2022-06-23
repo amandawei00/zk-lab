@@ -60,19 +60,19 @@ def eta_squared(z, m_f, qsq2):
 
 def t_integral(z, *args): # args = [qsq2, y]
     m = lambda r_: r_ * psi_t2(z, r_, args[0]) * bk.n(r_, args[1])
-    return 2 * np.pi * quad(m, 1e-6, 1e4, epsabs=1.e-9, epsrel=0.0)[0]
+    return 2 * np.pi * quad(m, 1e-6, 1e2, epsabs=1e-4, epsrel=0.0)[0]
 
 def l_integral(z, *args): # *args = [qsq2, y]
     m = lambda r_: r_ * psi_l2(z, r_, args[0]) * bk.n(r_, args[1])
-    return 2 * np.pi * quad(m, 1e-6, 1e4, epsabs=1.e-9, epsrel=0.0)[0]
+    return 2 * np.pi * quad(m, 1e-6, 1e2, epsabs=1e-4, epsrel=0.0)[0]
 
 def t_xsection(x, qsq2, sigma):
     rap   = np.log(x0/x)
-    return 2 * sigma * quad(t_integral, 0., 0.5, epsabs=1e-4, epsrel=0.0,args=(qsq2, rap))[0]
+    return 2 * 2.5681 * sigma * quad(t_integral, 0., 0.5, epsabs=1e-4, epsrel=0.0,args=(qsq2, rap))[0]
                 
 def l_xsection(x, qsq2, sigma):
     rap = np.log(x0/x)  # 2 * np.pi comes from angular independence of inner integral
-    return 2 * sigma * quad(l_integral, 0., 0.5, epsabs=1e-4, epsrel=0.0,args=(qsq2, rap))[0]
+    return 2 * 2.5681 * sigma * quad(l_integral, 0., 0.5, epsabs=1e-4, epsrel=0.0,args=(qsq2, rap))[0]
 
 def fl(x, qsq2, sigma):
     prefac = qsq2/(4 * np.pi * np.pi * alpha)
@@ -82,7 +82,6 @@ def f2(x, qsq2, sigma):
     prefac = qsq2/(4 * np.pi * np.pi * alpha)
     return prefac * (t_xsection(x, qsq2, sigma) + l_xsection(x, qsq2, sigma))
 
-# at low qsq (qsq << MZ^2, and Z exchange is negligible)
 def reduced_x(x, qsq2, root_s, sigma):
     y = qsq2/(root_s * root_s * x)  # root_s is center of mass energy
     d = 1 + (1 - y) * (1 - y)
@@ -93,7 +92,6 @@ def reduced_x(x, qsq2, root_s, sigma):
     return [a, b, c]
 
 # saturation scale, small-x values (array type), CM energy sqrt(sNN), interpolated object bk,  observable
-# c = 2.58 unit conversion factor?
 def test(q_, x_, cme_, sigma, n_, obs, filename, description=''):
     set_n(n_)
 
@@ -105,7 +103,6 @@ def test(q_, x_, cme_, sigma, n_, obs, filename, description=''):
     if not f_exist:
         with open(filename, 'w') as f:
             writer = csv.writer(f, delimiter='\t')
-            # writer.writerow([description])
             writer.writerow(['# bk: ' + n_.get_name()])
             writer.writerow(['q2', 'x', 'cme', 'f2', 'fl', 'redx'])
 
@@ -129,16 +126,20 @@ def test(q_, x_, cme_, sigma, n_, obs, filename, description=''):
             redx    = [results[i][2] for i in range(len(results))]
             for i in range(len(x)):
                 writer.writerow([q, x[i], sqrt_s, f2_res[i], fl_res[i], redx[i]])
-                print("x = " + str(x[i]) + ", redx = " + str(redx[i]))
 
 if __name__ == '__main__':
 
-    sig = 16.36 * 2 * 2.5681 
-    bk  = N('../bk/results/RK4/bk_MVe.csv', 'dis')
-    res = 'results/redx/RK4/MVe_r2-1e4_more_accurate.csv'
+    with open('params.csv', 'r') as f:
+        reader = csv.reader(f, delimiter='\t')
+        header = next(reader)
+        p      = next(reader)
+        q      = next(reader)
+    
+    sig = float(p[0]) * 2 
+    bk  = N(p[1], 'dis')
+    res = p[2]
 
-    # qsq = [0.15, 0.2, 0.25, 0.35, 0.4, 0.5, 0.65, 0.85, 1.2, 1.5, 2.0, 2.7, 3.5, 4.5, 6.5, 8.5, 10., 12., 15., 18., 22., 27., 35., 45.] 
-    qsq = [1.5, 8.5, 27.]
+    qsq = [float(q[i]) for i in range(len(q))]
     for i in qsq:
         print(i)
         test(i, np.logspace(-5, -2, 20), 319., sig, bk, 'redx', res)

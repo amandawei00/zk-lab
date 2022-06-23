@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 
 order  = 'RK4'
 obs    = 'redx'
-qsq2   = 27
+qsq2   = 27.
 sqrt_z = 319.
 bk_ver = 'MVe'
 
