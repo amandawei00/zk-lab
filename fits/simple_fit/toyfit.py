@@ -50,24 +50,13 @@ parameters:
 '''
 
 # parm: parametrization (mv, mvg, mve, rcbk)
-def chi_squared(qsq0, c, gamma, ec, sigma, parm):
-    # run BK for given parameters qsq2, c, sigma, and gamma
-    # load dataframe directly without writing to file?
-    # write to file so future runs can be avoided?
+def chi_squared(x0, lamb, gamma, ec, sigma):
 
-    # print('set parameters: qsq0 = ' + str(qsq0) + ', c = ' + str(c) + ', g = ' + str(gamma) + ', sig = ' + str(sigma))
-    print('set parameters: qsq0 = '  + str(qsq0) + ', c = ' + str(c) + ', sig = ' + str(sigma))
-    bk_df = bk.master(qsq0, c, gamma, ec)
-    print('bk solution done...')
-    bk_f  = N(bk_df) # why interpolate now? interpolation happens in dis
-        
-    # set n for dis, pp-pA
-    dis.set_n(bk_f)
-    print('bk interpolation done... calculating residuals')
+    dis.set_var(x0, lamb, gamma, ec, sigma, 'mv')
 
     res = 0
     for i in range(len(data)):
-        theory = dis.reduced_x(x[i], qsq[i], sNN[i], sigma)[2]
+        theory = dis.reduced_x(x[i], sNN[i])[2]
         exp    = dat[i]
         er1    = err[i]
         res    += (theory - exp) * (theory - exp) / (er1 * er1)
