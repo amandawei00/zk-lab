@@ -57,12 +57,12 @@ def plot(q2):
 
 
 # read results from fit file
-bk_ver= 'mvg'
-x0    = 0.0001547
-lamb  = 0.2864
-gamma = 1.06220
-sig   = 8.14552
-ec    = 1.
+bk_ver= 'mv'
+x0    = 2.4691e-5
+lamb  = 0.282164
+gamma = 1.0
+sig   = 11.4115
+ec    = 1.0
 dis.set_var(x0, lamb, gamma, ec, sig, bk_ver)
 to_file_dis = bk_ver + '_dis_calculated.csv'
 data = data_import('redx-2009-parsed.csv')
