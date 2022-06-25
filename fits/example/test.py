@@ -51,6 +51,13 @@ with open('test.txt', 'w') as f:
     writer.writerow(m.values)
     writer.writerow(m.errors)
     writer.writerow(repr(m.fmin))
+
+with open('out.txt', 'w') as f:
+    f.write(str(m.values[0]))
+    f.write(str(m.values[1]))
+    f.write(str(m.errors[0]))
+    f.write(str(m.errors[1]))
+    # f.write(repr(m.fmin))
 print(m.values)
 print(m.values[0])  # prints fit results
 print(m.errors)  # prints errors

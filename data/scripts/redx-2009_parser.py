@@ -18,7 +18,14 @@ for i in range(len(q2)):
     panda  = panda.replace({'%':''}, regex=True)
     panda  = panda.apply(pd.to_numeric)
     for j in range(len(panda.to_numpy())):
-        df.append(np.concatenate((np.array([q2[i]]), panda.to_numpy()[j], np.array([panda['tot+'][j] + abs(panda['tot-'][j])]))))
+        e1  = panda['e1'][j] * panda['e1'][j]
+        e3  = panda['e3'][j] * panda['e3'][j]
+        e5  = panda['e5'][j] * panda['e5'][j]
+        e7  = panda['e7'][j] * panda['e7'][j]
+        e9  = panda['e9'][j] * panda['e9'][j]
+        e11 = panda['e11'][j] * panda['e11'][j]
+        ee  = np.sqrt(e1 + e3 + e5 + e7 + e9 + e11)
+        df.append(np.concatenate((np.array([q2[i]]), panda.to_numpy()[j], np.array([ee]))))
 
 df1 = pd.DataFrame(df)
 df1.columns = colf

@@ -1,0 +1,82 @@
+packages loaded...
+       q2         x      y    cme   redx  ...   e11   e12  tot+  tot-  err
+0     0.2  0.000003  0.704  301.0  0.250  ...  0.99 -0.99   0.5  -0.5  1.0
+1     0.2  0.000004  0.603  301.0  0.246  ...  0.37 -0.37   0.5  -0.5  1.0
+2     0.2  0.000004  0.503  301.0  0.240  ...  0.17 -0.17   0.5  -0.5  1.0
+3     0.2  0.000006  0.402  301.0  0.235  ...  0.30 -0.30   0.5  -0.5  1.0
+4     0.2  0.000007  0.295  319.0  0.227  ...  0.10 -0.10   0.5  -0.5  1.0
+..    ...       ...    ...    ...    ...  ...   ...   ...   ...   ...  ...
+274  45.0  0.008000  0.056  319.0  0.785  ...  0.07 -0.07   0.5  -0.5  1.0
+275  45.0  0.013000  0.034  319.0  0.683  ...  0.28 -0.28   0.5  -0.5  1.0
+276  45.0  0.020000  0.022  319.0  0.604  ...  0.25 -0.25   0.5  -0.5  1.0
+277  45.0  0.032000  0.014  319.0  0.536  ...  0.25 -0.25   0.5  -0.5  1.0
+278  45.0  0.050000  0.009  319.0  0.488  ...  0.22 -0.22   0.5  -0.5  1.0
+
+[279 rows x 20 columns]
+making instance of Minuit class
+calling simplex method
+vars set
+vars set
+vars set
+vars set
+vars set
+vars set
+vars set
+vars set
+vars set
+vars set
+vars set
+vars set
+vars set
+vars set
+vars set
+vars set
+vars set
+vars set
+vars set
+vars set
+vars set
+vars set
+vars set
+vars set
+vars set
+vars set
+vars set
+vars set
+vars set
+vars set
+vars set
+vars set
+vars set
+vars set
+vars set
+vars set
+vars set
+vars set
+vars set
+vars set
+vars set
+vars set
+vars set
+vars set
+vars set
+vars set
+vars set
+vars set
+vars set
+vars set
+vars set
+vars set
+vars set
+vars set
+vars set
+vars set
+vars set
+vars set
+vars set
+vars set
+simplex method complete
+total fit run time: 1.6012555966774622 hours
+<ValueView x0=0.0001547793108457588 lamb=0.2864001659027276 sigma=8.145520016377187 gamma=1.0622050179258262>
+<ErrorView x0=2.4162918599935725e-05 lamb=0.10129886130011426 sigma=0.995183773382413 gamma=0.09510762772688063>
+<FMin algorithm='Simplex' edm=0.05612154552582971 edm_goal=0.1 errordef=1.0 fval=0.5495509170388143 has_accurate_covar=False has_covariance=False has_made_posdef_covar=False has_parameters_at_limit=False has_posdef_covar=False has_reached_call_limit=False has_valid_parameters=True hesse_failed=False is_above_max_edm=False is_valid=True nfcn=60 ngrad=0 reduced_chi2=nan>

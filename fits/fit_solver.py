@@ -49,7 +49,6 @@ parameters:
    4. sigma: normalization factor
 '''
 
-# parm: parametrization (mv, mvg, mve, rcbk)
 def chi_squared(qsq0, c, gamma, ec, sigma, parm):
     # run BK for given parameters qsq2, c, sigma, and gamma
     # load dataframe directly without writing to file?

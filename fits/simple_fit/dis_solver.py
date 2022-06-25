@@ -1,41 +1,32 @@
-import sys
 import numpy as np
-import matplotlib.pyplot as plt
 from scipy.integrate import quad
 from scipy.special import kn
 import pandas as pd
 import csv
 
-from os.path import exists
-
-sys.path.append('../bk/')
-from bk_interpolate import N
-
 # Units in GeV
 alpha = 1./137   # FIND VALUE (EM coupling)
-x0    = 0.01
-lamb  = 0.241  # lambda_QCD (GeV)
 
 light = 3  # q flavors CHECK 
 ml    = 0.14 # q masses in GeV
 el    = [2/3, -1/3, -1/3] # q charge
 
-x0, lamb, gamma, ec, sigma = 0., 0., 0., 0., 0.
+x0, lamb, gamma, ec, sigma, q20 = 0., 0., 0., 0., 0., 0.
 bk       = ''
 
 # bk_ is interpolated object
-def mv(r, x, q2):
-    t1 = 0.25 * r * r * q2
+def mv(r, x):
+    t1 = 0.25 * r * r * q20
     t2 = 1/(0.241 * r) + np.exp(1)
     return 1 - np.exp(-t1 * np.log(t2))
 
-def mvg(r, x, q2):
-    t1 = 0.25 * np.power(r * r * q2)
+def mvg(r, x):
+    t1 = 0.25 * np.power(r * r * q20, gamma)
     t2 = 1/(0.241 * r) + np.exp(1)
     return 1 - np.exp(-t1 * np.log(t2))
 
-def mve(r, x, q2):
-    t1 = 0.25 * r * r * q2
+def mve(r, x):
+    t1 = 0.25 * r * r * q20
     t2 = 1/(0.241 * r) + ec * np.exp(1)
     return 1 - np.exp(-t1 * np.log(t2))
 
@@ -73,21 +64,21 @@ def eta_squared(z, m_f, qsq2):
 
 def t_integral(z, *args): # args = [qsq2, x]
     if bk == 'mv':
-        m = lambda r_: r_ * psi_t2(z, r_, args[0]) * mv(r_, args[1], args[0])
+        m = lambda r_: r_ * psi_t2(z, r_, args[0]) * mv(r_, args[1])
     elif bk == 'mvg':
-        m = lambda r_: r_ * psi_t2(z, r_, args[0]) * mvg(r_, args[1], args[0])
+        m = lambda r_: r_ * psi_t2(z, r_, args[0]) * mvg(r_, args[1])
     elif bk == 'mve':
-        m = lambda r_: r_ * psi_t2(z, r_, args[0]) * mve(r_, args[1], args[0])
+        m = lambda r_: r_ * psi_t2(z, r_, args[0]) * mve(r_, args[1])
 
     return 2 * np.pi * quad(m, 1e-6, 1e2, epsabs=1e-4, epsrel=0.0)[0]
 
 def l_integral(z, *args): # *args = [qsq2, x]
     if bk == 'mv':
-        m = lambda r_: r_ * psi_l2(z, r_, args[0]) * mv(r_, args[1], args[0])
+        m = lambda r_: r_ * psi_l2(z, r_, args[0]) * mv(r_, args[1])
     elif bk == 'mvg':
-        m = lambda r_: r_ * psi_l2(z, r_, args[0]) * mvg(r_, args[1], args[0])
+        m = lambda r_: r_ * psi_l2(z, r_, args[0]) * mvg(r_, args[1])
     elif bk == 'mve':
-        m = lambda r_: r_ * psi_l2(z, r_, args[0]) * mve(r_, args[1], args[0])
+        m = lambda r_: r_ * psi_l2(z, r_, args[0]) * mve(r_, args[1])
     return 2 * np.pi * quad(m, 1e-6, 1e2, epsabs=1e-4, epsrel=0.0)[0]
 
 def t_xsection(x, qsq2):
@@ -104,15 +95,17 @@ def f2(x, qsq2):
     prefac = qsq2/(4 * np.pi * np.pi * alpha)
     return prefac * (t_xsection(x, qsq2) + l_xsection(x, qsq2))
 
-def reduced_x(x, cme):
-    qsq2 = np.power(x0/x, lamb)
-    y = qsq2/(cme * cme * x)  # root_s is center of mass energy
+def reduced_x(x, qsq2, cme):
+    global q20
+    
+    q20= np.power(x0/x, lamb)
+    y = qsq2/(cme * cme * x)
     d = 1 + (1 - y) * (1 - y)
 
     a = f2(x, qsq2)
     b = (y * y/d) * fl(x, qsq2)
     c = a - b
-    return [a, b, c]
+    return c
 
 def set_var(x0_, lamb_, gamma_, ec_, sigma_, bk_):
     global x0, lamb, gamma, ec, sigma, bk
@@ -121,5 +114,20 @@ def set_var(x0_, lamb_, gamma_, ec_, sigma_, bk_):
     lamb   = lamb_
     gamma  = gamma_
     ec     = ec_
-    sigma  = sigma_
+    sigma  = 2 * sigma_
     bk     = bk_
+
+if __name__ == '__main__':
+
+    res = 'mve_dis.csv'
+    set_var(7.9414e-5, 0.299189, 1.061996, 1.3175, 8.723066, 'mve')
+
+    qsq = [1.5, 8.5, 27., 200.]
+    with open(res, 'w') as f:
+        writer = csv.writer(f, delimiter='\t')    
+        writer.writerow(['qsq', 'x', 'redx'])
+        for i in qsq:
+            print(i)
+            for j in np.logspace(-5, -2, 20):
+                writer.writerow([i, j, reduced_x(j, i, 319.)])
+
