@@ -4,6 +4,9 @@ from iminuit import Minuit
 from iminuit.cost import LeastSquares
 import time
 import csv
+
+import sys
+sys.path.append('../')
 import dis_solver as dis
 
 print('packages loaded...')
@@ -11,7 +14,7 @@ import warnings
 warnings.filterwarnings("ignore")
 
 # redx data import
-data = pd.read_csv('redx-2009-parsed.csv', delimiter='\t', header=0, comment='#')
+data = pd.read_csv('../../../data/redx-2009-parsed.csv', delimiter='\t', header=0, comment='#')
 print(data)
 sNN = np.array(data.cme)
 qsq = np.array(data.q2)
