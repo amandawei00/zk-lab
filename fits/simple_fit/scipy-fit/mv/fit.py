@@ -54,7 +54,7 @@ bounds = [(0., 0.02), (0., 1.), (0., 20.)]
 t1 = time.time()
 if alg=='ls':
     print('running scipy.curve_fit...')
-    popt, pcov = curve_fit(chi_squared, x, dat, p0=[x0, la, si])
+    popt, pcov = curve_fit(mod, x, dat, p0=[x0, la, si])
     print(popt)
     print(pcov)
 elif alg=='pow':
@@ -77,7 +77,7 @@ with open('out' + str(run) + '_' + alg + '.csv', 'w') as outfile:
     writer.writeorw([x0, la, ga, si])
     
     # write results
-        if alg=='ls':
+    if alg=='ls':
         writer.writerow(popt)
         writer.writerow(pcov)
     elif alg=='pow':
@@ -93,5 +93,5 @@ with open('out' + str(run) + '_' + alg + '.csv', 'w') as outfile:
     # write error/confidence
 
     # write error/confidence
-    writer.writerow(['# time: ' + str((t2-t1)/3600) + ' hours')
+    writer.writerow(['# time: ' + str((t2-t1)/3600) + ' hours'])
 
