@@ -1,3 +1,3 @@
 #! /bin/bash
 
-python3 toyfit.py
+python3 fit.py

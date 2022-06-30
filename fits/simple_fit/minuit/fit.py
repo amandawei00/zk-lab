@@ -24,8 +24,14 @@ err = np.array(data.err)
 
 # theory
 # ver: parametrization (mv, mvg, mve, rcbk)
-ver = 'mve'
-def chi_squared(x0, lamb, sigma, gamma, ec):
+ver = 'mv'
+x0_ = 2.469e-5
+la_ = 0.282164
+si_ = 11.4115
+ga_ = 1.
+ec_ = 1.
+
+def chi_squared(x0, lamb, sigma):
 
     if ver == 'mv':
         gamma = 1.
@@ -48,11 +54,11 @@ chi_squared.errordef = Minuit.LEAST_SQUARES
 print('making instance of Minuit class')
 
 if ver == 'mv':
-    m = Minuit(chi_squared, x0=1e-4, lamb=0.5, sigma=10.)
+    m = Minuit(chi_squared, x0=x0_, lamb=la_, sigma=si_)
 elif ver =='mvg':
-    m = Minuit(chi_squared, x0=1e-4, lamb=0.5, sigma=10., gamma=1.)
+    m = Minuit(chi_squared, x0=x0_, lamb=la_, sigma=si_, gamma=ga_)
 elif ver == 'mve':
-    m = Minuit(chi_squared, x0=1e-4, lamb=0.5, sigma=10., gamma=1., ec=1.)
+    m = Minuit(chi_squared, x0=x0_, lamb=la_, sigma=si_, gamma=ga_, ec=ec_)
 
 print('calling simplex method')
 m.simplex()
@@ -64,7 +70,7 @@ print(m.values)  # prints fitted values
 print(m.errors)  # prints errors
 print(repr(m.fmin))
 
-with open(ver + '_out.txt', 'w') as outfile:
+with open(ver + '_out2.txt', 'w') as outfile:
     writer = csv.writer(outfile)
     writer.writerow(m.values)
     writer.writerow(m.errors)

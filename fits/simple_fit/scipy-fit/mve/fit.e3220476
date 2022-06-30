@@ -1,0 +1,6 @@
+Traceback (most recent call last):
+  File "fit.py", line 58, in <module>
+    popt, pcov = curve_fit(mod, x, dat, p0=[x0, la, ga, ec, si])
+  File "/u/home/a/amandawe/.local/lib/python3.6/site-packages/scipy/optimize/minpack.py", line 789, in curve_fit
+    raise RuntimeError("Optimal parameters not found: " + errmsg)
+RuntimeError: Optimal parameters not found: Number of calls to function has reached maxfev = 1200.

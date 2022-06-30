@@ -22,8 +22,6 @@ cdef double r2 = 1.e2              # upper limit of r
 cdef double xr1 = log(r1)          # convert lower r limit to logspace
 cdef double xr2 = log(r2)          # convert upper r limit to logspace
 
-cdef double hr = (xr2 - xr1) / n
-
 # parameters
 cdef int nc = 3                     # number of colors
 cdef int nf = 3                     # number of active flavors
@@ -33,7 +31,7 @@ cdef double beta = (11 * nc - 2. * nf)/(12 * M_PI)
 cdef double afr = 0.7               # frozen coupling constant (default)
 
 cdef double c2, gamma, qsq2            # fitting parameters
-cdef double xr0, r0, n0, rfr2
+cdef double xr0, r0, n0, rfr2 
 
 # allocating memory space for arrays
 # xlr_, n_ describe the most current BK solution
@@ -53,9 +51,9 @@ cdef double *xx_     = <double*>malloc(n * sizeof(double))
 cpdef void set_params(double c_, double gamma_, double qsq_):
     global c2, gamma, qsq2, rfr2
 
-    c2 = c_
+    qsq2  = qsq__
     gamma = gamma_
-    qsq2 = qsq_
+    c2    = c_
 
     rfr2 = 4 * c2/(lamb * lamb * exp(1/(beta * afr)))
     print('c2 = ' + str(c2) + ', g = ' + str(gamma) + ', qsq2 = ' + str(qsq2))

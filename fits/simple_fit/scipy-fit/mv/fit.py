@@ -15,7 +15,7 @@ import warnings
 warnings.filterwarnings("ignore")
 
 # redx data import
-data = pd.read_csv('../../../../data/redx-2009-parsed.csv', delimiter='\t', header=0, comment='#')
+data = pd.read_csv('../../../../data/redx2009.csv', delimiter='\t', header=0, comment='#')
 print(data)
 sNN = np.array(data.cme)
 qsq = np.array(data.q2)
@@ -25,7 +25,7 @@ err = np.array(data.err)
 
 # theory
 def mod(x, x0, la, si):
-    dis.set_var(x0, la, 1., 1., si, 'mvg')
+    dis.set_var(x0, la, 1., 1., si, 'mv')
     return [dis.reduced_x(i, np.power(x0/i, la), 319.) for i in x]
 
 # xx = [x0, lamb, sigma]
@@ -36,19 +36,19 @@ def chi_min(xx):
     dis.set_var(xx[0], xx[1], gamma, ec, xx[2], 'mv')
     the = np.array([dis.reduced_x(x[i], qsq[i], sNN[i]) for i in range(len(dat))])
 
-    return np.sum(np.power(the - dat, 2))
+    return np.sum(np.power((the - dat)/err, 2))
 
 # run parameters
-run = 1
+run = 3
 alg = 'ls' # fitting algorithm: 'ls', 'pow', 'shgo'
 
 # initial guess
-x0  = 1e-4
-la  = 0.5
-si  = 10.
+x0  = 2.469e-5
+la  = 0.282164
+si  = 11.4115
 
 # bounds order: x0, lambda, sigma/2
-bounds = [(0., 0.02), (0., 1.), (0., 20.)]
+bounds = [(0., 0.01), (0., 1.), (0., 20.)]
 
 # run minimzation
 t1 = time.time()
@@ -73,8 +73,8 @@ t2 = time.time()
 with open('out' + str(run) + '_' + alg + '.csv', 'w') as outfile:
     writer = csv.writer(outfile, delimiter='\t')
     writer.writerow(['# run ' + str(run), 'fitting algorithm: ' + alg])
-    writer.writerow(['x0', 'lamb', 'gamma', 'sigma'])
-    writer.writeorw([x0, la, ga, si])
+    writer.writerow(['x0', 'lamb', 'sigma'])
+    writer.writerow([x0, la, si])
     
     # write results
     if alg=='ls':

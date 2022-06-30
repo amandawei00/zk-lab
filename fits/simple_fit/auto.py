@@ -58,14 +58,15 @@ def plot(q2):
 
 # read results from fit file
 bk_ver= 'mv'
-x0    = 2.4691e-5
+run   = 3
+x0    = 2.469e-5
 lamb  = 0.282164
 gamma = 1.0
 sig   = 11.4115
 ec    = 1.0
 dis.set_var(x0, lamb, gamma, ec, sig, bk_ver)
-to_file_dis = bk_ver + '_dis_calculated.csv'
-data = data_import('redx-2009-parsed.csv')
+to_file_dis = bk_ver + '_' + 'run' + str(run) + '_heikki_calculated.csv'
+data = data_import('../../data/redx2009.csv')
 calculated_dis   = run_dis(data, to_file_dis)
 print(calculated_dis)
 chi2(calculated_dis['redx'].to_numpy(), data['redx'].to_numpy(), data['err'].to_numpy())

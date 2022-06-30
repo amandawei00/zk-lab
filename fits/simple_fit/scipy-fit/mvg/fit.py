@@ -38,14 +38,14 @@ def chi_min(xx):
     return np.sum(np.power(the - dat, 2))
 
 # run parameters
-run = 1
-alg = 'ls' # fitting algorithm: 'ls', 'pow', 'shgo'
+run = 2
+alg = 'pow' # fitting algorithm: 'ls', 'pow', 'shgo'
 
 # initial guess
-x0  = 1e-4
-la  = 0.5
+x0  = 2.469e-5
+la  = 0.282164
 ga  = 1.
-si  = 10.
+si  = 11.4115
 
 # bounds order: x0, lambda, sigma/2
 bounds = [(0., 0.02), (0., 1.), (0., 2.), (0., 20.)]
@@ -55,7 +55,7 @@ t1 = time.time()
 
 if alg=='ls':
     print('running scipy.curve_fit...')
-    popt, pcov = curve_fit(chi_squared, x, dat, p0=[x0, la, ga, si])
+    popt, pcov = curve_fit(mod, x, dat, p0=[x0, la, ga, si])
     print(popt)
     print(pcov)
 elif alg=='pow':
@@ -66,7 +66,7 @@ elif alg=='shgo':
     print('running scipy.optimize.shgo...')
     # default sampling method: 'simplical', theoretical guarantee of global minimum
     # alternate methods: 'halton', 'sobol' are faster but loss of guaranteed onvergence
-    res = shgo(chi_min, bounds, sampling_method='simplicial')
+    res = shgo(chi_min, bounds, sampling_method='sobol')
     print(res)
 
 t2 = time.time()
@@ -78,7 +78,7 @@ with open('out' + str(run) + '_' + alg + '.csv', 'w') as outfile:
     writer.writeorw([x0, la, ga, si])
     
     # write results
-        if alg=='ls':
+    if alg=='ls':
         writer.writerow(popt)
         writer.writerow(pcov)
     elif alg=='pow':
@@ -94,5 +94,5 @@ with open('out' + str(run) + '_' + alg + '.csv', 'w') as outfile:
     # write error/confidence
 
     # write error/confidence
-    writer.writerow(['# time: ' + str((t2-t1)/3600) + ' hours')
+    writer.writerow(['# time: ' + str((t2-t1)/3600) + ' hours'])
 

@@ -1,0 +1,5 @@
+# run 1	fitting algorithm: shgo
+x0	lamb	gamma	sigma
+0.0001	0.5	1.0	16.0
+nfev	nlfev	nljev	nlhev	nit	success	message	fun	x
+# time: 14.961022755040062 hours

@@ -1,4 +1,0 @@
-  File "fit.py", line 81
-    if alg=='ls':
-    ^
-IndentationError: unexpected indent
