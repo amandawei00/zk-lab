@@ -10,7 +10,7 @@ qsq2   = 1.5
 sqrt_z = 319.
 bk_ver = 'test'
 
-exp_name = '../data/redx-2009-parsed.csv'
+exp_name = '../data/redx2009.csv'
 th_name  = '../dis/results/' + obs + '/' + order + '/' + bk_ver + '.csv'
 
 # import experimental data--------------------------------------

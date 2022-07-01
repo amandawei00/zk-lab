@@ -1,3 +1,3 @@
 #! /bin/bash
 
-python3 bk_solver.py
+python3 bk_python.py

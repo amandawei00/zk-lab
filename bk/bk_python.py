@@ -29,14 +29,13 @@ r_ = np.exp(xlr_)
 n_ = []
 
 # parameters
-nc = 3        # number of colors
-nf = 3        # number of active flavors
+nc   = 3        # number of colors
+nf   = 3        # number of active flavors
 lamb = 0.241  # lambda QCD (default)
 
 beta = (11 * nc - 2. * nf)/(12 * np.pi)
-afr = 0.7     # frozen coupling constant (default)
+afr  = 0.7     # frozen coupling constant (default)
 
-kk = None
 xr0, r0, n0 = 0., 0., 0.
 c2, gamma, qs02, ec = 0. , 0., 0., 0.   # fitting parameters
 e  = np.exp(1)
@@ -56,6 +55,23 @@ def find_r2(vr, vz, thet):
     r22 = (0.25 * vr * vr) + (vz * vz) + (vr * vz * np.cos(thet))
     return np.sqrt(r22)
 
+def nfunc(qlr):
+    x = 0.0
+    if qlr < xr1:
+        x = n_[0] * np.exp(2 * qlr)/(r1 * r1)
+    elif qlr >= xr2:
+        x = 1.
+    else:
+        x = cs(xlr_, n_)(qlr)
+    return x
+
+def alphaS(rsq):
+    if rsq > rfr2:
+        return afr
+    else:
+        xlog = np.log((4 * c2)/(rsq * lamb * lamb))
+        return 1/(beta * xlog)
+
 # kernel
 def k(vr, vr1, vr2):
 
@@ -70,7 +86,7 @@ def k(vr, vr1, vr2):
         t2 = (1/r12) * (alphaS(r12)/alphaS(r22) - 1)
         t3 = (1/r22) * (alphaS(r22)/alphaS(r12) - 1)
 
-        prefac = (nc * alphaS(rr))/(2 * M_PI * M_PI)
+        prefac = (nc * alphaS(rr))/(2 * np.pi * np.pi)
         return prefac * (t1 + t2 + t3)
 
 def f(theta, vr):
@@ -100,7 +116,7 @@ def intg(xx):
 
 # return type: array
 def evolve(order):
-
+    global kk
     # Euler's method
     kk = cs(xlr_, [0 for i in range(len(xlr_))])
     with Pool(processes=5) as pool:
@@ -135,13 +151,14 @@ def evolve(order):
 
 # pass fitting variables q_, c_, g_ to set variables in master.py
 def master(q_, c2_, g_, ec_, filename='', order='RK4'):
-    global n_, qs02, c2, gamma, ec
+    global n_, qs02, c2, gamma, ec, rfr2
 
     # variables
     qs02  = q_
     c2    = c2_
     gamma = g_
     ec    = ec_
+    rfr2  = 4 * c2/(lamb * lamb * np.exp(1/(beta * afr)))
 
     l = ['n   ', 'r1  ', 'r2  ', 'y   ', 'hy  ', 'ec  ', 'qs02 ', 'c2  ', 'g ', 'order']
     v = [n, r1, r2, ymax, hy, ec, qs02, c2, gamma, order]
@@ -157,7 +174,7 @@ def master(q_, c2_, g_, ec_, filename='', order='RK4'):
         # print("y = " + str(y0))
 
         for j in range(len(r_)):
-            # print('r = ' + str(r_[j]) + ', N(r,Y) = ' + str(n_[j]))
+            print('r = ' + str(r_[j]) + ', N(r,Y) = ' + str(n_[j]))
             bk_arr.append([y0, r_[j], n_[j]])
 
         # calculate correction and update N(r,Y) to next step in rapidity
