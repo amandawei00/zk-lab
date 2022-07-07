@@ -26,12 +26,12 @@ err = np.array(data.err)
 # theory
 # ver: parametrization (mv, mvg, mve, rcbk)
 ver = 'mve'
-run = 2
-x0_ = 0.01
+run = 3
+x0_ = 1e-5
 la_ = 0.1
 si_ = 10.
 ga_ = 1.
-ec_ = 10.
+ec_ = 1.
 
 print(ver)
 print('run: ' + str(run))

@@ -1,8 +1,9 @@
-MV
+MVe
 r integral bounds: (1e-6, 1e3)
 r prec : 1e-8
 z prec : 1e-6
 data   : redx2009_full.csv
+b      : heikki
          q2             x      y    cme  ...   e12  tot+  tot-       err
 0     0.045  6.210000e-07  0.803  301.0  ... -1.14   0.5  -0.5  9.767472
 1     0.065  8.970000e-07  0.803  301.0  ... -1.21   0.5  -0.5  8.001775
@@ -17,4 +18,4 @@ data   : redx2009_full.csv
 270  45.000  8.000000e-03  0.056  319.0  ... -0.07   0.5  -0.5  1.103313
 
 [271 rows x 20 columns]
-reduced chi2 value of fit (chi2/d.o.f): 2.8417931199106192
+reduced chi2 value of fit (chi2/d.o.f): 1.3174390952969515

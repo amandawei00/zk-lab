@@ -86,6 +86,8 @@ class N:
         if r > self.r2:
             return 1.
         else:
+            if y < 0.0:
+                print('!!!y is below lowest value in grid!!!')
             return self.nfunc(r, y)
 
    # finds loc of val in grid. if val is between two values of grid, returns lower value
