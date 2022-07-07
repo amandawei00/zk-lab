@@ -75,14 +75,18 @@ dis = data_import('results/MV/fit1_dis.csv')
 chi2(dis['redx'].to_numpy(), data['redx'].to_numpy(), data['err'].to_numpy())
  
 '''
+
 # data = data_import('../data/fitdata_dis.csv')
 # th   = run_dis(data, 'MV1_test_chi2.csv')
+print('MVe')
+print('r integral bounds: (1e-6, 1e3)')
+print('r prec : 1e-8')
+print('z prec : 1e-6')
+print('data   : redx2009_full.csv')
 data = data_import('../data/redx2009_full.csv')
 print(data)
 bk_  = import_bk('../bk/results/RK4/bk_MVe.csv')
 bk_interp(bk_, 'dis')
 df_  = run_dis(data, 2 * 16.36)
-# farid_dis = data_import('mve_dis_farid.csv')
-# print(farid_dis)
 chi2(df_['redx'], data['redx'], data['err'])
 

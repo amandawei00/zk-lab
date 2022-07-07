@@ -14,7 +14,8 @@ import warnings
 warnings.filterwarnings("ignore")
 
 # redx data import
-data = pd.read_csv('../../../data/redx-2009-parsed.csv', delimiter='\t', header=0, comment='#')
+dnam = 'redx2009_full.csv'
+data = pd.read_csv('../../../data/' + dnam, delimiter='\t', header=0, comment='#')
 print(data)
 sNN = np.array(data.cme)
 qsq = np.array(data.q2)
@@ -24,14 +25,24 @@ err = np.array(data.err)
 
 # theory
 # ver: parametrization (mv, mvg, mve, rcbk)
-ver = 'mv'
-x0_ = 2.469e-5
-la_ = 0.282164
-si_ = 11.4115
+ver = 'mve'
+run = 2
+x0_ = 0.01
+la_ = 0.1
+si_ = 10.
 ga_ = 1.
-ec_ = 1.
+ec_ = 10.
 
-def chi_squared(x0, lamb, sigma):
+print(ver)
+print('run: ' + str(run))
+print('init: ' + 
+      'x0      = '  + str(x0_) + 
+      ', lamb  = '  + str(la_) +
+      ', sigma = '  + str(si_) +
+      ', gamma = '  + str(ga_) +
+      ', ec    = '  + str(ec_))
+print('data file: ' + dnam)
+def chi_squared(x0, lamb, sigma, gamma, ec):
 
     if ver == 'mv':
         gamma = 1.
@@ -40,7 +51,7 @@ def chi_squared(x0, lamb, sigma):
         ec    = 1.
 
     dis.set_var(x0, lamb, gamma, ec, sigma, ver)
-
+    print('x0=' + str(x0) + ', lamb=' + str(lamb) + ', gamma=' + str(gamma)+ ' ec=' + str(ec)+', sigma=' + str(sigma) + ', bkver: ' + ver)
     print('vars set')
     res = 0
     for i in range(len(data)):

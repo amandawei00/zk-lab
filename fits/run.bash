@@ -1,3 +1,3 @@
 #! /bin/bash
 
-python3 fit_solver.py
+python3 auto.py

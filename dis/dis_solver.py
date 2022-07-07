@@ -61,21 +61,21 @@ def eta_squared(z, m_f, qsq2):
 
 def t_integral(z, *args): # args = [qsq2, y]
     m = lambda r_: r_ * psi_t2(z, r_, args[0]) * bk.n(r_, args[1])
-    return 2 * np.pi * quad(m, 1e-6, 1e2, epsabs=1e-8, epsrel=0.0)[0]
+    return 2 * np.pi * quad(m, 1e-6, 1e3, epsabs=1e-8, epsrel=0.0)[0]
 
 def l_integral(z, *args): # *args = [qsq2, y]
     m = lambda r_: r_ * psi_l2(z, r_, args[0]) * bk.n(r_, args[1])
-    return 2 * np.pi * quad(m, 1e-6, 1e2, epsabs=1e-8, epsrel=0.0)[0]
+    return 2 * np.pi * quad(m, 1e-6, 1e3, epsabs=1e-8, epsrel=0.0)[0]
 
 def t_xsection(x, qsq2, sigma):
     x1 = x * (1 + 4 * ml * ml/qsq2)
     rap   = np.log(x0/x1)
-    return 2 * 2.5681 * sigma * quad(t_integral, 0., 0.5, epsabs=1e-8, epsrel=0.0,args=(qsq2, rap))[0]
+    return 2 * 2.5681 * sigma * quad(t_integral, 0., 0.5, epsabs=1e-6, epsrel=0.0,args=(qsq2, rap))[0]
                 
 def l_xsection(x, qsq2, sigma):
     x1 = x * (1 + 4 * ml * ml/qsq2)
     rap = np.log(x0/x1)
-    return 2 * 2.5681 * sigma * quad(l_integral, 0., 0.5, epsabs=1e-8, epsrel=0.0, args=(qsq2, rap))[0]
+    return 2 * 2.5681 * sigma * quad(l_integral, 0., 0.5, epsabs=1e-6, epsrel=0.0, args=(qsq2, rap))[0]
 
 def fl(x, qsq2, sigma):
     prefac = qsq2/(4 * np.pi * np.pi * alpha)
@@ -130,7 +130,7 @@ def test(q_, x_, cme_, sigma, n_, obs, filename, description=''):
             for i in range(len(x)):
                 writer.writerow([q, x[i], sqrt_s, f2_res[i], fl_res[i], redx[i]])
 
-if __name__ == '__main__':
+'''if __name__ == '__main__':
 
     with open('params.csv', 'r') as f:
         reader = csv.reader(f, delimiter='\t')
@@ -145,4 +145,4 @@ if __name__ == '__main__':
     qsq = [float(q[i]) for i in range(len(q))]
     for i in qsq:
         print(i)
-        test(i, np.logspace(-5, -2, 20), 319., sig, bk, 'redx', res)
+        test(i, np.logspace(-5, -2, 20), 319., sig, bk, 'redx', res)'''

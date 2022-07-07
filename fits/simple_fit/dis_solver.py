@@ -63,8 +63,8 @@ def eta_squared(z, m_f, qsq2):
     return z * (1 - z) * qsq2 + m_f * m_f
 
 def t_integral(z, *args): # args = [qsq2, x]
-    # x = args[1] * (1 + 4 * ml * ml/args[0])
-    x = args[1]
+    x = args[1] * (1 + 4 * ml * ml/args[0])
+    # x = args[1]
     if bk == 'mv':
         m = lambda r_: r_ * psi_t2(z, r_, args[0]) * mv(r_, x)
     elif bk == 'mvg':
@@ -75,8 +75,8 @@ def t_integral(z, *args): # args = [qsq2, x]
     return 2 * np.pi * quad(m, 1e-6, 1e2, epsabs=1e-4, epsrel=0.0)[0]
 
 def l_integral(z, *args): # *args = [qsq2, x]
-    # x = args[1] * (1 + 4 * ml * ml/args[0])
-    x = args[1]
+    x = args[1] * (1 + 4 * ml * ml/args[0])
+    # x = args[1]
     if bk == 'mv':
         m = lambda r_: r_ * psi_l2(z, r_, args[0]) * mv(r_, x)
     elif bk == 'mvg':
@@ -86,10 +86,10 @@ def l_integral(z, *args): # *args = [qsq2, x]
     return 2 * np.pi * quad(m, 1e-6, 1e2, epsabs=1e-4, epsrel=0.0)[0]
 
 def t_xsection(x, qsq2):
-    return 2 * 2.5681 * sigma * quad(t_integral, 0., 0.5, epsabs=1e-4, epsrel=0.0,args=(qsq2, x))[0]
+    return 2 * 2.5681 * sigma * quad(t_integral, 0., 0.5, epsabs=1e-8, epsrel=0.0, args=(qsq2, x))[0]
                 
 def l_xsection(x, qsq2):
-    return 2 * 2.5681 * sigma * quad(l_integral, 0., 0.5, epsabs=1e-4, epsrel=0.0,args=(qsq2, x))[0]
+    return 2 * 2.5681 * sigma * quad(l_integral, 0., 0.5, epsabs=1e-8, epsrel=0.0, args=(qsq2, x))[0]
 
 def fl(x, qsq2):
     prefac = qsq2/(4 * np.pi * np.pi * alpha)
@@ -121,7 +121,7 @@ def set_var(x0_, lamb_, gamma_, ec_, sigma_, bk_):
     sigma  = 2 * sigma_
     bk     = bk_
 
-if __name__ == '__main__':
+'''if __name__ == '__main__':
 
     res = 'mv_run2_pow.csv'
     set_var(4.79728e-5, 0.33469, 1., 1., 10.7719, 'mv')
@@ -134,4 +134,4 @@ if __name__ == '__main__':
             print(i)
             for j in np.logspace(-5, -2, 20):
                 writer.writerow([i, j, reduced_x(j, i, 319.)])
-
+'''

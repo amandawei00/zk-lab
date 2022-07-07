@@ -25,20 +25,30 @@ def import_bk(fname):
     dis.set_n(bki)
 '''
 # run dis for all data in fitdata_dis.csv and write to file
-def run_dis(exp, fname):
+def run_dis(exp, fname=''):
     th_ = []
-    with open(fname, 'w') as foo:
-        writer = csv.writer(foo, delimiter='\t')
-        writer.writerow(['q2', 'cme', 'x', 'redx'])
+    if fname != '':
+        with open(fname, 'w') as foo:
+            writer = csv.writer(foo, delimiter='\t')
+            writer.writerow(['q2', 'cme', 'x', 'redx'])
 
-        for i in exp.index:
+            for i in exp.index:
+                q2  = exp['q2'][i]
+                cme = exp['cme'][i]
+                x   = exp['x'][i]
+            
+                d   = dis.reduced_x(x, q2, cme)
+                th_.append([q2, cme, x, d])
+                writer.writerow([q2, cme, x, d])
+    else:
+        for i in range(len(exp)):
             q2  = exp['q2'][i]
             cme = exp['cme'][i]
             x   = exp['x'][i]
-            
+
             d   = dis.reduced_x(x, q2, cme)
             th_.append([q2, cme, x, d])
-            writer.writerow([q2, cme, x, d])
+
     df = pd.DataFrame(th_, index=None)
     df.columns = ['q2', 'cme', 'x', 'redx']
     return df
@@ -58,16 +68,16 @@ def plot(q2):
 
 # read results from fit file
 bk_ver= 'mv'
-run   = 3
-x0    = 2.469e-5
-lamb  = 0.282164
-gamma = 1.0
-sig   = 11.4115
-ec    = 1.0
+run   = 2
+x0    = 
+lamb  = 0.11569014
+gamma = 1.23640
+sig   = 2.86948
+ec    = 11.057826
+print(bk_ver + str(run) + '_out.txt')
 dis.set_var(x0, lamb, gamma, ec, sig, bk_ver)
-to_file_dis = bk_ver + '_' + 'run' + str(run) + '_heikki_calculated.csv'
-data = data_import('../../data/redx2009.csv')
-calculated_dis   = run_dis(data, to_file_dis)
+data = data_import('../../data/redx2009_full.csv')
+calculated_dis   = run_dis(data)
 print(calculated_dis)
 chi2(calculated_dis['redx'].to_numpy(), data['redx'].to_numpy(), data['err'].to_numpy())
  

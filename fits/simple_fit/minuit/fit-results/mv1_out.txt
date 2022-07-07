@@ -1,0 +1,53 @@
+packages loaded...
+        q2         x      y    cme   redx  ...   e11   e12  tot+  tot-        err
+0     0.85  0.000012  0.677  319.0  0.553  ...  0.01 -0.01   0.5  -0.5   4.338836
+1     0.85  0.000014  0.683  301.0  0.616  ...  1.06 -1.06   0.5  -0.5  12.662377
+2     0.85  0.000020  0.471  301.0  0.602  ...  0.49 -0.49   0.5  -0.5   4.464695
+3     0.85  0.000020  0.420  319.0  0.613  ...  0.54 -0.54   0.5  -0.5   5.956400
+4     0.85  0.000040  0.211  319.0  0.561  ...  0.42 -0.42   0.5  -0.5   3.326560
+..     ...       ...    ...    ...    ...  ...   ...   ...   ...   ...        ...
+182  45.00  0.001300  0.342  319.0  1.316  ...  0.14 -0.14   0.5  -0.5   1.363341
+183  45.00  0.002000  0.222  319.0  1.163  ...  0.08 -0.08   0.5  -0.5   1.087934
+184  45.00  0.003200  0.139  319.0  1.017  ...  0.10 -0.10   0.5  -0.5   1.093069
+185  45.00  0.005000  0.089  319.0  0.903  ...  0.18 -0.18   0.5  -0.5   1.087980
+186  45.00  0.008000  0.056  319.0  0.785  ...  0.07 -0.07   0.5  -0.5   1.103313
+
+[187 rows x 20 columns]
+mv
+making instance of Minuit class
+calling simplex method
+vars set
+vars set
+vars set
+vars set
+vars set
+vars set
+vars set
+vars set
+vars set
+vars set
+vars set
+vars set
+vars set
+vars set
+vars set
+vars set
+vars set
+vars set
+vars set
+vars set
+vars set
+vars set
+vars set
+vars set
+vars set
+vars set
+vars set
+vars set
+vars set
+vars set
+simplex method complete
+total fit run time: 0.5691078999969694 hours
+<ValueView x0=0.00011290876269955181 lamb=0.12087961212121778 sigma=5.819803322770046>
+<ErrorView x0=5.1743166912102525e-06 lamb=0.007901511671214148 sigma=1.5448076569951879>
+<FMin algorithm='Simplex' edm=0.033939135080458094 edm_goal=0.1 errordef=1.0 fval=1.8007730163791282 has_accurate_covar=False has_covariance=False has_made_posdef_covar=False has_parameters_at_limit=False has_posdef_covar=False has_reached_call_limit=False has_valid_parameters=True hesse_failed=False is_above_max_edm=False is_valid=True nfcn=30 ngrad=0 reduced_chi2=nan>
