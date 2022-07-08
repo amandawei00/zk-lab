@@ -1,4 +1,0 @@
-Traceback (most recent call last):
-  File "fit.py", line 77, in <module>
-    writer.writerow([x0, la, si])
-NameError: name 'ga' is not defined

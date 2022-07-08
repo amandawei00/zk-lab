@@ -1,0 +1,90 @@
+packages loaded...
+         q2             x      y    cme  ...   e12  tot+  tot-       err
+0     0.045  6.210000e-07  0.803  301.0  ... -1.14   0.5  -0.5  9.767472
+1     0.065  8.970000e-07  0.803  301.0  ... -1.21   0.5  -0.5  8.001775
+2     0.065  1.020000e-06  0.706  301.0  ... -1.47   0.5  -0.5  8.728494
+3     0.085  1.170000e-06  0.805  301.0  ... -1.37   0.5  -0.5  7.390555
+4     0.085  1.340000e-06  0.703  301.0  ... -1.00   0.5  -0.5  5.494352
+..      ...           ...    ...    ...  ...   ...   ...   ...       ...
+266  45.000  1.300000e-03  0.342  319.0  ... -0.14   0.5  -0.5  1.363341
+267  45.000  2.000000e-03  0.222  319.0  ... -0.08   0.5  -0.5  1.087934
+268  45.000  3.200000e-03  0.139  319.0  ... -0.10   0.5  -0.5  1.093069
+269  45.000  5.000000e-03  0.089  319.0  ... -0.18   0.5  -0.5  1.087980
+270  45.000  8.000000e-03  0.056  319.0  ... -0.07   0.5  -0.5  1.103313
+
+[271 rows x 20 columns]
+mv
+run: 4
+init: x0      = 1e-05, lamb  = 0.3, sigma = 10.0, gamma = 1.0, ec    = 1.0
+data file: redx2009_full.csv
+making instance of Minuit class
+calling simplex method
+x0=1e-05, lamb=0.3, gamma=1.0 ec=1.0, sigma=10.0, bkver: mv
+vars set
+x0=1.0100000000000002e-05, lamb=0.3, gamma=1.0 ec=1.0, sigma=10.0, bkver: mv
+vars set
+x0=1e-05, lamb=0.303, gamma=1.0 ec=1.0, sigma=10.0, bkver: mv
+vars set
+x0=1e-05, lamb=0.3, gamma=1.0 ec=1.0, sigma=10.1, bkver: mv
+vars set
+x0=1.0066666666666668e-05, lamb=0.297, gamma=1.0 ec=1.0, sigma=10.066666666666663, bkver: mv
+vars set
+x0=1.0100000000000002e-05, lamb=0.294, gamma=1.0 ec=1.0, sigma=10.099999999999994, bkver: mv
+vars set
+x0=1.0266666666666668e-05, lamb=0.2789999999999999, gamma=1.0 ec=1.0, sigma=10.266666666666652, bkver: mv
+vars set
+x0=1.0244444444444447e-05, lamb=0.28599999999999987, gamma=1.0 ec=1.0, sigma=10.244444444444433, bkver: mv
+vars set
+x0=1.0240740740740742e-05, lamb=0.27666666666666645, gamma=1.0 ec=1.0, sigma=10.40740740740739, bkver: mv
+vars set
+x0=1.0311111111111113e-05, lamb=0.2649999999999997, gamma=1.0 ec=1.0, sigma=10.611111111111086, bkver: mv
+vars set
+x0=1.0662962962962964e-05, lamb=0.20666666666666567, gamma=1.0 ec=1.0, sigma=11.629629629629562, bkver: mv
+vars set
+x0=1.0782716049382718e-05, lamb=0.2144444444444436, gamma=1.0 ec=1.0, sigma=11.327160493827096, bkver: mv
+vars set
+x0=1.1174074074074077e-05, lamb=0.1716666666666654, gamma=1.0 ec=1.0, sigma=11.940740740740644, bkver: mv
+vars set
+x0=1.0897119341563788e-05, lamb=0.1807407407407396, gamma=1.0 ec=1.0, sigma=11.904526748971108, bkver: mv
+vars set
+x0=1.0407613168724281e-05, lamb=0.2596851851851848, gamma=1.0 ec=1.0, sigma=10.659465020576102, bkver: mv
+vars set
+x0=1.096886145404664e-05, lamb=0.1748641975308628, gamma=1.0 ec=1.0, sigma=12.144170096021853, bkver: mv
+vars set
+x0=1.0442215363511661e-05, lamb=0.2529660493827156, gamma=1.0 ec=1.0, sigma=10.736042524005452, bkver: mv
+vars set
+x0=1.0850983081847278e-05, lamb=0.18969958847736512, gamma=1.0 ec=1.0, sigma=11.802423411065304, bkver: mv
+vars set
+x0=1.051845564700503e-05, lamb=0.24218878600822988, gamma=1.0 ec=1.0, sigma=10.945204618198403, bkver: mv
+vars set
+x0=1.0867207742722147e-05, lamb=0.18923388203017716, gamma=1.0 ec=1.0, sigma=11.865287303764589, bkver: mv
+vars set
+x0=1.0548463458314282e-05, lamb=0.237033007544581, gamma=1.0 ec=1.0, sigma=11.018353718945235, bkver: mv
+vars set
+x0=1.0570127140171725e-05, lamb=0.2557774919981707, gamma=1.0 ec=1.0, sigma=10.564182924350927, bkver: mv
+vars set
+x0=1.0639754007265154e-05, lamb=0.21894437299954192, gamma=1.0 ec=1.0, sigma=11.363267953309904, bkver: mv
+vars set
+x0=1.0795500029636407e-05, lamb=0.20475909731748113, gamma=1.0 ec=1.0, sigma=11.52731682585642, bkver: mv
+vars set
+x0=1.0587716742662875e-05, lamb=0.2328313638355427, gamma=1.0 ec=1.0, sigma=11.090732670112907, bkver: mv
+vars set
+x0=1.0401240089445489e-05, lamb=0.24476138514200013, gamma=1.0 ec=1.0, sigma=10.987742401084935, bkver: mv
+vars set
+x0=1.0687347059398411e-05, lamb=0.22202367961883274, gamma=1.0 ec=1.0, sigma=11.242305970641556, bkver: mv
+vars set
+x0=1.0728081747903344e-05, lamb=0.21216660342469723, gamma=1.0 ec=1.0, sigma=11.445850677097674, bkver: mv
+vars set
+x0=1.0593368030711548e-05, lamb=0.23081640651461005, gamma=1.0 ec=1.0, sigma=11.125227958483345, bkver: mv
+vars set
+x0=1.0605867214583403e-05, lamb=0.2381699269797817, gamma=1.0 ec=1.0, sigma=10.942243112848633, bkver: mv
+vars set
+x0=1.0631282309094716e-05, lamb=0.22375076149460188, gamma=1.0 ec=1.0, sigma=11.258011743194587, bkver: mv
+vars set
+x0=1.0637332466401558e-05, lamb=0.22553028254268154, gamma=1.0 ec=1.0, sigma=11.208515224106495, bkver: mv
+vars set
+simplex method complete
+total fit run time: 1.1741549121008978 hours
+<ValueView x0=1.0637332466401558e-05 lamb=0.22553028254268154 sigma=11.208515224106495>
+<ErrorView x0=5.161018347182635e-07 lamb=0.04828675659340607 sigma=0.7292047584216634>
+<FMin algorithm='Simplex' edm=0.03315821156670298 edm_goal=0.1 errordef=1.0 fval=0.18481735522082662 has_accurate_covar=False has_covariance=False has_made_posdef_covar=False has_parameters_at_limit=False has_posdef_covar=False has_reached_call_limit=False has_valid_parameters=True hesse_failed=False is_above_max_edm=False is_valid=True nfcn=32 ngrad=0 reduced_chi2=nan>

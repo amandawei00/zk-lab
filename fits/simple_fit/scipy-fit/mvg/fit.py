@@ -15,7 +15,7 @@ import warnings
 warnings.filterwarnings("ignore")
 
 # redx data import
-data = pd.read_csv('../../../../data/redx-2009-parsed.csv', delimiter='\t', header=0, comment='#')
+data = pd.read_csv('../../../../data/redx2009_full.csv', delimiter='\t', header=0, comment='#')
 print(data)
 sNN = np.array(data.cme)
 qsq = np.array(data.q2)
@@ -38,17 +38,17 @@ def chi_min(xx):
     return np.sum(np.power(the - dat, 2))
 
 # run parameters
-run = 2
+run = 1
 alg = 'pow' # fitting algorithm: 'ls', 'pow', 'shgo'
 
 # initial guess
-x0  = 2.469e-5
-la  = 0.282164
+x0  = 1.e-4
+la  = 0.2
 ga  = 1.
-si  = 11.4115
+si  = 10.
 
 # bounds order: x0, lambda, sigma/2
-bounds = [(0., 0.02), (0., 1.), (0., 2.), (0., 20.)]
+bounds = [(1.e-5, 1e-3), (0., 0.4), (0.5, 1.5), (0., 20.)]
 
 # run minimzation
 t1 = time.time()

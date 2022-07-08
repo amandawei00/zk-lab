@@ -68,12 +68,12 @@ def plot(q2):
 
 
 # read results from fit file
-bk_ver= 'mv'
-run   = 3
-x0    = 1.08349998e-5
-lamb  = 0.11377106
-gamma = 1.
-sig   = 7.2235975
+bk_ver= 'mvg'
+run   = 5
+x0    = 6.5170809e-5
+lamb  = 0.2656868
+gamma = 1.06990232
+sig   = 9.60794
 ec    = 1.
 print(bk_ver + str(run) + '_out.txt')
 dis.set_var(x0, lamb, gamma, ec, sig, bk_ver)

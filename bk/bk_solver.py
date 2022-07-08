@@ -30,7 +30,7 @@ xr2 = np.log(r2)
 hr = (xr2 - xr1) / n
 
 hy = 0.05
-ymax = 16.
+ymax = 10.
 y = np.arange(0.0, ymax, hy)
 
 # Arrays for N and r in N(r), evaluated at some rapidity Y (including next step N(r,Y) in the evolution

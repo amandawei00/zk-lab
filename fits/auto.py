@@ -38,13 +38,13 @@ def run_dis(exp, fitted_sig):
         q2  = exp['q2'][i]
         cme = exp['cme'][i]
         x   = exp['x'][i]
-            
-        # if cme == 319:
+
         d   = dis.reduced_x(x, q2, cme, fitted_sig)[2]
         th_.append([q2, x, cme, d])
         # writer.writerow([q2, cme, x, d])
     df = pd.DataFrame(th_, index=None)
     df.columns = ['q2', 'x', 'cme', 'redx']
+    print(len(df))
     return df
 
 # calculate chi2/dof value with three numpy array type inputs
@@ -88,7 +88,7 @@ print('b      : amanda')
 
 data = data_import('../data/redx2009_full.csv')
 print(data)
-bk_  = import_bk('../bk/results/RK4/bk_MVe.csv')
+bk_  = import_bk('../bk/results/RK4/bk_.csv')
 bk_interp(bk_, 'dis')
 df_  = run_dis(data, 2 * 16.36)
 chi2(df_['redx'], data['redx'], data['err'])
