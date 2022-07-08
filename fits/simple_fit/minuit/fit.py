@@ -25,12 +25,12 @@ err = np.array(data.err)
 
 # theory
 # ver: parametrization (mv, mvg, mve, rcbk)
-ver = 'mve'
-run = 4
-x0_ = 1e-5
-la_ = 0.3
-si_ = 10.
-ga_ = 1.
+ver = 'mvg'
+run = 5
+x0_ = 6.5170809e-5
+la_ = 0.265686
+si_ = 9.60794
+ga_ = 1.06990232
 ec_ = 1.
 
 print(ver)
@@ -42,7 +42,7 @@ print('init: ' +
       ', gamma = '  + str(ga_) +
       ', ec    = '  + str(ec_))
 print('data file: ' + dnam)
-def chi_squared(x0, lamb, sigma, gamma, ec):
+def chi_squared(x0, lamb, sigma, gamma):
 
     if ver == 'mv':
         gamma = 1.
