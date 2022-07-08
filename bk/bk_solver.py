@@ -29,7 +29,7 @@ xr2 = np.log(r2)
 
 hr = (xr2 - xr1) / n
 
-hy = 0.2
+hy = 0.05
 ymax = 16.
 y = np.arange(0.0, ymax, hy)
 

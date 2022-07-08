@@ -26,9 +26,9 @@ err = np.array(data.err)
 # theory
 # ver: parametrization (mv, mvg, mve, rcbk)
 ver = 'mve'
-run = 3
+run = 4
 x0_ = 1e-5
-la_ = 0.1
+la_ = 0.3
 si_ = 10.
 ga_ = 1.
 ec_ = 1.
@@ -61,7 +61,7 @@ def chi_squared(x0, lamb, sigma, gamma, ec):
         res    += (theory - exp) * (theory - exp) / (er1 * er1)
     return res
 t1 = time.time()
-chi_squared.errordef = Minuit.LEAST_SQUARES
+# chi_squared.errordef = Minuit.LEAST_SQUARES
 print('making instance of Minuit class')
 
 if ver == 'mv':

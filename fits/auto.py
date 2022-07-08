@@ -39,6 +39,7 @@ def run_dis(exp, fitted_sig):
         cme = exp['cme'][i]
         x   = exp['x'][i]
             
+        # if cme == 319:
         d   = dis.reduced_x(x, q2, cme, fitted_sig)[2]
         th_.append([q2, x, cme, d])
         # writer.writerow([q2, cme, x, d])
@@ -84,9 +85,8 @@ print('r prec : 1e-8')
 print('z prec : 1e-6')
 print('data   : redx2009_full.csv')
 print('b      : amanda')
-print('added print error when y < 0.0')
 
-data = data_import('../data/redx2009.csv')
+data = data_import('../data/redx2009_full.csv')
 print(data)
 bk_  = import_bk('../bk/results/RK4/bk_MVe.csv')
 bk_interp(bk_, 'dis')

@@ -10,15 +10,19 @@ qsq2   = 1.5
 sqrt_z = 319.
 bk_ver = 'test'
 
-exp_name = '../data/redx2009.csv'
-th_name  = '../dis/results/' + obs + '/' + order + '/' + bk_ver + '.csv'
-
+exp_name = '../data/redx2009_full.csv'
+# th_name  = '../dis/results/' + obs + '/' + order + '/' + bk_ver + '.csv'
+th_name  = 'results/redx/RK4/test_mvg.csv'
 # import experimental data--------------------------------------
 df_exp = pd.read_csv(exp_name, sep='\t', header=0, comment='#')
 df_exp = df_exp.loc[(df_exp['q2'] == qsq2) & (df_exp['cme'] == sqrt_z)]
 
 x1  = df_exp['x']
 y1  = df_exp[obs]
+
+print(df_exp)
+print(x1)
+print(y1)
 # err = df_exp['err(%)'].multiply(0.01)
 err = df_exp['err'].multiply(0.01)
 
@@ -29,7 +33,7 @@ df_th  = df_th.loc[(df_th['q2'] == qsq2) & (df_th['cme'] == sqrt_z)]
 x2 = df_th['x']
 f2 = df_th[obs]
 
-plt.xlim(1.e-4, 1.e-2)
+plt.xlim(5e-5, 1.e-2)
 plt.ylim(0., 2.)
 
 plt.xscale('log')
