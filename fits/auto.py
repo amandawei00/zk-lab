@@ -20,7 +20,7 @@ def run_bk(qsq0, c2, gamma, ec, fname):
     return bk_
 
 def import_bk(fname):
-    return pd.read_csv(fname, delimiter='\t', header=0, comment='#', index_col=None)
+    return pd.read_csv(fname, delimiter='\t', header=None, comment='#', index_col=None)
 
 # call interpolator on bk
 def bk_interp(bk_, t):
@@ -88,8 +88,9 @@ print('b      : amanda')
 
 data = data_import('../data/redx2009_full.csv')
 print(data)
-bk_  = import_bk('../bk/results/RK4/bk_.csv')
+bk_  = import_bk('../bk/results/RK4/bk_precise.csv')
 bk_interp(bk_, 'dis')
 df_  = run_dis(data, 2 * 16.36)
+# df_ = pd.read_csv('heikki_hera_redx.csv', header=0, delimiter='\t')
 chi2(df_['redx'], data['redx'], data['err'])
 

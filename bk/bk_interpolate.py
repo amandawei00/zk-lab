@@ -12,20 +12,17 @@ import cmath
 class N:
 
     def __init__(self, bk, vers=''):
-        self.n_ = 400
         self.x0 = 0.01
-        self.r1 = 1.e-6
         self.r2 = 1.e2
 
         tol = 1.e-8
-        self.width = 100
         self.pointsy = 600
         self.pointsr = 600
 
 
         # read BK solution (accepts file or pandas dataframe) to pandas dataframe
         if isinstance(bk, str):
-            self.df   = pd.read_csv(bk, sep="\t", comment='#', header=2)
+            self.df   = pd.read_csv(bk, sep='\t', comment='#', header=None)
             self.name = bk
         else:
             self.df   = bk
@@ -37,12 +34,12 @@ class N:
         self.df["vr"] = self.df["vr"].astype('float64')
         self.df["vfr"] = self.df["vfr"].astype('float64')
 
-
-        self.r = np.concatenate(np.array(self.df.loc[self.df['y'] == 0.][['vr']]))  # r values for N interp
+        # self.r = np.concatenate(np.array(self.df.loc[self.df['y'] == 0.0][['vr']]))
+        self.r = np.unique(np.array(self.df[['vr']]))
         self.y = np.unique(np.array(self.df[['y']]))
-
         self.z = [self.df.loc[(self.df['y'] == yy) & ((self.df['vr'] < (rr + tol)) & (self.df['vr'] > (rr - tol)))][['vfr']].iloc[0]['vfr'] for rr in self.r for yy in self.y]
         t1 = time.time()
+
         self.nfunc = interp2d(self.r, self.y, self.z, kind='cubic')
 
         if vers != 'dis':
