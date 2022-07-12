@@ -86,7 +86,7 @@ print('z prec : 1e-6')
 print('data   : redx2009_full.csv')
 print('b      : amanda')
 
-data = data_import('../data/redx2009.csv')
+data = data_import('../data/redx2009_full.csv')
 print(data)
 bk_  = import_bk('../bk/results/RK4/bk_MVe.csv')
 bk_interp(bk_, 'dis')

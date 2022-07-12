@@ -68,13 +68,13 @@ def l_integral(z, *args): # *args = [qsq2, y]
     return 2 * np.pi * quad(m, 1e-6, 1e2, epsabs=1e-5, epsrel=0.0)[0]
 
 def t_xsection(x, qsq2, sigma):
-    x1 = x * (1 + 4 * ml * ml/qsq2)
-    rap   = np.log(x0/x1)
+    # x1 = x * (1 + 4 * ml * ml/qsq2)
+    rap   = np.log(x0/x)
     return 2 * 2.5681 * sigma * quad(t_integral, 0., 0.5, epsabs=1e-4, epsrel=0.0,args=(qsq2, rap))[0]
                 
 def l_xsection(x, qsq2, sigma):
-    x1 = x * (1 + 4 * ml * ml/qsq2)
-    rap = np.log(x0/x1)
+    # x1 = x * (1 + 4 * ml * ml/qsq2)
+    rap = np.log(x0/x)
     return 2 * 2.5681 * sigma * quad(l_integral, 0., 0.5, epsabs=1e-4, epsrel=0.0, args=(qsq2, rap))[0]
 
 def fl(x, qsq2, sigma):

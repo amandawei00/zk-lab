@@ -63,8 +63,8 @@ def eta_squared(z, m_f, qsq2):
     return z * (1 - z) * qsq2 + m_f * m_f
 
 def t_integral(z, *args): # args = [qsq2, x]
-    x = args[1] * (1 + 4 * ml * ml/args[0])
-    # x = args[1]
+    # x = args[1] * (1 + 4 * ml * ml/args[0])
+    x = args[1]
     if bk == 'mv':
         m = lambda r_: r_ * psi_t2(z, r_, args[0]) * mv(r_, x)
     elif bk == 'mvg':
@@ -75,8 +75,8 @@ def t_integral(z, *args): # args = [qsq2, x]
     return 2 * np.pi * quad(m, 1e-6, 1e2, epsabs=1e-5, epsrel=0.0)[0]
 
 def l_integral(z, *args): # *args = [qsq2, x]
-    x = args[1] * (1 + 4 * ml * ml/args[0])
-    # x = args[1]
+    # x = args[1] * (1 + 4 * ml * ml/args[0])
+    x = args[1]
     if bk == 'mv':
         m = lambda r_: r_ * psi_l2(z, r_, args[0]) * mv(r_, x)
     elif bk == 'mvg':

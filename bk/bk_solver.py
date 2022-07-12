@@ -110,8 +110,8 @@ def master(q_, c2_, g_, ec_, filename='', order='RK4'):
 
     so.set_params(c2, gamma, qs02) 
 
-    l = ['n   ', 'r1  ', 'r2  ', 'y   ', 'hy  ', 'ec  ', 'qs02 ', 'c2  ', 'g ', 'order']
-    v = [n, r1, r2, ymax, hy, ec, qs02, c2, gamma, order]
+    l = ['# n   ', 'r1  ', 'r2  ', 'y   ', 'hy  ', 'ec  ', 'qs02 ', 'c2  ', 'g ', 'order']
+    v = ['# ', n, r1, r2, ymax, hy, ec, qs02, c2, gamma, order]
     bk_arr = []
     t1 = time.time()
 
