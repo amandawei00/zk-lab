@@ -9,6 +9,7 @@ import csv
 from os.path import exists
 
 sys.path.append('../bk/')
+
 from bk_interpolate import N
 
 # Units in GeV
@@ -61,11 +62,11 @@ def eta_squared(z, m_f, qsq2):
 
 def t_integral(z, *args): # args = [qsq2, y]
     m = lambda r_: r_ * psi_t2(z, r_, args[0]) * bk.n(r_, args[1])
-    return 2 * np.pi * quad(m, 1e-6, 1e2, epsabs=1e-5, epsrel=0.0)[0]
+    return 2 * np.pi * quad(m, 1e-6, 1e2, epsabs=1e-4, epsrel=0.0)[0]
 
 def l_integral(z, *args): # *args = [qsq2, y]
     m = lambda r_: r_ * psi_l2(z, r_, args[0]) * bk.n(r_, args[1])
-    return 2 * np.pi * quad(m, 1e-6, 1e2, epsabs=1e-5, epsrel=0.0)[0]
+    return 2 * np.pi * quad(m, 1e-6, 1e2, epsabs=1e-4, epsrel=0.0)[0]
 
 def t_xsection(x, qsq2, sigma):
     # x1 = x * (1 + 4 * ml * ml/qsq2)

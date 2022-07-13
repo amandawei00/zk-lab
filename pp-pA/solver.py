@@ -1,7 +1,7 @@
 # 1. set variables in parameters.txt
 import sys
 import numpy as np
-import scipy.integrate as integrate
+from scipy.integrate import quad
 import csv
 from os.path import exists
 
@@ -21,13 +21,12 @@ class Master():
         self.ff = pdf.mkPDF("DSS07PI",0)
 
         self.qsq2 = qsq # saturation scale
-        self.sNN_root = s_NN_root # collision energy per nucleon [GeV]
-        self.K = K
+        self.cme  = s_NN_root # collision energy per nucleon [GeV]
+        self.K    = K
         self.hadron = h
 
-        # self.flavors = [1,2,3,4,5,21] # flavors: d(1), u(2), s(3), c(4), b(5), g(21)
-        self.flavors = self.p.flavors()
-        print(self.flavors)
+        self.flavors = [1, 2, 3, 21] # flavors: d(1), u(2), s(3), c(4), b(5), g(21)
+        # self.flavors = self.p.flavors()
         self.f = 0.0
 
         self.p_t = 0.0 # plotting points w respect to p_t
@@ -35,23 +34,23 @@ class Master():
 
 #############################################################################################################
     def get_xf(self):
-        xf = (self.p_t/self.sNN_root)*np.exp(self.yh)
+        xf = (self.p_t/self.cme) * np.exp(self.yh)
         return xf
-#############################################################################################################
+######################################################################################
     def integrand(self,z):
         xf = self.get_xf()
 
         x1 = xf/z
-        x2 = x1*np.exp(-2*self.yh)
+        x2 = x1*np.exp(-2 * self.yh)
         q = self.p_t
         q2 = q*q
 
         pdf_qp = self.p.xfxQ2(self.f, x1, q2) # returns x1*f(x1,pt^2) where f is pdf
-        bkf = self.n.nff(q/z, x2)
+        bkf = self.n.nff(q/z, x2) # checkinterpolator, check function, check ordering of input
         ff_hq = self.ff.xfxQ2(self.f, z, q2)/z
 
         return (1/(z * z)) * pdf_qp * bkf * ff_hq
-###################################################################################################################################
+#######################################################################################
     def integrand1(self, z):
         xf = self.get_xf()
 
@@ -62,29 +61,29 @@ class Master():
 
         self.f = 21
         pdf_gp = self.p.xfxQ2(self.f, x1, q2)
-        bka = self.n.nfa(q/z, x2)
+        bka = self.n.nfa(q/z, x2) # check interpolator, function, and ordering of input
         ff_hg = self.ff.xfxQ2(self.f, z, q2)/z
 
         return (1/(z * z)) * pdf_gp * bka * ff_hg
 
-################################################################################################################################
+#######################################################################################
     def rhs(self,pt): # DEFINE TOL
         self.p_t = pt
         xf = self.get_xf()
         m = 0.0
 
-        gluon_intg = integrate.quad(self.integrand1, xf, 1.0, epsabs=1e-5, epsrel=0.0)[0]
+        gluon_intg = quad(self.integrand1, xf, 1.0, epsrel=1e-5)[0]
         for i in self.flavors:
             if i != 21:
             	self.f = i
-            	quark = integrate.quad(self.integrand,xf,1.0, epsabs=1e-5, epsrel=0.0)[0]
+            	quark = quad(self.integrand, xf, 1.0, epsrel=1e-5)[0]
             	m += quark + gluon_intg # integral
 	
         turkey = m * self.K/(4 * np.pi * np.pi)
         print("rhs exit, pt = " + str(pt) + ", rhs = " + str(turkey))
 
         return turkey
-#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         
 if __name__=='__main__':
 

@@ -32,8 +32,9 @@ dat = np.array(data.f2)
 err = np.array(data.toterr)'''
 
 # reduced-x
-data = pd.read_csv('../data/fitdata_dis.csv', delimiter='\t', header=0, index_col=0, comment='#')
+data = pd.read_csv('../data/redx2009_full.csv', delimiter='\t', header=0, index_col=None, comment='#')
 
+print(data)
 sNN = np.array(data.cme)
 qsq = np.array(data.q2)
 x   = np.array(data.x)
@@ -49,14 +50,14 @@ parameters:
    4. sigma: normalization factor
 '''
 
-def chi_squared(qsq0, c, gamma, ec, sigma, parm):
+def chi_squared(qsq0, c, sigma):
     # run BK for given parameters qsq2, c, sigma, and gamma
     # load dataframe directly without writing to file?
     # write to file so future runs can be avoided?
 
     # print('set parameters: qsq0 = ' + str(qsq0) + ', c = ' + str(c) + ', g = ' + str(gamma) + ', sig = ' + str(sigma))
     print('set parameters: qsq0 = '  + str(qsq0) + ', c = ' + str(c) + ', sig = ' + str(sigma))
-    bk_df = bk.master(qsq0, c, gamma, ec)
+    bk_df = bk.master(qsq0, c, 1., 1., order='RK2')
     print('bk solution done...')
     bk_f  = N(bk_df) # why interpolate now? interpolation happens in dis
         
@@ -66,15 +67,15 @@ def chi_squared(qsq0, c, gamma, ec, sigma, parm):
 
     res = 0
     for i in range(len(data)):
-        theory = dis.reduced_x(x[i], qsq[i], sNN[i], sigma)[2]
+        theory = dis.reduced_x(x[i], qsq[i], sNN[i], 2 * sigma)[2]
         exp    = dat[i]
         er1    = err[i]
         res    += (theory - exp) * (theory - exp) / (er1 * er1)
     return res
 t1 = time.time()
-chi_squared.errordef = Minuit.LEAST_SQUARES
+# chi_squared.errordef = Minuit.LEAST_SQUARES
 print('making instance of Minuit class')
-m = Minuit(chi_squared, qsq0=0.1, c=10, gamma=1., ec=20., sigma=36)
+m = Minuit(chi_squared, qsq0=0.1, c=10, sigma=10)
 print('calling simplex method')
 m.simplex()
 print('simplex method complete')
