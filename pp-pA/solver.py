@@ -3,6 +3,7 @@ import sys
 import numpy as np
 import scipy.integrate as integrate
 import csv
+from os.path import exists
 
 sys.path.append('python_scripts')
 sys.path.append('../bk/')
@@ -72,11 +73,11 @@ class Master():
         xf = self.get_xf()
         m = 0.0
 
-        gluon_intg = integrate.quad(self.integrand1, xf, 1.0, epsabs=0.0, epsrel=0.05)[0]
+        gluon_intg = integrate.quad(self.integrand1, xf, 1.0, epsabs=1e-5, epsrel=0.0)[0]
         for i in self.flavors:
             if i != 21:
             	self.f = i
-            	quark = integrate.quad(self.integrand,xf,1.0, epsabs=0.0, epsrel=0.05)[0]
+            	quark = integrate.quad(self.integrand,xf,1.0, epsabs=1e-5, epsrel=0.0)[0]
             	m += quark + gluon_intg # integral
 	
         turkey = m * self.K/(4 * np.pi * np.pi)
@@ -105,29 +106,42 @@ if __name__=='__main__':
         header  = next(reader)
         params  = next(reader)
 
-    h    = params[0]
-    y    = float(params[1])
-    qsq2 = float(params[2])
-    snn  = float(params[3])
-    k    = float(params[4])
-    a    = float(params[5])
-    b    = float(params[6])
-    n    = int(params[7])
-    init = params[8]
-    res  = params[9]
+    pro  = params[0]
+    h    = params[1]
+    y    = float(params[2])
+    qsq2 = float(params[3])
+    snn  = float(params[4])
+    k    = float(params[5])
+    a    = float(params[6])
+    b    = float(params[7])
+    n    = int(params[8])
+    init = params[9]
+    res  = params[10]
+    orde = params[11]
 
-    s = Master(h, y, qsq2, snn, k, init)  # creating instance of class
+    from_file = '../bk/results/' + 'RK' + orde + '/' + init
+    to_file   = 'results/' + pro + '/' + 'RK' + orde + '/' + res
+
+    s = Master(h, y, qsq2, snn, k, from_file)  # creating instance of class
     dp_t = (b - a)/n
 
     p_t = np.arange(a, b, dp_t)  # tranverse momenta values
     cs = np.zeros(len(p_t))
 
-    # if res exists:
-    # else: 
-    with open(res, 'a') as tfile: # write temporary output file
-        writer = csv.writer(tfile, delimiter='\t')
-        for i in range(len(p_t)):
-            cs[i] = s.rhs(p_t[i])
-            writer.writerow([float(params[3]), float(params[1]), p_t[i], cs[i]])
+    if not exists(to_file):
+        with open(to_file, 'w') as tfile: # write temporary output file
+            writer = csv.writer(tfile, delimiter='\t')
+            writer.writerow(['# ', 'par', 'q2', 'pt_low', 'pt_high', 'order'])
+            writer.writerow(['# ', h, qsq2, a, b, orde])
+            writer.writerow(['cme', 'y', 'pt', 'dN'])
+            for i in range(len(p_t)):
+                cs[i] = s.rhs(p_t[i])
+                writer.writerow([snn, y, p_t[i], cs[i]])
+    else:
+        with open(to_file, 'a') as tfile:
+            writer = csv.writer(tfile, delimiter='\t')
+            for i in range(len(p_t)):
+                cs[i] = s.rhs(p_t[i])
+                writer.writerow([snn, y, p_t[i], cs[i]])
 
 # end of program

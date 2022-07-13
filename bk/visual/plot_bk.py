@@ -23,9 +23,11 @@ def equal_arr(a1, a2):
 # plots ratios of two solutions of BK equation at specified rapidities
 def ratios(df1, df2, rap):
     for i in range(len(rap)):
-        sub_ = df1.loc[(df1['kuta'] == 4) & (df1['y'] == rap[i])]
+        sub_ = df1.loc[df1['y'] == rap[i]]
         sub2_ = df2.loc[df2['y'] == rap[i]]
 
+        print(sub_)
+        print(sub2_)
         vr = np.array(sub_[['vr']])
         vfr = np.array(sub_[['vfr']])
 
@@ -66,11 +68,11 @@ def get_data(df, rap):
     return [vr, vfr]
 
 def load_df(name):
-    df = pd.read_csv(name, sep='\t')
+    df = pd.read_csv(name, sep='\t', comment='#', header=None)
     # df = pd.read_csv(name, delim_whitespace=True)
     df.columns = ['y', 'vr', 'vfr']
 
-    df['y'] = (df['y'].astype('float32')).round(decimals=1)
+    df['y'] = (df['y'].astype('float32')).round(decimals=2)
     df['vr'] = df['vr'].astype('float64')
     df['vfr'] = df['vfr'].astype('float64')
 
@@ -104,16 +106,17 @@ if __name__ == '__main__':
     # df1 = load_df('../results/results1.csv')
     # df2 = load_df('../results/results2.csv')
     # df3 = load_df('../results/results3.csv')
-    df4 = load_df('../results/bk_MV1.csv')
+    df4 = load_df('../results/RK4/bk_MVe.csv')
+    df5 = load_df('../../../rcbk/results/mve_test.csv')
 
     rap = [0., 2., 5., 9.]
-    plot_bk(df4, rap)
+    ratios(df4, df5, rap)
 
     # dat1 = 'results0-30.csv'
-    dat2 = '../results/results1.csv'
-    dat3 = '../results/results2.csv'
-    dat4 = '../results/results3.csv'
-    dat5 = '../results/results4.csv'
+    # dat2 = '../results/results1.csv'
+    # dat3 = '../results/results2.csv'
+    # dat4 = '../results/results3.csv'
+    # dat5 = '../results/results4.csv'
 
 
 #     df1 = pd.read_csv(dat1, sep='\t', header=None)

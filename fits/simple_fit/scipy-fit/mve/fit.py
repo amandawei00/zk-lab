@@ -48,7 +48,7 @@ ec  = 10.
 si  = 16.
 
 # bounds order: x0, lambda, sigma/2
-bounds = [(1e-5, 1e-3), (0., 0.8), (0.5, 1.5), (0., 20.), (0., 20.)]
+bounds = [(1e-5, 1e-3), (0., 0.8), (0.5, 1.5), (0., 20.), (1., 20.)]
 
 # run minimzation
 t1 = time.time()

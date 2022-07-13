@@ -1,2 +1,2 @@
-hadron	y	qsq	E	K	pt_low	pt_high	num	initials	filename	
-h-	3.2	0.4	200	1.	1.	5.	8	../bk/results/RK2/bk_MV.csv	results/pA/RK2/MV.csv
+process hadron	y	qsq	E	K	pt_low	pt_high	num	bk_init	filename	order	
+pp	pi0	3.3	0.2	200	1.	1.	5.	8	pp.csv	pi0_33.csv	2

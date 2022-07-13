@@ -1,4 +1,0 @@
-Traceback (most recent call last):
-  File "fit.py", line 78, in <module>
-    writer.writeorw([x0, la, ga, si])
-AttributeError: '_csv.writer' object has no attribute 'writeorw'

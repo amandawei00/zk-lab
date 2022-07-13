@@ -30,7 +30,8 @@ class N:
         self.df.columns = ['y', 'vr', 'vfr']
 
         # converting dataframe element types
-        self.df["y"] = (self.df["y"].astype('float32')).round(decimals=1)
+        # change decimals to match digits of hy
+        self.df["y"] = (self.df["y"].astype('float32')).round(decimals=2)
         self.df["vr"] = self.df["vr"].astype('float64')
         self.df["vfr"] = self.df["vfr"].astype('float64')
 
