@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
-y      = 3.3
+y      = 3.8
 sqrt_s = 200  # [GeV]
 
 exp_name = '../data/pp.csv'

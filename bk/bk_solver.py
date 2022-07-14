@@ -47,12 +47,11 @@ beta = (11 * nc - 2. * nf)/(12 * np.pi)
 afr = 0.7     # frozen coupling constant (default)
 
 c2, gamma, qs02, ec = 0. , 0., 0., 0.   # fitting parameters
-e  = np.exp(1)
 
 # initial condition
 def mv(r):
-    xlog = np.log(1/(lamb * r) + ec * e)
-    xexp = np.power(0.25 * qs02 * r * r, gamma) * xlog
+    xlog = np.log(1/(lamb * r) + ec * np.exp(1))
+    xexp = np.power(qs02 * r * r, gamma) * xlog/4
     return 1 - np.exp(-xexp)
 
 def intg(xx):
