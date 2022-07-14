@@ -39,9 +39,9 @@ def ratios(df1, df2, rap):
         plt.plot(vr, rat, label='y='+str(rap[i]))
 
     plt.legend()
-    plt.xlabel("r")
-    plt.ylabel("bk_MV/mv_test")
-    plt.xscale("log")
+    plt.xlabel('r')
+    plt.ylabel('MV(amanda)/MV(heikki)')
+    plt.xscale('log')
     plt.show()
     return 0
 
@@ -109,9 +109,9 @@ if __name__ == '__main__':
     # df2 = load_df('../results/results2.csv')
     # df3 = load_df('../results/results3.csv')
     df4 = load_df('../results/RK4/bk_MV.csv')
-    df5 = load_df('../../../rcbk/results/mv_test.csv')
+    df5 = load_df('../results/RK4/bk_MV_heikki.csv')
 
-    rap = [0., 2., 5., 7.8]
+    rap = [0., 5., 10., 15.]
     ratios(df4, df5, rap)
 
     # dat1 = 'results0-30.csv'

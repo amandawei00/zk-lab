@@ -52,7 +52,7 @@ e  = np.exp(1)
 # initial condition
 def mv(r):
     xlog = np.log(1/(lamb * r) + ec * e)
-    xexp = np.power(qs02 * r * r, gamma) * xlog/4.0
+    xexp = np.power(0.25 * qs02 * r * r, gamma) * xlog
     return 1 - np.exp(-xexp)
 
 def intg(xx):
@@ -61,7 +61,7 @@ def intg(xx):
 
     so.set_vars(xx, nr0, xlr_, n_)
     func = llc.from_cython(so, 'f', signature='double (int, double *)')
-    return dblquad(func, xr1, xr2, 1e-6, 0.5 * np.pi, epsabs=0.0, epsrel=1.e-6)[0]
+    return dblquad(func, xr1, xr2, 1e-6, 0.5 * np.pi, epsabs=0.0, epsrel=1.e-4)[0]
 
 # return type: array
 def evolve(order):

@@ -112,30 +112,37 @@ class N:
     def udgf(self, k, x):
         y_ = np.log(self.x0 / x)
         integrand = lambda r_: (1 - self.n(r_, y_)) * j0(k * r_) * r_ 
-        return 2 * np.pi * quad(integrand, self.r[0], self.r[len(self.r)-1], epsabs=0.0, epsrel=0.05)[0]
+        return 2 * np.pi * quad(integrand, self.r[0], self.r[len(self.r)-1], epsabs=0.0, epsrel=1e-4)[0]
 
     def udga(self, k, x):
         y_ = np.log(self.x0 / x)
         integrand = lambda r_: (1 - self.n_adj(r_, y_)) * j0(k * r_) * r_
-        return 2 * np.pi * quad(integrand, self.r[0], self.r[len(self.r)-1], epsabs=0.0, epsrel=0.05)[0]
+        return 2 * np.pi * quad(integrand, self.r[0], self.r[len(self.r)-1], epsabs=0.0, epsrel=1e-4)[0]
 
-'''
+
 if __name__ == '__main__':
     y     = 5.
+    x     = 0.01/np.exp(y)
 
-    fname = 'results/RK4/bk_MVg.csv'
-    df    = pd.read_csv(fname, header=0, sep='\t', comment='#')
+    fname = 'results/RK4/bk_MV.csv'
+
+    # grid
+    df    = pd.read_csv(fname, header=None, sep='\t', comment='#')
     df.columns = ['y', 'r', 'N(r,y)']
-    bk    = N(fname, 'dis')
 
     r     = df.loc[df['y'] == y][['r']]
-    n     = df.loc[df['y'] == y][['N(r,y)']]
+    # y     = df.loc[df['y'] == y][['N(r,y)']]
+    k     = np.linspace(0., 8., 200)
+
+    # interpolated object
+    bk    = N(fname)
      
-    rgrid = np.logspace(-6, 2, 800)
-    ngrid = [bk.n(rgrid[i], y) for i in range(len(rgrid))]
+    ngrid1 = [bk.udgf(k[i], x) for i in range(len(k))]
+    ngrid2 = [bk.nff(k[i], x) for i in range(len(k))]
+
+    plt.plot(k, ngrid1, label='grid')
+    # plt.plot(k, ngrid2, label='interpolated')
 
     plt.xscale('log')
-    plt.plot(r, n, 'o')
-    plt.plot(rgrid, ngrid, '-')
-    plt.show()'''
+    plt.show()
 # end of class
