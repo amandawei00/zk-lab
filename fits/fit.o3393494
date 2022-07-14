@@ -162,3 +162,19 @@ FT of N(A) took 2.788702646891276e-05 minutes to interpolate
 bk interpolation done... calculating residuals
 set parameters: qsq0 = 0.10311111111111088, c = 8.833333333333327, sig = 10.611111111111086
 c2 = 8.833333333333327, g = 1.0, qsq2 = 0.10311111111111088
+bk run time: 1.7467090309990776 hours
+bk solution done...
+(400,)
+(80,)
+(32000,)
+(200,)
+(80,)
+(80, 200)
+Grid of FT of N(F) took 3.023140569527944 minutes to generate
+Grid of FT of N(A) took 4.363885271549225 mintues to generate
+N(r,Y) took 6.562471389770508e-05 minutes to interpolate
+FT of N(F) took 7.8582763671875e-05 minutes to interpolate
+FT of N(A) took 2.7024745941162108e-05 minutes to interpolate
+bk interpolation done... calculating residuals
+set parameters: qsq0 = 0.10662962962962896, c = 6.8888888888888715, sig = 11.629629629629562
+c2 = 6.8888888888888715, g = 1.0, qsq2 = 0.10662962962962896

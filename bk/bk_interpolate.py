@@ -48,9 +48,9 @@ class N:
             self.k        = np.linspace(0., 8., 200)
             self.x        = [self.x0/np.exp(j) for j in self.y]
             t3 = time.time()
-            self.nff_grid = [[self.udgf(kk, xx) for kk in self.k] for xx in self.x]
+            self.nff_grid = [[self.udgf(xx, kk) for xx in self.x] for kk in self.k]
             t4 = time.time()
-            self.nfa_grid = [[self.udga(kk, xx) for kk in self.k] for xx in self.x]
+            self.nfa_grid = [[self.udga(xx, kk) for xx in self.x] for kk in self.k]
             t5 = time.time()
   
             print(self.r.shape)
@@ -61,9 +61,9 @@ class N:
             print(np.array(self.x).shape)
             print(np.array(self.nff_grid).shape)
             # interpolate
-            self.nff = interp2d(self.k, self.x, self.nff_grid, kind='cubic')
+            self.nff = interp2d(self.x, self.k, self.nff_grid, kind='cubic')
             t7 = time.time()
-            self.nfa = interp2d(self.k, self.x, self.nfa_grid, kind='cubic')
+            self.nfa = interp2d(self.x, self.k, self.nfa_grid, kind='cubic')
             t8 = time.time()
 
             print('Grid of FT of N(F) took ' + str((t4-t3)/60) + ' minutes to generate')
@@ -109,12 +109,12 @@ class N:
     def n_adj(self, r, y):
         return 2 * self.n(r, y) - np.power(self.n(r, y), 2)
 
-    def udgf(self, k, x):
+    def udgf(self, x, k):
         y_ = np.log(self.x0 / x)
         integrand = lambda r_: (1 - self.n(r_, y_)) * j0(k * r_) * r_ 
         return 2 * np.pi * quad(integrand, self.r[0], self.r[len(self.r)-1], epsabs=0.0, epsrel=1e-4)[0]
 
-    def udga(self, k, x):
+    def udga(self, x, k):
         y_ = np.log(self.x0 / x)
         integrand = lambda r_: (1 - self.n_adj(r_, y_)) * j0(k * r_) * r_
         return 2 * np.pi * quad(integrand, self.r[0], self.r[len(self.r)-1], epsabs=0.0, epsrel=1e-4)[0]
@@ -137,8 +137,8 @@ if __name__ == '__main__':
     # interpolated object
     bk    = N(fname)
      
-    ngrid1 = [bk.udgf(k[i], x) for i in range(len(k))]
-    ngrid2 = [bk.nff(k[i], x) for i in range(len(k))]
+    ngrid1 = [bk.udgf(x, k[i]) for i in range(len(k))]
+    ngrid2 = [bk.nff(x, k[i]) for i in range(len(k))]
 
     plt.plot(k, ngrid1, label='grid')
     # plt.plot(k, ngrid2, label='interpolated')

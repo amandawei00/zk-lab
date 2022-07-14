@@ -46,7 +46,7 @@ class Master():
         q2 = q*q
 
         pdf_qp = self.p.xfxQ2(self.f, x1, q2) # returns x1*f(x1,pt^2) where f is pdf
-        bkf = self.n.nff(q/z, x2) # checkinterpolator, check function, check ordering of input
+        bkf = self.n.nff(x2, q/z) # check interpolator, check function, check ordering of input
         ff_hq = self.ff.xfxQ2(self.f, z, q2)/z
 
         return (1/(z * z)) * pdf_qp * bkf * ff_hq
@@ -61,7 +61,7 @@ class Master():
 
         self.f = 21
         pdf_gp = self.p.xfxQ2(self.f, x1, q2)
-        bka = self.n.nfa(q/z, x2) # check interpolator, function, and ordering of input
+        bka = self.n.nfa(x2, q/z) # check interpolator, function, and ordering of input
         ff_hg = self.ff.xfxQ2(self.f, z, q2)/z
 
         return (1/(z * z)) * pdf_gp * bka * ff_hg
