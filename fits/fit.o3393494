@@ -306,3 +306,51 @@ FT of N(A) took 2.7191638946533202e-05 minutes to interpolate
 bk interpolation done... calculating residuals
 set parameters: qsq0 = 0.11833744855966852, c = -0.23209876543216001, sig = 15.237448559670561
 c2 = -0.23209876543216001, g = 1.0, qsq2 = 0.11833744855966852
+bk run time: 2.1433760617838966 hours
+bk solution done...
+(400,)
+(80,)
+(32000,)
+(200,)
+(80,)
+(80, 200)
+Grid of FT of N(F) took 11.8292906999588 minutes to generate
+Grid of FT of N(A) took 2.7331268787384033 mintues to generate
+N(r,Y) took 7.932583491007486e-05 minutes to interpolate
+FT of N(F) took 8.761882781982422e-05 minutes to interpolate
+FT of N(A) took 2.9309590657552084e-05 minutes to interpolate
+bk interpolation done... calculating residuals
+set parameters: qsq0 = 0.1215011431184248, c = -0.6200274348423154, sig = 15.167809785093503
+c2 = -0.6200274348423154, g = 1.0, qsq2 = 0.1215011431184248
+bk run time: 2.1242987779776255 hours
+bk solution done...
+(400,)
+(80,)
+(32000,)
+(200,)
+(80,)
+(80, 200)
+Grid of FT of N(F) took 10.607068860530854 minutes to generate
+Grid of FT of N(A) took 2.418625024954478 mintues to generate
+N(r,Y) took 7.097721099853515e-05 minutes to interpolate
+FT of N(F) took 7.596015930175782e-05 minutes to interpolate
+FT of N(A) took 2.8256575266520182e-05 minutes to interpolate
+bk interpolation done... calculating residuals
+set parameters: qsq0 = 0.11034750800182792, c = 5.011659807956075, sig = 12.514174668495547
+c2 = 5.011659807956075, g = 1.0, qsq2 = 0.11034750800182792
+bk run time: 1.8536633870999017 hours
+bk solution done...
+(400,)
+(80,)
+(32000,)
+(200,)
+(80,)
+(80, 200)
+Grid of FT of N(F) took 2.8331058303515118 minutes to generate
+Grid of FT of N(A) took 4.201290190219879 mintues to generate
+N(r,Y) took 6.917715072631835e-05 minutes to interpolate
+FT of N(F) took 7.698535919189453e-05 minutes to interpolate
+FT of N(A) took 2.6567776997884115e-05 minutes to interpolate
+bk interpolation done... calculating residuals
+set parameters: qsq0 = 0.11778326474622584, c = 1.257201646090481, sig = 14.283264746227518
+c2 = 1.257201646090481, g = 1.0, qsq2 = 0.11778326474622584

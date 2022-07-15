@@ -131,17 +131,24 @@ if __name__ == '__main__':
     df.columns = ['y', 'r', 'N(r,y)']
 
     r     = df.loc[df['y'] == y][['r']]
-    # y     = df.loc[df['y'] == y][['N(r,y)']]
+    n     = df.loc[df['y'] == y][['N(r,y)']]
     k     = np.linspace(0., 8., 200)
 
     # interpolated object
     bk    = N(fname)
-     
+    
+    r_grid = np.logspace(-6, 2, 800)
+    bk_int = [bk.n(rr, y) for rr in r_grid]
+
+    plt.plot(r, n, label='grid', marker='o')
+    plt.plot(r_grid, bk_int, label='interpolated', linestyle='--')
+    
+    ''' 
     ngrid1 = [bk.udgf(x, k[i]) for i in range(len(k))]
     ngrid2 = [bk.nff(x, k[i]) for i in range(len(k))]
 
     plt.plot(k, ngrid1, label='grid')
-    # plt.plot(k, ngrid2, label='interpolated')
+    plt.plot(k, ngrid2, label='interpolated')'''
 
     plt.xscale('log')
     plt.show()
