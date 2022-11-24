@@ -119,7 +119,7 @@ if __name__=='__main__':
     orde = params[11]
 
     from_file = '../bk/results/' + 'RK' + orde + '/' + init
-    to_file   = 'results/' + pro + '/' + 'RK' + orde + '/' + res
+    to_file   = res
 
     s = Master(h, y, qsq2, snn, k, from_file)  # creating instance of class
     dp_t = (b - a)/n

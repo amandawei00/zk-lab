@@ -6,6 +6,7 @@ import sys
 
 sys.path.append('../data')
 plt.rcParams['lines.linewidth'] = 0.75
+plt.rcParams['figure.dpi'] = 140
 
 csfont = {'fontname':'Times New Roman'}
 
@@ -53,7 +54,7 @@ def plot_bk(df, rap):
         vr = np.array(sub_[['vr']])
         vfr = np.array(sub_[['vfr']])
 
-        plt.plot(vr, vfr, label="y = " + str(rap[i]), color="black")
+        plt.plot(vr, vfr, label="y = " + str(rap[i]))
 
     plt.xlabel("r")
     plt.ylabel("N(r,Y)")
@@ -107,8 +108,9 @@ if __name__ == '__main__':
 
     # df4 = load_df('../results/RK2/bk_MVg.csv')
     # df4 = load_df('../results/RK4/bk_MVg.csv')
-    df4 = load_df('../results/RK4/bk_MVg_heikki.csv')
-    df5 = load_df('../../../rcbk/mvg_test.csv')
-    rap = [0.0, 5., 10., 15.]
-    ratios(df4, df5, rap)
+    # df4 = load_df('../results/RK4/bk_MVg_heikki.csv')
+    # df5 = load_df('../../../rcbk/mvg_test.csv')
+    df = load_df('bk_MV.csv')
+    rap = [0.0, 5., 10., 15., 25]
+    plot_bk(df, rap)
 
